@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Button } from "../ui/Button";
 
 export const Navigation: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -14,6 +13,7 @@ export const Navigation: React.FC = () => {
     { path: "/team", label: "Team" },
     { path: "/prizes", label: "Prizes" },
     { path: "/give", label: "Give Back" },
+    { path: "/join", label: "Join" },
     { path: "/contact", label: "Contact" },
   ];
 
@@ -74,9 +74,6 @@ export const Navigation: React.FC = () => {
               {label}
             </Link>
           ))}
-          <Button size="sm" as={Link} to="/join">
-            Join
-          </Button>
         </div>
 
         {/* Mobile Menu Button */}
@@ -123,9 +120,6 @@ export const Navigation: React.FC = () => {
               {label}
             </Link>
           ))}
-          <Button size="sm" as={Link} to="/join" onClick={() => setMobileMenuOpen(false)}>
-            Join
-          </Button>
         </div>
       )}
     </nav>
