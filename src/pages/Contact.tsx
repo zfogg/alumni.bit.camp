@@ -67,12 +67,9 @@ export const Contact: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-space text-cream" style={{ paddingBottom: 0 }}>
+    <div className="min-h-screen bg-space text-cream pb-0">
       {/* Hero Section */}
-      <section
-        className="w-full px-4 sm:px-6 py-12 sm:py-16 text-center"
-        style={{ marginTop: "100px" }}
-      >
+      <section className="w-full px-4 sm:px-6 py-12 sm:py-16 text-center mt-24">
         <div className="max-w-5xl mx-auto">
           <h1 className="text-6xl md:text-7xl font-display font-bold text-white mb-6 leading-tight">
             Get in Touch
@@ -86,14 +83,7 @@ export const Contact: React.FC = () => {
       {/* Contact Cards Grid */}
       <section className="w-full px-4 sm:px-6 py-12 sm:py-16">
         <div className="max-w-5xl mx-auto">
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-              gap: "1.5rem",
-              marginBottom: "2rem",
-            }}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {contactMethods.map((method, idx) => (
               <a
                 key={idx}
