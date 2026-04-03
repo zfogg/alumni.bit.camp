@@ -2,9 +2,42 @@
 
 @import "tailwindcss";
 
+@theme {
+  --color-space: #010218;
+  --color-orange: #ff6f3f;
+  --color-cream: #fff7eb;
+  --color-teal: #1a2e33;
+  --color-white: #ffffff;
+  --color-star: #ffd580;
+  --color-muted: #a7a7a7;
+
+  --font-display: "Aleo", serif;
+  --font-body: "Avenir", "Inter", sans-serif;
+  --font-accent: "Caveat", cursive;
+
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
+  --spacing-32: 8rem;
+  --spacing-40: 10rem;
+  --spacing-48: 12rem;
+
+  --radius-sm: 0.125rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+}
+
 * {
   margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 

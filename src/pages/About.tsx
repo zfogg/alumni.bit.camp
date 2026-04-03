@@ -75,12 +75,12 @@ export const About: React.FC = () => {
               {[
                 { num: "11", label: "Years running" },
                 { num: "1,400+", label: "Hackers per year" },
-                { num: "36h", label: "Of building" },
+                { num: "396h", label: "Total building hours" },
                 { num: "100s", label: "Of projects" },
                 { num: "~15k", label: "Alumni total" },
               ].map((stat, i) => (
                 <div key={i} className="bg-teal rounded-lg p-6 border border-orange/20">
-                  <div className="text-4xl font-bold text-orange mb-2">{stat.num}</div>
+                  <div className="text-4xl font-bold text-orange mb-3">{stat.num}</div>
                   <div className="text-sm text-cream">{stat.label}</div>
                 </div>
               ))}
@@ -88,20 +88,20 @@ export const About: React.FC = () => {
           </div>
 
           {/* Timeline */}
-          <div className="mt-20">
+          <div style={{ marginTop: "4rem" }}>
             <h2 className="text-xl font-display font-bold text-white mb-8">
               Bitcamp through the years
             </h2>
             <div className="relative">
               <div
-                className="absolute top-3 left-0 right-0 h-1"
+                className="hidden md:block absolute top-3 left-0 right-0 h-1"
                 style={{ backgroundColor: "rgba(255, 111, 63, 0.2)" }}
               ></div>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4 relative z-10">
                 {[
-                  { year: 2014, label: "First camp" },
+                  { year: 2014, label: "1k+ hackers" },
                   { year: 2016, label: "Growing" },
-                  { year: 2018, label: "1k hackers" },
+                  { year: 2018, label: "Expanded" },
                   { year: 2019, label: "Frontier" },
                   { year: 2020, label: "Remote" },
                   { year: 2022, label: "Comeback" },
@@ -110,7 +110,7 @@ export const About: React.FC = () => {
                 ].map((item) => (
                   <div key={item.year} className="text-center">
                     <div
-                      className="w-6 h-6 rounded-full mx-auto mb-3 border-4"
+                      className="hidden md:block w-6 h-6 rounded-full mx-auto mb-3 border-4"
                       style={{ backgroundColor: "#FF6F3F", borderColor: "#010218" }}
                     ></div>
                     <div className="text-sm text-cream font-semibold">{item.year}</div>

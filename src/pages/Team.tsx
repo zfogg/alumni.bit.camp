@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { Button } from "../components/ui/Button";
 import { Link } from "react-router-dom";
@@ -14,7 +16,21 @@ const colors = [
 ];
 
 export const Team: React.FC = () => {
-  const [filter] = useState<string>("all");
+  const [filter, setFilter] = useState<string>("all");
+
+  const members = [
+    { id: 1, name: "Member 1", role: "hacker", year: 2020, color: "#FF6F3F" },
+    { id: 2, name: "Member 2", role: "organizer", year: 2020, color: "#4A90E2" },
+    { id: 3, name: "Member 3", role: "hacker", year: 2020, color: "#66BB6A" },
+    { id: 4, name: "Member 4", role: "sponsor", year: 2020, color: "#E91E63" },
+    { id: 5, name: "Member 5", role: "hacker", year: 2020, color: "#FFD580" },
+    { id: 6, name: "Member 6", role: "staff", year: 2020, color: "#4FC3F7" },
+    { id: 7, name: "Member 7", role: "organizer", year: 2020, color: "#9C27B0" },
+    { id: 8, name: "Member 8", role: "hacker", year: 2020, color: "#FF9800" },
+  ];
+
+  const filteredMembers =
+    filter === "all" ? members : members.filter((m) => m.role === filter.toLowerCase());
 
   return (
     <div className="min-h-screen bg-space text-cream">
@@ -66,9 +82,16 @@ export const Team: React.FC = () => {
           }}
         >
           <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-            {["All", "Organizers", "Hackers", "Sponsors", "Staff"].map((f) => (
+            {[
+              { label: "All", value: "all" },
+              { label: "Organizers", value: "organizer" },
+              { label: "Hackers", value: "hacker" },
+              { label: "Sponsors", value: "sponsor" },
+              { label: "Staff", value: "staff" },
+            ].map((f) => (
               <button
-                key={f}
+                key={f.value}
+                onClick={() => setFilter(f.value)}
                 style={{
                   padding: "8px 16px",
                   borderRadius: "9999px",
@@ -76,12 +99,12 @@ export const Team: React.FC = () => {
                   fontSize: "14px",
                   border: "none",
                   cursor: "pointer",
-                  backgroundColor: filter === f.toLowerCase() ? "#FF6F3F" : "rgba(26, 46, 51, 0.6)",
-                  color: filter === f.toLowerCase() ? "white" : "#FFF7EB",
+                  backgroundColor: filter === f.value ? "#FF6F3F" : "rgba(26, 46, 51, 0.6)",
+                  color: filter === f.value ? "white" : "#FFF7EB",
                   transition: "all 0.3s",
                 }}
               >
-                {f}
+                {f.label}
               </button>
             ))}
           </div>
@@ -106,12 +129,14 @@ export const Team: React.FC = () => {
               marginBottom: "48px",
             }}
           >
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => {
-              const color = colors[(i - 1) % colors.length];
-              const initials = String.fromCharCode(64 + i);
+            {filteredMembers.map((member) => {
+              const initials = member.name
+                .split(" ")
+                .map((n) => n[0])
+                .join("");
               return (
                 <div
-                  key={i}
+                  key={member.id}
                   style={{
                     borderRadius: "16px",
                     overflow: "hidden",
@@ -132,7 +157,7 @@ export const Team: React.FC = () => {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      backgroundColor: color,
+                      backgroundColor: member.color,
                       fontSize: "48px",
                       fontWeight: "bold",
                       color: "white",
@@ -150,7 +175,7 @@ export const Team: React.FC = () => {
                         marginBottom: "4px",
                       }}
                     >
-                      Member {i}
+                      {member.name}
                     </h3>
                     <p
                       style={{
@@ -159,11 +184,12 @@ export const Team: React.FC = () => {
                         fontWeight: "600",
                         margin: 0,
                         marginBottom: "4px",
+                        textTransform: "capitalize",
                       }}
                     >
-                      Hacker
+                      {member.role}
                     </p>
-                    <p style={{ color: "#A7A7A7", fontSize: "12px", margin: 0 }}>2020</p>
+                    <p style={{ color: "#A7A7A7", fontSize: "12px", margin: 0 }}>{member.year}</p>
                   </div>
                 </div>
               );

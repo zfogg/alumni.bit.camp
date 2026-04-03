@@ -19,57 +19,28 @@ export const Navigation: React.FC = () => {
 
   return (
     <nav
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 50,
-        backgroundColor: "rgba(1, 2, 24, 0.95)",
-        borderBottom: "1px solid rgba(100, 100, 100, 0.3)",
-      }}
+      className="fixed top-0 left-0 right-0 z-50 bg-space border-b border-gray-600/30"
+      style={{ backgroundColor: "rgba(1, 2, 24, 0.95)" }}
     >
-      <div
-        style={{
-          maxWidth: "1280px",
-          margin: "0 auto",
-          paddingLeft: "24px",
-          paddingRight: "24px",
-          paddingTop: "12px",
-          paddingBottom: "12px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
+      <div className="max-w-5xl mx-auto md:px-6 py-3 flex justify-between items-center w-full">
         <Link
           to="/"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "12px",
-            color: "white",
-            fontFamily: "Aleo, serif",
-            fontSize: "20px",
-            fontWeight: "bold",
-            textDecoration: "none",
-          }}
+          className="flex items-center gap-3 text-white font-display text-xl font-bold no-underline"
         >
           <span>🔥</span>
-          <span style={{ display: "inline" }}>Bitcamp Alumni</span>
+          <span>Bitcamp Alumni</span>
         </Link>
 
-        <div className="nav-links" style={{ display: "flex", gap: "32px", alignItems: "center" }}>
+        <div className="nav-links flex gap-8 items-center">
           {navLinks.map(({ path, label }) => (
             <Link
               key={path}
               to={path}
-              style={{
-                fontSize: "14px",
-                color: isActive(path) ? "#FF6F3F" : "#FFF7EB",
-                fontWeight: isActive(path) ? "700" : "600",
-                textDecoration: "none",
-              }}
+              className={`text-sm no-underline transition-colors ${
+                isActive(path)
+                  ? "text-orange font-bold"
+                  : "text-cream font-semibold hover:text-orange"
+              }`}
             >
               {label}
             </Link>
@@ -79,15 +50,7 @@ export const Navigation: React.FC = () => {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          style={{
-            display: "none",
-            background: "none",
-            border: "none",
-            color: "#FFF7EB",
-            fontSize: "24px",
-            cursor: "pointer",
-          }}
-          className="mobile-menu-button"
+          className="mobile-menu-button hidden bg-transparent border-none text-cream text-2xl cursor-pointer ml-auto"
         >
           ☰
         </button>
@@ -96,26 +59,17 @@ export const Navigation: React.FC = () => {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "12px",
-            padding: "16px 24px",
-            backgroundColor: "rgba(1, 2, 24, 0.98)",
-            borderTop: "1px solid rgba(100, 100, 100, 0.3)",
-          }}
+          className="flex flex-col gap-3 md:px-6 py-3 border-t border-gray-600/30"
+          style={{ backgroundColor: "rgba(1, 2, 24, 0.98)" }}
         >
           {navLinks.map(({ path, label }) => (
             <Link
               key={path}
               to={path}
               onClick={() => setMobileMenuOpen(false)}
-              style={{
-                fontSize: "14px",
-                color: isActive(path) ? "#FF6F3F" : "#FFF7EB",
-                fontWeight: isActive(path) ? "700" : "600",
-                textDecoration: "none",
-              }}
+              className={`text-sm no-underline ${
+                isActive(path) ? "text-orange font-bold" : "text-cream font-semibold"
+              }`}
             >
               {label}
             </Link>
