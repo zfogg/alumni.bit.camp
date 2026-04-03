@@ -1,9 +1,21 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "../ui/Button";
 
 export const Navigation: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+
+  const isActive = (path: string) => location.pathname === path;
+
+  const navLinks = [
+    { path: "/", label: "Home" },
+    { path: "/about", label: "About" },
+    { path: "/team", label: "Team" },
+    { path: "/prizes", label: "Prizes" },
+    { path: "/give", label: "Give Back" },
+    { path: "/contact", label: "Contact" },
+  ];
 
   return (
     <nav
@@ -48,35 +60,20 @@ export const Navigation: React.FC = () => {
         </Link>
 
         <div className="nav-links" style={{ display: "flex", gap: "32px", alignItems: "center" }}>
-          <Link
-            to="/"
-            style={{
-              fontSize: "14px",
-              color: "#FF6F3F",
-              fontWeight: "600",
-              textDecoration: "none",
-            }}
-          >
-            Home
-          </Link>
-          <Link to="/about" style={{ fontSize: "14px", color: "#FFF7EB", textDecoration: "none" }}>
-            About
-          </Link>
-          <Link to="/team" style={{ fontSize: "14px", color: "#FFF7EB", textDecoration: "none" }}>
-            Team
-          </Link>
-          <Link to="/prizes" style={{ fontSize: "14px", color: "#FFF7EB", textDecoration: "none" }}>
-            Prizes
-          </Link>
-          <Link to="/give" style={{ fontSize: "14px", color: "#FFF7EB", textDecoration: "none" }}>
-            Give Back
-          </Link>
-          <Link
-            to="/contact"
-            style={{ fontSize: "14px", color: "#FFF7EB", textDecoration: "none" }}
-          >
-            Contact
-          </Link>
+          {navLinks.map(({ path, label }) => (
+            <Link
+              key={path}
+              to={path}
+              style={{
+                fontSize: "14px",
+                color: isActive(path) ? "#FF6F3F" : "#FFF7EB",
+                fontWeight: isActive(path) ? "700" : "600",
+                textDecoration: "none",
+              }}
+            >
+              {label}
+            </Link>
+          ))}
           <Button size="sm" as={Link} to="/join">
             Join
           </Button>
@@ -111,27 +108,21 @@ export const Navigation: React.FC = () => {
             borderTop: "1px solid rgba(100, 100, 100, 0.3)",
           }}
         >
-          <Link to="/" style={{ fontSize: "14px", color: "#FF6F3F", textDecoration: "none" }}>
-            Home
-          </Link>
-          <Link to="/about" style={{ fontSize: "14px", color: "#FFF7EB", textDecoration: "none" }}>
-            About
-          </Link>
-          <Link to="/team" style={{ fontSize: "14px", color: "#FFF7EB", textDecoration: "none" }}>
-            Team
-          </Link>
-          <Link to="/prizes" style={{ fontSize: "14px", color: "#FFF7EB", textDecoration: "none" }}>
-            Prizes
-          </Link>
-          <Link to="/give" style={{ fontSize: "14px", color: "#FFF7EB", textDecoration: "none" }}>
-            Give Back
-          </Link>
-          <Link
-            to="/contact"
-            style={{ fontSize: "14px", color: "#FFF7EB", textDecoration: "none" }}
-          >
-            Contact
-          </Link>
+          {navLinks.map(({ path, label }) => (
+            <Link
+              key={path}
+              to={path}
+              onClick={() => setMobileMenuOpen(false)}
+              style={{
+                fontSize: "14px",
+                color: isActive(path) ? "#FF6F3F" : "#FFF7EB",
+                fontWeight: isActive(path) ? "700" : "600",
+                textDecoration: "none",
+              }}
+            >
+              {label}
+            </Link>
+          ))}
           <Button size="sm" as={Link} to="/join" onClick={() => setMobileMenuOpen(false)}>
             Join
           </Button>

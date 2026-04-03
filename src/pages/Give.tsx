@@ -102,10 +102,10 @@ export const Give: React.FC = () => {
           </div>
         </section>
 
-        {/* Path Selection Cards */}
-        <section className="grid md:grid-cols-2 gap-6 mb-20">
+        {/* Donate Section */}
+        <section className="mb-20">
           <div
-            className={`bg-teal rounded-card p-8 cursor-pointer transition transform hover:scale-105 ${
+            className={`bg-teal rounded-card p-8 cursor-pointer transition transform hover:scale-105 max-w-2xl mx-auto ${
               type === "donate" ? "ring-2 ring-orange scale-105" : "opacity-80"
             }`}
             onClick={() => handleTypeChange("donate")}
@@ -130,9 +130,12 @@ export const Give: React.FC = () => {
               </li>
             </ul>
           </div>
+        </section>
 
+        {/* Sponsor a Prize Section */}
+        <section className="mb-20">
           <div
-            className={`bg-teal rounded-card p-8 cursor-pointer transition transform hover:scale-105 ${
+            className={`bg-teal rounded-card p-8 cursor-pointer transition transform hover:scale-105 max-w-2xl mx-auto ${
               type === "sponsor" ? "ring-2 ring-orange scale-105" : "opacity-80"
             }`}
             onClick={() => handleTypeChange("sponsor")}
