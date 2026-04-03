@@ -25,31 +25,31 @@ One spreadsheet, three tabs:
 
 **Tab 1: `Members`**
 
-| id | name | email | year | role | school | what_i_did | headshot_url | linkedin | github | website | created_at | featured | approved |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| uuid | string | string | number | enum | string | string | url | url | url | url | ISO date | FALSE | FALSE |
+| id   | name   | email  | year   | role | school | what_i_did | headshot_url | linkedin | github | website | created_at | featured | approved |
+| ---- | ------ | ------ | ------ | ---- | ------ | ---------- | ------------ | -------- | ------ | ------- | ---------- | -------- | -------- |
+| uuid | string | string | number | enum | string | string     | url          | url      | url    | url     | ISO date   | FALSE    | FALSE    |
 
 **Tab 2: `Contacts`**
 
-| id | name | email | subject | message | created_at |
-|---|---|---|---|---|---|
-| uuid | string | string | string | string | ISO date |
+| id   | name   | email  | subject | message | created_at |
+| ---- | ------ | ------ | ------- | ------- | ---------- |
+| uuid | string | string | string  | string  | ISO date   |
 
 **Tab 3: `Supporters`**
 
-| id | name | email | type | donation_range | message | prize_name | prize_description | prize_criteria | preferred_year | created_at | contacted |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| uuid | string | string | donate\|sponsor | string | string | string | string | string | string | ISO date | FALSE |
+| id   | name   | email  | type            | donation_range | message | prize_name | prize_description | prize_criteria | preferred_year | created_at | contacted |
+| ---- | ------ | ------ | --------------- | -------------- | ------- | ---------- | ----------------- | -------------- | -------------- | ---------- | --------- |
+| uuid | string | string | donate\|sponsor | string         | string  | string     | string            | string         | string         | ISO date   | FALSE     |
 
-**Tab 4: `Prizes`** *(managed manually, read-only from the app)*
+**Tab 4: `Prizes`** _(managed manually, read-only from the app)_
 
 | prize_id | prize_name | sponsor_name | description | active |
-|---|---|---|---|---|
+| -------- | ---------- | ------------ | ----------- | ------ |
 
-**Tab 4: `Winners`** *(managed manually, read-only from the app)*
+**Tab 4: `Winners`** _(managed manually, read-only from the app)_
 
 | prize_id | year | team_name | project_name | description | members |
-|---|---|---|---|---|---|
+| -------- | ---- | --------- | ------------ | ----------- | ------- |
 
 ### Google Cloud Service Account
 
@@ -75,10 +75,10 @@ pnpm add googleapis uuid
 pnpm add -D @types/uuid @vercel/node
 ```
 
-| Package | Why |
-|---|---|
-| `googleapis` | Official Google client library for Sheets API |
-| `uuid` | Generate unique IDs for each row |
+| Package        | Why                                                      |
+| -------------- | -------------------------------------------------------- |
+| `googleapis`   | Official Google client library for Sheets API            |
+| `uuid`         | Generate unique IDs for each row                         |
 | `@vercel/node` | TypeScript types for Vercel serverless function handlers |
 
 ---
@@ -89,44 +89,47 @@ A small module that both API functions import. Handles auth and provides typed a
 
 ```typescript
 // lib/sheets.ts
-import { google } from 'googleapis'
+import { google } from "googleapis";
 
 function getAuth() {
   return new google.auth.JWT({
     email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-    key: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-  })
+    key: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+  });
 }
 
 function getSheets() {
-  return google.sheets({ version: 'v4', auth: getAuth() })
+  return google.sheets({ version: "v4", auth: getAuth() });
 }
 
-const SHEET_ID = process.env.GOOGLE_SHEETS_ID!
+const SHEET_ID = process.env.GOOGLE_SHEETS_ID!;
 
 /** Append a row of values to a named tab. */
-export async function appendRow(tab: string, values: (string | boolean | number | null)[]): Promise<void> {
-  const sheets = getSheets()
+export async function appendRow(
+  tab: string,
+  values: (string | boolean | number | null)[],
+): Promise<void> {
+  const sheets = getSheets();
   await sheets.spreadsheets.values.append({
     spreadsheetId: SHEET_ID,
     range: `${tab}!A1`,
-    valueInputOption: 'USER_ENTERED',
-    insertDataOption: 'INSERT_ROWS',
+    valueInputOption: "USER_ENTERED",
+    insertDataOption: "INSERT_ROWS",
     requestBody: {
-      values: [values.map(v => (v === null || v === undefined ? '' : String(v)))],
+      values: [values.map((v) => (v === null || v === undefined ? "" : String(v)))],
     },
-  })
+  });
 }
 
 /** Read all rows from a named tab (returns raw string[][] skipping header row). */
 export async function readRows(tab: string): Promise<string[][]> {
-  const sheets = getSheets()
+  const sheets = getSheets();
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: SHEET_ID,
-    range: `${tab}!A2:Z`,   // A2 skips the header row
-  })
-  return (res.data.values ?? []) as string[][]
+    range: `${tab}!A2:Z`, // A2 skips the header row
+  });
+  return (res.data.values ?? []) as string[][];
 }
 ```
 
@@ -138,36 +141,36 @@ Accepts a signup form submission and appends a row to the `Members` tab.
 
 ```typescript
 // api/join.ts
-import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { v4 as uuid } from 'uuid'
-import { appendRow } from '../lib/sheets'
+import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { v4 as uuid } from "uuid";
+import { appendRow } from "../lib/sheets";
 
 // Allowed origins for CORS (frontend domain)
 const ALLOWED_ORIGINS = [
-  'https://alumni.bit.camp',
-  'http://localhost:3000',
-  'http://localhost:5173',
-]
+  "https://alumni.bit.camp",
+  "http://localhost:3000",
+  "http://localhost:5173",
+];
 
 function setCors(req: VercelRequest, res: VercelResponse) {
-  const origin = req.headers.origin ?? ''
+  const origin = req.headers.origin ?? "";
   if (ALLOWED_ORIGINS.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin)
+    res.setHeader("Access-Control-Allow-Origin", origin);
   }
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  setCors(req, res)
+  setCors(req, res);
 
   // Handle CORS preflight
-  if (req.method === 'OPTIONS') {
-    return res.status(204).end()
+  if (req.method === "OPTIONS") {
+    return res.status(204).end();
   }
 
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' })
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
@@ -184,52 +187,51 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       website,
       // honeypot — bots fill this, humans don't
       website_url,
-    } = req.body ?? {}
+    } = req.body ?? {};
 
     // Honeypot check
     if (website_url) {
       // Silently succeed so bots don't know they were filtered
-      return res.status(200).json({ success: true })
+      return res.status(200).json({ success: true });
     }
 
     // Basic validation
-    if (!name || typeof name !== 'string' || name.trim().length < 1) {
-      return res.status(400).json({ error: 'Name is required' })
+    if (!name || typeof name !== "string" || name.trim().length < 1) {
+      return res.status(400).json({ error: "Name is required" });
     }
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return res.status(400).json({ error: 'Valid email is required' })
+      return res.status(400).json({ error: "Valid email is required" });
     }
     if (!year) {
-      return res.status(400).json({ error: 'Year is required' })
+      return res.status(400).json({ error: "Year is required" });
     }
 
-    const VALID_ROLES = ['Hacker', 'Organizer', 'Sponsor', 'Staff', 'Other']
+    const VALID_ROLES = ["Hacker", "Organizer", "Sponsor", "Staff", "Other"];
     if (!VALID_ROLES.includes(role)) {
-      return res.status(400).json({ error: 'Invalid role' })
+      return res.status(400).json({ error: "Invalid role" });
     }
 
-    await appendRow('Members', [
-      uuid(),                             // id
-      name.trim(),                        // name
-      email.trim().toLowerCase(),         // email
-      String(year),                       // year
-      role,                               // role
-      school?.trim() ?? '',               // school
-      what_i_did?.trim() ?? '',           // what_i_did
-      headshot_url?.trim() ?? '',         // headshot_url
-      linkedin?.trim() ?? '',             // linkedin
-      github?.trim() ?? '',               // github
-      website?.trim() ?? '',              // website
-      new Date().toISOString(),           // created_at
-      'FALSE',                            // featured (you set manually)
-      'FALSE',                            // approved (you set manually)
-    ])
+    await appendRow("Members", [
+      uuid(), // id
+      name.trim(), // name
+      email.trim().toLowerCase(), // email
+      String(year), // year
+      role, // role
+      school?.trim() ?? "", // school
+      what_i_did?.trim() ?? "", // what_i_did
+      headshot_url?.trim() ?? "", // headshot_url
+      linkedin?.trim() ?? "", // linkedin
+      github?.trim() ?? "", // github
+      website?.trim() ?? "", // website
+      new Date().toISOString(), // created_at
+      "FALSE", // featured (you set manually)
+      "FALSE", // approved (you set manually)
+    ]);
 
-    return res.status(200).json({ success: true })
-
+    return res.status(200).json({ success: true });
   } catch (err) {
-    console.error('[/api/join] Error:', err)
-    return res.status(500).json({ error: 'Something went wrong. Please try again.' })
+    console.error("[/api/join] Error:", err);
+    return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }
 ```
@@ -242,87 +244,94 @@ Saves the message to the `Contacts` tab and optionally sends an email notificati
 
 ```typescript
 // api/contact.ts
-import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { v4 as uuid } from 'uuid'
-import { appendRow } from '../lib/sheets'
+import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { v4 as uuid } from "uuid";
+import { appendRow } from "../lib/sheets";
 
 const ALLOWED_ORIGINS = [
-  'https://alumni.bit.camp',
-  'http://localhost:3000',
-  'http://localhost:5173',
-]
+  "https://alumni.bit.camp",
+  "http://localhost:3000",
+  "http://localhost:5173",
+];
 
 function setCors(req: VercelRequest, res: VercelResponse) {
-  const origin = req.headers.origin ?? ''
+  const origin = req.headers.origin ?? "";
   if (ALLOWED_ORIGINS.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin)
+    res.setHeader("Access-Control-Allow-Origin", origin);
   }
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  setCors(req, res)
+  setCors(req, res);
 
-  if (req.method === 'OPTIONS') return res.status(204).end()
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
+  if (req.method === "OPTIONS") return res.status(204).end();
+  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
   try {
-    const { name, email, subject, message, phone } = req.body ?? {}
+    const { name, email, subject, message, phone } = req.body ?? {};
 
     // Honeypot (phone field hidden from real users via CSS)
-    if (phone) return res.status(200).json({ success: true })
+    if (phone) return res.status(200).json({ success: true });
 
     // Validation
-    if (!name?.trim()) return res.status(400).json({ error: 'Name is required' })
+    if (!name?.trim()) return res.status(400).json({ error: "Name is required" });
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return res.status(400).json({ error: 'Valid email is required' })
+      return res.status(400).json({ error: "Valid email is required" });
     }
-    if (!message?.trim()) return res.status(400).json({ error: 'Message is required' })
+    if (!message?.trim()) return res.status(400).json({ error: "Message is required" });
 
     // Save to Google Sheets
-    await appendRow('Contacts', [
+    await appendRow("Contacts", [
       uuid(),
       name.trim(),
       email.trim().toLowerCase(),
-      subject?.trim() ?? '(no subject)',
+      subject?.trim() ?? "(no subject)",
       message.trim(),
       new Date().toISOString(),
-    ])
+    ]);
 
     // Optional: send email notification via Resend
     // Remove this block if you don't want email notifications —
     // the Sheets row alone is enough to see submissions.
     if (process.env.RESEND_API_KEY && process.env.ADMIN_EMAIL) {
-      await sendEmailNotification({ name, email, subject, message })
+      await sendEmailNotification({ name, email, subject, message });
     }
 
-    return res.status(200).json({ success: true })
-
+    return res.status(200).json({ success: true });
   } catch (err) {
-    console.error('[/api/contact] Error:', err)
-    return res.status(500).json({ error: 'Something went wrong. Please try again.' })
+    console.error("[/api/contact] Error:", err);
+    return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }
 
 async function sendEmailNotification({
-  name, email, subject, message
-}: { name: string; email: string; subject?: string; message: string }) {
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
+  name,
+  email,
+  subject,
+  message,
+}: {
+  name: string;
+  email: string;
+  subject?: string;
+  message: string;
+}) {
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
     headers: {
-      'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-      'Content-Type': 'application/json',
+      Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: 'alumni@bit.camp',
+      from: "alumni@bit.camp",
       to: process.env.ADMIN_EMAIL,
-      subject: `[Bitcamp Alumni Contact] ${subject ?? '(no subject)'}`,
+      subject: `[Bitcamp Alumni Contact] ${subject ?? "(no subject)"}`,
       text: `From: ${name} <${email}>\n\n${message}`,
     }),
-  })
+  });
   if (!res.ok) {
-    console.error('Resend error:', await res.text())
+    console.error("Resend error:", await res.text());
   }
 }
 ```
@@ -335,32 +344,32 @@ Accepts interest from alumni who want to donate or sponsor a prize. Validates di
 
 ```typescript
 // api/support.ts
-import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { v4 as uuid } from 'uuid'
-import { appendRow } from '../lib/sheets'
+import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { v4 as uuid } from "uuid";
+import { appendRow } from "../lib/sheets";
 
 const ALLOWED_ORIGINS = [
-  'https://alumni.bit.camp',
-  'http://localhost:3000',
-  'http://localhost:5173',
-]
+  "https://alumni.bit.camp",
+  "http://localhost:3000",
+  "http://localhost:5173",
+];
 
-const DONATION_RANGES = ['<50', '50-200', '200-500', '500+', 'unsure']
-const PREFERRED_YEARS = ['2026', '2027', 'unsure']
+const DONATION_RANGES = ["<50", "50-200", "200-500", "500+", "unsure"];
+const PREFERRED_YEARS = ["2026", "2027", "unsure"];
 
 function setCors(req: VercelRequest, res: VercelResponse) {
-  const origin = req.headers.origin ?? ''
+  const origin = req.headers.origin ?? "";
   if (ALLOWED_ORIGINS.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin)
+    res.setHeader("Access-Control-Allow-Origin", origin);
   }
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  setCors(req, res)
-  if (req.method === 'OPTIONS') return res.status(204).end()
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
+  setCors(req, res);
+  if (req.method === "OPTIONS") return res.status(204).end();
+  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
   try {
     const {
@@ -377,64 +386,63 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       preferred_year,
       // honeypot
       company_name,
-    } = req.body ?? {}
+    } = req.body ?? {};
 
     // Honeypot
-    if (company_name) return res.status(200).json({ success: true })
+    if (company_name) return res.status(200).json({ success: true });
 
     // Shared validation
-    if (!name?.trim()) return res.status(400).json({ error: 'Name is required' })
+    if (!name?.trim()) return res.status(400).json({ error: "Name is required" });
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return res.status(400).json({ error: 'Valid email is required' })
+      return res.status(400).json({ error: "Valid email is required" });
     }
-    if (!['donate', 'sponsor'].includes(type)) {
-      return res.status(400).json({ error: 'Please select donate or sponsor a prize' })
+    if (!["donate", "sponsor"].includes(type)) {
+      return res.status(400).json({ error: "Please select donate or sponsor a prize" });
     }
 
     // Path-specific validation
-    if (type === 'donate') {
+    if (type === "donate") {
       if (donation_range && !DONATION_RANGES.includes(donation_range)) {
-        return res.status(400).json({ error: 'Invalid donation range' })
+        return res.status(400).json({ error: "Invalid donation range" });
       }
     }
 
-    if (type === 'sponsor') {
+    if (type === "sponsor") {
       if (!prize_name?.trim()) {
-        return res.status(400).json({ error: 'Prize name is required' })
+        return res.status(400).json({ error: "Prize name is required" });
       }
       if (!prize_description?.trim()) {
-        return res.status(400).json({ error: 'Please describe what winners will receive' })
+        return res.status(400).json({ error: "Please describe what winners will receive" });
       }
       if (!prize_criteria?.trim()) {
-        return res.status(400).json({ error: 'Please describe what kind of hack should win' })
+        return res.status(400).json({ error: "Please describe what kind of hack should win" });
       }
       if (preferred_year && !PREFERRED_YEARS.includes(preferred_year)) {
-        return res.status(400).json({ error: 'Invalid preferred year' })
+        return res.status(400).json({ error: "Invalid preferred year" });
       }
     }
 
-    await appendRow('Supporters', [
+    await appendRow("Supporters", [
       uuid(),
       name.trim(),
       email.trim().toLowerCase(),
       type,
       // donate fields (blank for sponsor rows)
-      type === 'donate' ? (donation_range ?? 'unsure') : '',
-      type === 'donate' ? (message?.trim() ?? '') : '',
+      type === "donate" ? (donation_range ?? "unsure") : "",
+      type === "donate" ? (message?.trim() ?? "") : "",
       // sponsor fields (blank for donate rows)
-      type === 'sponsor' ? prize_name.trim() : '',
-      type === 'sponsor' ? prize_description.trim() : '',
-      type === 'sponsor' ? prize_criteria.trim() : '',
-      type === 'sponsor' ? (preferred_year ?? 'unsure') : '',
+      type === "sponsor" ? prize_name.trim() : "",
+      type === "sponsor" ? prize_description.trim() : "",
+      type === "sponsor" ? prize_criteria.trim() : "",
+      type === "sponsor" ? (preferred_year ?? "unsure") : "",
       new Date().toISOString(),
-      'FALSE',   // contacted — you mark TRUE after following up
-    ])
+      "FALSE", // contacted — you mark TRUE after following up
+    ]);
 
-    return res.status(200).json({ success: true, type })
-
+    return res.status(200).json({ success: true, type });
   } catch (err) {
-    console.error('[/api/support] Error:', err)
-    return res.status(500).json({ error: 'Something went wrong. Please try again.' })
+    console.error("[/api/support] Error:", err);
+    return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }
 ```
@@ -450,6 +458,7 @@ Members and prize data is read by the **frontend** directly from Google Sheets p
 In your Google Sheet: **File → Share → Publish to web → each tab → CSV → Publish**
 
 This gives you public URLs like:
+
 ```
 https://docs.google.com/spreadsheets/d/SHEET_ID/gviz/tq?tqx=out:csv&sheet=Members
 ```
@@ -458,26 +467,27 @@ https://docs.google.com/spreadsheets/d/SHEET_ID/gviz/tq?tqx=out:csv&sheet=Member
 
 ```typescript
 // src/lib/sheets.ts  (frontend only — no service account needed)
-import Papa from 'papaparse'
+import Papa from "papaparse";
 
-const SHEET_ID = import.meta.env.VITE_GOOGLE_SHEETS_ID
-const base = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=`
+const SHEET_ID = import.meta.env.VITE_GOOGLE_SHEETS_ID;
+const base = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=`;
 
 async function fetchCSV<T>(tab: string): Promise<T[]> {
-  const res = await fetch(`${base}${tab}`)
-  const csv = await res.text()
-  const { data } = Papa.parse<T>(csv, { header: true, skipEmptyLines: true })
-  return data
+  const res = await fetch(`${base}${tab}`);
+  const csv = await res.text();
+  const { data } = Papa.parse<T>(csv, { header: true, skipEmptyLines: true });
+  return data;
 }
 
-export const getMembers  = () => fetchCSV<Member>('Members')
-export const getPrizes   = () => fetchCSV<Prize>('Prizes')
-export const getWinners  = () => fetchCSV<Winner>('Winners')
+export const getMembers = () => fetchCSV<Member>("Members");
+export const getPrizes = () => fetchCSV<Prize>("Prizes");
+export const getWinners = () => fetchCSV<Winner>("Winners");
 ```
 
 > **Note:** Only rows where `approved` = `TRUE` should be displayed. Filter in the hook:
+>
 > ```typescript
-> const members = (await getMembers()).filter(m => m.approved === 'TRUE')
+> const members = (await getMembers()).filter((m) => m.approved === "TRUE");
 > ```
 
 ---
@@ -487,41 +497,41 @@ export const getWinners  = () => fetchCSV<Winner>('Winners')
 ```typescript
 // src/lib/api.ts
 
-const API_BASE = '/api'  // same domain — no CORS needed on Vercel
+const API_BASE = "/api"; // same domain — no CORS needed on Vercel
 
 export async function submitJoinForm(data: JoinFormData): Promise<void> {
   const res = await fetch(`${API_BASE}/join`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
-  })
+  });
   if (!res.ok) {
-    const { error } = await res.json()
-    throw new Error(error ?? 'Submission failed')
+    const { error } = await res.json();
+    throw new Error(error ?? "Submission failed");
   }
 }
 
 export async function submitContactForm(data: ContactFormData): Promise<void> {
   const res = await fetch(`${API_BASE}/contact`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
-  })
+  });
   if (!res.ok) {
-    const { error } = await res.json()
-    throw new Error(error ?? 'Submission failed')
+    const { error } = await res.json();
+    throw new Error(error ?? "Submission failed");
   }
 }
 
 export async function submitSupportForm(data: SupportFormData): Promise<void> {
   const res = await fetch(`${API_BASE}/support`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
-  })
+  });
   if (!res.ok) {
-    const { error } = await res.json()
-    throw new Error(error ?? 'Submission failed')
+    const { error } = await res.json();
+    throw new Error(error ?? "Submission failed");
   }
 }
 ```
@@ -533,16 +543,18 @@ export async function submitSupportForm(data: SupportFormData): Promise<void> {
 Both forms include a hidden honeypot field. Real users never see it (hidden via CSS); bots fill it in automatically. If it's present in the request body, the server silently returns success without saving anything.
 
 ```tsx
-{/* In your form JSX — hidden from real users */}
+{
+  /* In your form JSX — hidden from real users */
+}
 <input
   type="text"
-  name="website_url"    // join form honeypot
+  name="website_url" // join form honeypot
   tabIndex={-1}
   autoComplete="off"
   aria-hidden="true"
-  className="hidden"    // Tailwind: display: none
-  {...register('website_url')}
-/>
+  className="hidden" // Tailwind: display: none
+  {...register("website_url")}
+/>;
 ```
 
 ---
@@ -603,14 +615,14 @@ Both should return `{"success":true}` and a new row should appear in your Google
 
 ## Environment Variables Summary
 
-| Variable | Where used | Secret? |
-|---|---|---|
-| `GOOGLE_SHEETS_ID` | Both `lib/sheets.ts` files | No (same as public URL) |
-| `GOOGLE_SERVICE_ACCOUNT_EMAIL` | Server `lib/sheets.ts` only | Yes |
-| `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` | Server `lib/sheets.ts` only | Yes — never in frontend |
-| `RESEND_API_KEY` | `api/contact.ts` only | Yes |
-| `ADMIN_EMAIL` | `api/contact.ts` only | No |
-| `VITE_GOOGLE_SHEETS_ID` | Frontend `src/lib/sheets.ts` | No (public) |
-| `VITE_DISCORD_INVITE_URL` | Frontend anywhere | No |
+| Variable                             | Where used                   | Secret?                 |
+| ------------------------------------ | ---------------------------- | ----------------------- |
+| `GOOGLE_SHEETS_ID`                   | Both `lib/sheets.ts` files   | No (same as public URL) |
+| `GOOGLE_SERVICE_ACCOUNT_EMAIL`       | Server `lib/sheets.ts` only  | Yes                     |
+| `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` | Server `lib/sheets.ts` only  | Yes — never in frontend |
+| `RESEND_API_KEY`                     | `api/contact.ts` only        | Yes                     |
+| `ADMIN_EMAIL`                        | `api/contact.ts` only        | No                      |
+| `VITE_GOOGLE_SHEETS_ID`              | Frontend `src/lib/sheets.ts` | No (public)             |
+| `VITE_DISCORD_INVITE_URL`            | Frontend anywhere            | No                      |
 
 > `GOOGLE_SHEETS_ID` and `VITE_GOOGLE_SHEETS_ID` are the same value — the `VITE_` version gets baked into the frontend bundle by Vite, the non-`VITE_` version is available server-side. Set both in Vercel.

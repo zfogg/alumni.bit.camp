@@ -1,17 +1,19 @@
-import { useState } from 'react'
-import { Card } from '../components/ui/Card'
-import { Button } from '../components/ui/Button'
-import { Link } from 'react-router-dom'
+import { useState } from "react";
+import { Card } from "../components/ui/Card";
+import { Button } from "../components/ui/Button";
+import { Link } from "react-router-dom";
 
 export const Team: React.FC = () => {
-  const [filter, setFilter] = useState<string>('all')
+  const [filter, setFilter] = useState<string>("all");
 
-  const filters = ['All', 'Hackers', 'Organizers', 'Sponsors', 'Staff']
+  const filters = ["All", "Hackers", "Organizers", "Sponsors", "Staff"];
 
   return (
     <div className="min-h-screen bg-space text-cream pt-20 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-5xl font-display font-bold text-white mb-12 text-center">Meet the Alumni</h1>
+        <h1 className="text-5xl font-display font-bold text-white mb-12 text-center">
+          Meet the Alumni
+        </h1>
 
         <div className="flex flex-wrap justify-center gap-3 mb-12">
           {filters.map((f) => (
@@ -20,8 +22,8 @@ export const Team: React.FC = () => {
               onClick={() => setFilter(f.toLowerCase())}
               className={`px-6 py-2 rounded-pill font-semibold transition ${
                 filter === f.toLowerCase()
-                  ? 'bg-orange text-white'
-                  : 'bg-teal text-cream hover:bg-teal/80'
+                  ? "bg-orange text-white"
+                  : "bg-teal text-cream hover:bg-teal/80"
               }`}
             >
               {f}
@@ -49,5 +51,5 @@ export const Team: React.FC = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

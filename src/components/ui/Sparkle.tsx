@@ -1,11 +1,11 @@
-import React from 'react'
+import React from "react";
 
 interface SparkleProps {
-  size?: number
-  className?: string
+  size?: number;
+  className?: string;
 }
 
-export const Sparkle: React.FC<SparkleProps> = ({ size = 24, className = '' }) => {
+export const Sparkle: React.FC<SparkleProps> = ({ size = 24, className = "" }) => {
   return (
     <svg
       width={size}
@@ -17,5 +17,5 @@ export const Sparkle: React.FC<SparkleProps> = ({ size = 24, className = '' }) =
     >
       <path d="M12 2 L15 10 L23 12 L15 14 L12 22 L9 14 L1 12 L9 10 Z" fill="currentColor" />
     </svg>
-  )
-}
+  );
+};

@@ -1,4 +1,5 @@
 # Cosmic Kindling — Design Philosophy
+
 ### Bitcamp Alumni Website
 
 ---
@@ -25,21 +26,21 @@ Layout is grid-based but not rigid. Cards cluster like constellations — relate
 
 ## Visual Hierarchy & Craft
 
-This is not a portfolio or a landing page. It is a *memorial and a gathering place* — built with the care of something that will outlast the event it celebrates. Every detail must feel labored over: type set with optical precision, colors matched to the pixel, spacing derived from a consistent 8pt baseline grid. Cards have subtle inner glow on hover. Buttons feel weighted. The campfire character mascots from the main Bitcamp site make cameo appearances — continuity, Easter eggs for those who know. The whole artifact should feel like it took months, because this community deserves nothing less than meticulous craftsmanship from someone at the absolute top of their field.
+This is not a portfolio or a landing page. It is a _memorial and a gathering place_ — built with the care of something that will outlast the event it celebrates. Every detail must feel labored over: type set with optical precision, colors matched to the pixel, spacing derived from a consistent 8pt baseline grid. Cards have subtle inner glow on hover. Buttons feel weighted. The campfire character mascots from the main Bitcamp site make cameo appearances — continuity, Easter eggs for those who know. The whole artifact should feel like it took months, because this community deserves nothing less than meticulous craftsmanship from someone at the absolute top of their field.
 
 ---
 
 ## Design Token Reference
 
-| Token | Value | Use |
-|---|---|---|
-| `--color-space` | `#010218` | Page background |
-| `--color-orange` | `#FF6F3F` | Primary CTA, accent |
-| `--color-cream` | `#FFF7EB` | Body text on dark |
-| `--color-teal` | `#1A2E33` | Card surfaces |
-| `--color-white` | `#FFFFFF` | Headings on dark |
-| `--color-mid` | `#EFEFEF` | Dividers, subtle UI |
-| `--color-muted` | `#A7A7A7` | Secondary text |
-| `--font-display` | `Aleo, serif` | Titles, heroes, human warmth |
-| `--font-body` | `Avenir, Inter, sans-serif` | Body, storytelling, long-form |
-| `--font-accent` | `Caveat, cursive` | Handwritten accent, used sparingly |
+| Token            | Value                       | Use                                |
+| ---------------- | --------------------------- | ---------------------------------- |
+| `--color-space`  | `#010218`                   | Page background                    |
+| `--color-orange` | `#FF6F3F`                   | Primary CTA, accent                |
+| `--color-cream`  | `#FFF7EB`                   | Body text on dark                  |
+| `--color-teal`   | `#1A2E33`                   | Card surfaces                      |
+| `--color-white`  | `#FFFFFF`                   | Headings on dark                   |
+| `--color-mid`    | `#EFEFEF`                   | Dividers, subtle UI                |
+| `--color-muted`  | `#A7A7A7`                   | Secondary text                     |
+| `--font-display` | `Aleo, serif`               | Titles, heroes, human warmth       |
+| `--font-body`    | `Avenir, Inter, sans-serif` | Body, storytelling, long-form      |
+| `--font-accent`  | `Caveat, cursive`           | Handwritten accent, used sparingly |

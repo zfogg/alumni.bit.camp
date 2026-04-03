@@ -18,23 +18,23 @@ See `design-philosophy.md` and `bitcamp-alumni-design.pdf` for the full visual d
 
 ### Colors
 
-| Token | Hex | Use |
-|---|---|---|
-| `--color-space` | `#010218` | Page background |
+| Token            | Hex       | Use                             |
+| ---------------- | --------- | ------------------------------- |
+| `--color-space`  | `#010218` | Page background                 |
 | `--color-orange` | `#FF6F3F` | Primary CTA, accent, active nav |
-| `--color-cream` | `#FFF7EB` | Body text on dark |
-| `--color-teal` | `#1A2E33` | Card surfaces, elevated UI |
-| `--color-white` | `#FFFFFF` | Headings, icons |
-| `--color-muted` | `#A7A7A7` | Secondary text |
-| `--color-star` | `#FFD580` | Sparkle, decorative accents |
+| `--color-cream`  | `#FFF7EB` | Body text on dark               |
+| `--color-teal`   | `#1A2E33` | Card surfaces, elevated UI      |
+| `--color-white`  | `#FFFFFF` | Headings, icons                 |
+| `--color-muted`  | `#A7A7A7` | Secondary text                  |
+| `--color-star`   | `#FFD580` | Sparkle, decorative accents     |
 
 ### Fonts
 
-| Role | Font | Use |
-|---|---|---|
-| Display | Aleo (Google Fonts) | Titles, heroes, human warmth |
-| Body | Avenir / Inter (Google Fonts) | Body text, storytelling, long-form |
-| Accent | Caveat (Google Fonts) | Handwritten accent, used sparingly |
+| Role    | Font                          | Use                                |
+| ------- | ----------------------------- | ---------------------------------- |
+| Display | Aleo (Google Fonts)           | Titles, heroes, human warmth       |
+| Body    | Avenir / Inter (Google Fonts) | Body text, storytelling, long-form |
+| Accent  | Caveat (Google Fonts)         | Handwritten accent, used sparingly |
 
 ### Key UI Patterns
 
@@ -60,7 +60,7 @@ See `design-philosophy.md` and `bitcamp-alumni-design.pdf` for the full visual d
   - Orbital arc decoration and sparkle glyphs
 - **Stats row**: Years running · Hackers per year · Alumni connected · Ideas spawned
 - **Join CTA banner** — inline mini-form (name, email, year, role) with submit → saves to Google Sheet
-  - Below the form: a secondary prompt — *"Prefer Discord? [Join our server →](discord-invite-url)"* — links to the alumni Discord server
+  - Below the form: a secondary prompt — _"Prefer Discord? [Join our server →](discord-invite-url)"_ — links to the alumni Discord server
 - **Featured Alumni grid** — 4-up card grid with avatar, name, role, Bitcamp year
 - **Footer** — logo, nav links, social icons (including Discord), copyright
   - Discord invite link is a prominent icon/link in the footer alongside other social links
@@ -68,6 +68,7 @@ See `design-philosophy.md` and `bitcamp-alumni-design.pdf` for the full visual d
 #### 2. About / Info Page (`/about`)
 
 Content explaining:
+
 - **What is Bitcamp?** — history, scale (1,400+ hackers, largest East Coast collegiate hackathon), the origin of the name
 - **Why this group exists** — community, mentorship, memory, giving back
 - **Who can join** — hackers, organizers, sponsors, event staff (anyone who's ever been part of a Bitcamp)
@@ -77,6 +78,7 @@ Content explaining:
 #### 3. Join Page (`/join`)
 
 Full alumni signup form. Fields:
+
 - Name (required)
 - Email (required)
 - Year(s) attended (required)
@@ -129,31 +131,35 @@ Privacy note: "Your info is saved to a private spreadsheet. We'll never share it
 A persuasive page inviting alumni to contribute to the community in one of two ways: a **monetary donation** to Bitcamp, or **sponsoring a prize** at the next Bitcamp. The page makes clear that 100% of donations go directly to Bitcamp.
 
 **Hero / pitch section**
-- Emotionally resonant headline (Aleo display): e.g. *"You got something from Bitcamp. Give something back."*
+
+- Emotionally resonant headline (Aleo display): e.g. _"You got something from Bitcamp. Give something back."_
 - 2–3 sentences on why this matters: keeping Bitcamp free, funding prizes, supporting the next generation of hackers
 - Prominent callout: **"100% of donations go directly to Bitcamp."**
 
 **Two-path layout** — side by side cards, each with a distinct CTA:
 
-| Donate | Sponsor a Prize |
-|---|---|
+| Donate                             | Sponsor a Prize                              |
+| ---------------------------------- | -------------------------------------------- |
 | Give any amount to support Bitcamp | Put your name on a prize at the next Bitcamp |
-| One-time or recurring | Your prize, your criteria |
-| 100% goes to Bitcamp | Winners remember you forever |
+| One-time or recurring              | Your prize, your criteria                    |
+| 100% goes to Bitcamp               | Winners remember you forever                 |
 
 **Interest form** — a single form that adapts based on which path the user selects:
 
-*Both paths collect:*
+_Both paths collect:_
+
 - Name (required)
 - Email (required)
 - Which option: **Donate** or **Sponsor a Prize** (required — toggle/radio, controls which fields appear below)
 
-*Donate path (additional fields):*
+_Donate path (additional fields):_
+
 - Rough donation range: `< $50` / `$50–$200` / `$200–$500` / `$500+` / `Not sure yet` (select)
 - Message / note to the organizers (optional textarea)
 
-*Sponsor a Prize path (additional fields):*
-- Prize name — what should it be called? e.g. *"The Zach Fogg Award for Most Creative Use of Open Source"* (required)
+_Sponsor a Prize path (additional fields):_
+
+- Prize name — what should it be called? e.g. _"The Zach Fogg Award for Most Creative Use of Open Source"_ (required)
 - What will you give the winners? — describe the prize: cash, merch, experience, mentorship, etc. (required textarea)
 - Prize criteria — what kind of hack / achievement should win it? (required textarea)
 - Preferred Bitcamp year — `2026` / `2027` / `Not sure` (select)
@@ -161,14 +167,17 @@ A persuasive page inviting alumni to contribute to the community in one of two w
 On submit → saves row to **`Supporters`** tab in Google Sheets via `POST /api/support`
 
 Confirmation message:
-- Donate: *"Thanks! We'll be in touch soon with details on how to contribute."*
-- Sponsor: *"Amazing — your prize is going to mean a lot to someone. We'll reach out to lock in the details."*
+
+- Donate: _"Thanks! We'll be in touch soon with details on how to contribute."_
+- Sponsor: _"Amazing — your prize is going to mean a lot to someone. We'll reach out to lock in the details."_
 
 **Social proof strip** (between pitch and form)
+
 - A few short pull-quotes from alumni who've donated or sponsored prizes before
 - Static content, no data dependency
 
 **Fine print**
+
 - Donations are not currently tax-deductible (unless that changes)
 - This form expresses interest only — no payment is collected here
 
@@ -185,20 +194,20 @@ Confirmation message:
 
 ## Tech Stack
 
-| Layer | Choice | Notes |
-|---|---|---|
-| Build tool | **Vite** | Fast dev server, ESM-native |
-| Framework | **React 18** | Hooks-based, TypeScript |
-| Language | **TypeScript** | Strict mode |
-| Package manager | **pnpm** | Fast, disk-efficient |
-| Styling | **Tailwind CSS** | Custom config matching design tokens |
-| Routing | **React Router v6** | Client-side SPA routing |
-| Forms | **React Hook Form** | + Zod for validation |
-| Data | **Google Sheets API** | Members + prize winners (no DB needed) |
-| Email | **Resend** | Contact form notifications |
-| Animations | **Framer Motion** | Page transitions, starfield, sparkles |
-| Hosting | **Vercel** | Zero-config deploy from GitHub |
-| Fonts | **Google Fonts** | Caveat, Aleo; Avenir fallback = Inter |
+| Layer           | Choice                | Notes                                  |
+| --------------- | --------------------- | -------------------------------------- |
+| Build tool      | **Vite**              | Fast dev server, ESM-native            |
+| Framework       | **React 18**          | Hooks-based, TypeScript                |
+| Language        | **TypeScript**        | Strict mode                            |
+| Package manager | **pnpm**              | Fast, disk-efficient                   |
+| Styling         | **Tailwind CSS**      | Custom config matching design tokens   |
+| Routing         | **React Router v6**   | Client-side SPA routing                |
+| Forms           | **React Hook Form**   | + Zod for validation                   |
+| Data            | **Google Sheets API** | Members + prize winners (no DB needed) |
+| Email           | **Resend**            | Contact form notifications             |
+| Animations      | **Framer Motion**     | Page transitions, starfield, sparkles  |
+| Hosting         | **Vercel**            | Zero-config deploy from GitHub         |
+| Fonts           | **Google Fonts**      | Caveat, Aleo; Avenir fallback = Inter  |
 
 ### Recommended project structure
 
@@ -242,60 +251,60 @@ alumni.bit.camp/
 
 ### Member (Google Sheet: "Members" tab)
 
-| Column | Type | Notes |
-|---|---|---|
-| id | string | Auto UUID |
-| name | string | Full name |
-| email | string | Private — not displayed publicly |
-| year | number | Bitcamp year(s) attended |
-| role | enum | Hacker / Organizer / Sponsor / Staff / Other |
-| school | string | |
-| what_i_did | string | Short bio / project description |
-| headshot_url | string | Optional Google Drive or Cloudinary URL |
-| linkedin | string | Optional |
-| github | string | Optional |
-| website | string | Optional |
-| created_at | datetime | Auto |
-| featured | boolean | Show on homepage featured grid |
-| approved | boolean | Admin approval before appearing |
+| Column       | Type     | Notes                                        |
+| ------------ | -------- | -------------------------------------------- |
+| id           | string   | Auto UUID                                    |
+| name         | string   | Full name                                    |
+| email        | string   | Private — not displayed publicly             |
+| year         | number   | Bitcamp year(s) attended                     |
+| role         | enum     | Hacker / Organizer / Sponsor / Staff / Other |
+| school       | string   |                                              |
+| what_i_did   | string   | Short bio / project description              |
+| headshot_url | string   | Optional Google Drive or Cloudinary URL      |
+| linkedin     | string   | Optional                                     |
+| github       | string   | Optional                                     |
+| website      | string   | Optional                                     |
+| created_at   | datetime | Auto                                         |
+| featured     | boolean  | Show on homepage featured grid               |
+| approved     | boolean  | Admin approval before appearing              |
 
 ### Prize (Google Sheet: "Prizes" tab)
 
-| Column | Type | Notes |
-|---|---|---|
-| prize_id | string | e.g., `zach-prize` |
-| prize_name | string | e.g., "Zach's Prize" |
-| sponsor_name | string | Alumni who sponsors it |
-| description | string | What the prize is for |
-| active | boolean | Show on site |
+| Column       | Type    | Notes                  |
+| ------------ | ------- | ---------------------- |
+| prize_id     | string  | e.g., `zach-prize`     |
+| prize_name   | string  | e.g., "Zach's Prize"   |
+| sponsor_name | string  | Alumni who sponsors it |
+| description  | string  | What the prize is for  |
+| active       | boolean | Show on site           |
 
 ### Winner (Google Sheet: "Winners" tab)
 
-| Column | Type | Notes |
-|---|---|---|
-| prize_id | string | FK to Prizes |
-| year | number | Bitcamp year |
-| team_name | string | |
-| project_name | string | |
-| description | string | Short project description |
-| members | string | Comma-separated names |
+| Column       | Type   | Notes                     |
+| ------------ | ------ | ------------------------- |
+| prize_id     | string | FK to Prizes              |
+| year         | number | Bitcamp year              |
+| team_name    | string |                           |
+| project_name | string |                           |
+| description  | string | Short project description |
+| members      | string | Comma-separated names     |
 
 ### Supporter (Google Sheet: "Supporters" tab)
 
-| Column | Type | Notes |
-|---|---|---|
-| id | string | Auto UUID |
-| name | string | |
-| email | string | Private |
-| type | enum | `donate` or `sponsor` |
-| donation_range | string | `<50` / `50-200` / `200-500` / `500+` / `unsure` — donate path only |
-| message | string | Optional note — donate path only |
-| prize_name | string | Sponsor path only |
-| prize_description | string | What winners receive — sponsor path only |
-| prize_criteria | string | What kind of hack should win — sponsor path only |
-| preferred_year | string | `2026` / `2027` / `unsure` — sponsor path only |
-| created_at | datetime | Auto |
-| contacted | boolean | Admin marks TRUE after following up |
+| Column            | Type     | Notes                                                               |
+| ----------------- | -------- | ------------------------------------------------------------------- |
+| id                | string   | Auto UUID                                                           |
+| name              | string   |                                                                     |
+| email             | string   | Private                                                             |
+| type              | enum     | `donate` or `sponsor`                                               |
+| donation_range    | string   | `<50` / `50-200` / `200-500` / `500+` / `unsure` — donate path only |
+| message           | string   | Optional note — donate path only                                    |
+| prize_name        | string   | Sponsor path only                                                   |
+| prize_description | string   | What winners receive — sponsor path only                            |
+| prize_criteria    | string   | What kind of hack should win — sponsor path only                    |
+| preferred_year    | string   | `2026` / `2027` / `unsure` — sponsor path only                      |
+| created_at        | datetime | Auto                                                                |
+| contacted         | boolean  | Admin marks TRUE after following up                                 |
 
 ---
 

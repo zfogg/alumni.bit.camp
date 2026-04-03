@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
-import { Button } from '../components/ui/Button'
+import { Link } from "react-router-dom";
+import { Button } from "../components/ui/Button";
 
 export const NotFound: React.FC = () => {
   return (
@@ -15,5 +15,5 @@ export const NotFound: React.FC = () => {
         </Button>
       </div>
     </div>
-  )
-}
+  );
+};

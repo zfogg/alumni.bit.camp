@@ -1,10 +1,10 @@
-import { useState } from 'react'
-import { Card } from '../components/ui/Card'
-import { Button } from '../components/ui/Button'
-import { Input } from '../components/ui/Input'
+import { useState } from "react";
+import { Card } from "../components/ui/Card";
+import { Button } from "../components/ui/Button";
+import { Input } from "../components/ui/Input";
 
 export const Give: React.FC = () => {
-  const [type, setType] = useState<'donate' | 'sponsor'>('donate')
+  const [type, setType] = useState<"donate" | "sponsor">("donate");
 
   return (
     <div className="min-h-screen bg-space text-cream pt-20 pb-20">
@@ -17,7 +17,8 @@ export const Give: React.FC = () => {
             Give something back.
           </h1>
           <p className="text-xl text-cream mb-4 max-w-2xl mx-auto">
-            Keeping Bitcamp free and growing. Every contribution funds prizes, food, and the next generation of builders.
+            Keeping Bitcamp free and growing. Every contribution funds prizes, food, and the next
+            generation of builders.
           </p>
           <div className="text-orange font-bold text-2xl">
             100% of donations go directly to Bitcamp.
@@ -27,8 +28,8 @@ export const Give: React.FC = () => {
         {/* Path cards */}
         <div className="grid md:grid-cols-2 gap-6 mb-16">
           <Card
-            className={`cursor-pointer transition ${type === 'donate' ? 'ring-2 ring-orange' : 'opacity-70'}`}
-            onClick={() => setType('donate')}
+            className={`cursor-pointer transition ${type === "donate" ? "ring-2 ring-orange" : "opacity-70"}`}
+            onClick={() => setType("donate")}
           >
             <h2 className="text-2xl font-display font-bold text-white mb-4">Donate</h2>
             <p className="text-cream mb-4">Give any amount to support Bitcamp</p>
@@ -40,8 +41,8 @@ export const Give: React.FC = () => {
           </Card>
 
           <Card
-            className={`cursor-pointer transition ${type === 'sponsor' ? 'ring-2 ring-orange' : 'opacity-70'}`}
-            onClick={() => setType('sponsor')}
+            className={`cursor-pointer transition ${type === "sponsor" ? "ring-2 ring-orange" : "opacity-70"}`}
+            onClick={() => setType("sponsor")}
           >
             <h2 className="text-2xl font-display font-bold text-white mb-4">Sponsor a Prize</h2>
             <p className="text-cream mb-4">Put your name on a prize</p>
@@ -56,17 +57,20 @@ export const Give: React.FC = () => {
         {/* Form */}
         <Card>
           <h2 className="text-2xl font-display font-bold text-white mb-6 text-center">
-            {type === 'donate' ? 'Donate to Bitcamp' : 'Sponsor a Prize'}
+            {type === "donate" ? "Donate to Bitcamp" : "Sponsor a Prize"}
           </h2>
 
-          <form className="space-y-6" onSubmit={(e) => {
-            e.preventDefault()
-            alert('Form submitted! (Mock)')
-          }}>
+          <form
+            className="space-y-6"
+            onSubmit={(e) => {
+              e.preventDefault();
+              alert("Form submitted! (Mock)");
+            }}
+          >
             <Input label="Full Name" placeholder="Your name" />
             <Input label="Email" type="email" placeholder="your@email.com" />
 
-            {type === 'donate' && (
+            {type === "donate" && (
               <>
                 <div>
                   <label className="block text-sm font-semibold text-cream mb-2">
@@ -93,7 +97,7 @@ export const Give: React.FC = () => {
               </>
             )}
 
-            {type === 'sponsor' && (
+            {type === "sponsor" && (
               <>
                 <Input label="Prize Name" placeholder="e.g. The Zach Fogg Award" />
                 <div>
@@ -120,7 +124,7 @@ export const Give: React.FC = () => {
             )}
 
             <Button type="submit" size="lg" className="w-full">
-              {type === 'donate' ? 'Express Interest' : 'Sponsor This Prize'}
+              {type === "donate" ? "Express Interest" : "Sponsor This Prize"}
             </Button>
 
             <p className="text-muted text-sm text-center">
@@ -130,5 +134,5 @@ export const Give: React.FC = () => {
         </Card>
       </div>
     </div>
-  )
-}
+  );
+};

@@ -9,16 +9,27 @@
     "preview": "vp preview",
     "prepare": "vp config"
   },
+  "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "framer-motion": "^12.38.0",
+    "papaparse": "^5.5.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.52.0",
+    "react-router-dom": "^7.14.0",
+    "uuid": "^9.0.1",
+    "zod": "^3.23.8"
+  },
   "devDependencies": {
+    "@types/papaparse": "^5.3.14",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "@types/papaparse": "^5.3.14",
     "@types/uuid": "^9.0.7",
     "@vitejs/plugin-react": "^6.0.1",
+    "tailwindcss": "^4.0.0",
     "typescript": "~5.9.3",
     "vite": "npm:@voidzero-dev/vite-plus-core@latest",
-    "vite-plus": "latest",
-    "tailwindcss": "^4.0.0"
+    "vite-plus": "latest"
   },
   "packageManager": "pnpm@10.33.0",
   "pnpm": {
@@ -26,16 +37,5 @@
       "vite": "npm:@voidzero-dev/vite-plus-core@latest",
       "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
     }
-  },
-  "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^7.14.0",
-    "react-hook-form": "^7.52.0",
-    "zod": "^3.23.8",
-    "framer-motion": "^12.38.0",
-    "@hookform/resolvers": "^5.2.2",
-    "papaparse": "^5.5.3",
-    "uuid": "^9.0.1"
   }
 }

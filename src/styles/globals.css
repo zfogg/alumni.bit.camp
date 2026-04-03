@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Aleo:wght@400;700&family=Caveat:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Aleo:wght@400;700&family=Caveat:wght@400;700&family=Inter:wght@400;500;600;700&display=swap");
 
 * {
   margin: 0;
@@ -7,27 +7,32 @@
 }
 
 html {
-  font-family: 'Avenir', 'Inter', sans-serif;
+  font-family: "Avenir", "Inter", sans-serif;
   --color-space: #010218;
-  --color-orange: #FF6F3F;
-  --color-cream: #FFF7EB;
-  --color-teal: #1A2E33;
-  --color-white: #FFFFFF;
-  --color-star: #FFD580;
-  --color-muted: #A7A7A7;
+  --color-orange: #ff6f3f;
+  --color-cream: #fff7eb;
+  --color-teal: #1a2e33;
+  --color-white: #ffffff;
+  --color-star: #ffd580;
+  --color-muted: #a7a7a7;
 }
 
 body {
   background-color: #010218;
-  color: #FFF7EB;
+  color: #fff7eb;
   margin: 0;
   padding: 0;
   font-size: 16px;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Aleo', serif;
-  color: #FFFFFF;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Aleo", serif;
+  color: #ffffff;
   font-weight: bold;
 }
 
@@ -46,7 +51,7 @@ nav {
 }
 
 nav a {
-  color: #FFF7EB;
+  color: #fff7eb;
   text-decoration: none;
   margin: 0 1rem;
   font-size: 0.875rem;
@@ -54,7 +59,7 @@ nav a {
 }
 
 nav a:hover {
-  color: #FF6F3F;
+  color: #ff6f3f;
 }
 
 button {
@@ -70,7 +75,7 @@ button {
 }
 
 button.primary {
-  background-color: #FF6F3F;
+  background-color: #ff6f3f;
   color: white;
 }
 
@@ -79,7 +84,7 @@ button.primary:hover {
 }
 
 button.secondary {
-  background-color: #1A2E33;
+  background-color: #1a2e33;
   color: white;
 }
 
@@ -88,8 +93,8 @@ button.secondary:hover {
 }
 
 button.ghost {
-  border: 2px solid #FF6F3F;
-  color: #FF6F3F;
+  border: 2px solid #ff6f3f;
+  color: #ff6f3f;
   background: transparent;
 }
 
@@ -101,7 +106,7 @@ main {
   position: relative;
   z-index: 10;
   min-height: 100vh;
-  color: #FFF7EB;
+  color: #fff7eb;
 }
 
 .starfield {
@@ -138,11 +143,11 @@ h2 {
 p {
   line-height: 1.6;
   margin-bottom: 1rem;
-  color: #FFF7EB;
+  color: #fff7eb;
 }
 
 .card {
-  background: #1A2E33;
+  background: #1a2e33;
   border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
@@ -156,34 +161,38 @@ footer {
 }
 
 footer a {
-  color: #FFF7EB;
+  color: #fff7eb;
   text-decoration: none;
 }
 
 footer a:hover {
-  color: #FF6F3F;
+  color: #ff6f3f;
 }
 
-input, textarea, select {
+input,
+textarea,
+select {
   width: 100%;
   padding: 0.75rem;
   border-radius: 12px;
   background: #010218;
-  border: 2px solid #1A2E33;
-  color: #FFF7EB;
+  border: 2px solid #1a2e33;
+  color: #fff7eb;
   font-family: inherit;
   margin-bottom: 1rem;
 }
 
-input:focus, textarea:focus, select:focus {
+input:focus,
+textarea:focus,
+select:focus {
   outline: none;
-  border-color: #FF6F3F;
+  border-color: #ff6f3f;
 }
 
 label {
   display: block;
   font-size: 0.875rem;
   font-weight: 600;
-  color: #FFF7EB;
+  color: #fff7eb;
   margin-bottom: 0.5rem;
 }

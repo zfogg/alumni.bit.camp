@@ -5,13 +5,10 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
-    allowedHosts: [
-      "witty-ears-lick.loca.lt",
-      "manjaro-twopal.egret-sunfish.ts.net",
-    ],
+    allowedHosts: ["witty-ears-lick.loca.lt", "manjaro-twopal.egret-sunfish.ts.net"],
   },
   staged: {
-    "*": "vp check --fix",
+    "src/**": "vp check --fix",
   },
   lint: { options: { typeAware: true, typeCheck: true } },
 });

@@ -47,11 +47,11 @@ That's it — Vercel now auto-deploys on every push to `main`.
 
 ### Auto-deploy behavior
 
-| Event | What happens |
-|---|---|
-| Push to `main` | Full production deploy to `alumni.bit.camp` |
-| Push to any other branch | Preview deploy on a temporary URL |
-| Open a PR | Preview deploy linked in the PR |
+| Event                    | What happens                                |
+| ------------------------ | ------------------------------------------- |
+| Push to `main`           | Full production deploy to `alumni.bit.camp` |
+| Push to any other branch | Preview deploy on a temporary URL           |
+| Open a PR                | Preview deploy linked in the PR             |
 
 ---
 
@@ -65,8 +65,8 @@ That's it — Vercel now auto-deploys on every push to `main`.
 
 ### DNS record (at your `bit.camp` registrar)
 
-| Type | Host | Value |
-|------|------|-------|
+| Type    | Host     | Value                  |
+| ------- | -------- | ---------------------- |
 | `CNAME` | `alumni` | `cname.vercel-dns.com` |
 
 Vercel provisions a Let's Encrypt TLS cert automatically — HTTPS works within minutes of DNS propagation.
@@ -79,13 +79,13 @@ With a custom domain, `base` is just `/`:
 
 ```typescript
 // vite.config.ts
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: '/',
-})
+  base: "/",
+});
 ```
 
 No SPA routing hacks needed — Vercel handles it via `vercel.json`.
@@ -131,14 +131,14 @@ See **`BACKEND.md`** for the full implementation plan and code.
 
 ### Set in Vercel dashboard (Settings → Environment Variables)
 
-| Variable | What it's for |
-|---|---|
-| `GOOGLE_SHEETS_ID` | The spreadsheet ID from the Sheets URL |
-| `GOOGLE_SERVICE_ACCOUNT_EMAIL` | Service account email from Google Cloud |
-| `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` | Private key (with `\n` newlines) |
-| `RESEND_API_KEY` | Optional — for contact form email notifications |
-| `ADMIN_EMAIL` | Where contact form submissions get emailed |
-| `VITE_DISCORD_INVITE_URL` | Public Discord invite link (baked into frontend build) |
+| Variable                             | What it's for                                          |
+| ------------------------------------ | ------------------------------------------------------ |
+| `GOOGLE_SHEETS_ID`                   | The spreadsheet ID from the Sheets URL                 |
+| `GOOGLE_SERVICE_ACCOUNT_EMAIL`       | Service account email from Google Cloud                |
+| `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` | Private key (with `\n` newlines)                       |
+| `RESEND_API_KEY`                     | Optional — for contact form email notifications        |
+| `ADMIN_EMAIL`                        | Where contact form submissions get emailed             |
+| `VITE_DISCORD_INVITE_URL`            | Public Discord invite link (baked into frontend build) |
 
 > `VITE_` prefix = baked into the frontend bundle at build time (safe for public values).
 > No prefix = server-only, never exposed to the browser.
@@ -195,6 +195,7 @@ vercel dev    # http://localhost:3000
 ## Part 8: Deploy Checklist
 
 **First deploy:**
+
 - [ ] Create Vercel project, connect GitHub repo
 - [ ] Add `vercel.json` to root of repo
 - [ ] Set all environment variables in Vercel dashboard
@@ -207,6 +208,7 @@ vercel dev    # http://localhost:3000
 - [ ] Test contact form → verify row appears in Contacts tab (and email if configured)
 
 **Every subsequent deploy:**
+
 ```bash
 git add .
 git commit -m "your message"
@@ -218,12 +220,12 @@ git push origin main
 
 ## Summary
 
-| Layer | Service | Cost |
-|---|---|---|
-| Static site + API hosting | Vercel (Hobby) | Free |
-| CI/CD | Vercel (GitHub integration) | Free |
-| Data store | Google Sheets | Free |
-| TLS certificate | Let's Encrypt via Vercel | Free |
-| Email notifications (optional) | Resend (100/day free) | Free |
+| Layer                          | Service                     | Cost |
+| ------------------------------ | --------------------------- | ---- |
+| Static site + API hosting      | Vercel (Hobby)              | Free |
+| CI/CD                          | Vercel (GitHub integration) | Free |
+| Data store                     | Google Sheets               | Free |
+| TLS certificate                | Let's Encrypt via Vercel    | Free |
+| Email notifications (optional) | Resend (100/day free)       | Free |
 
 **Total: $0/month.** 🔥

@@ -9,6 +9,7 @@
 A **6-page React SPA** with a dark cosmic theme, animated starfields, polaroid-style member cards, and data-driven prize/member galleries pulled from Google Sheets. 4-phase approach across ~2 weeks.
 
 **Key decisions upfront:**
+
 - **Hosted on Vercel** with custom domain `alumni.bit.camp`; push to `main` → auto-deploy via Vercel's GitHub integration
 - **Node.js serverless functions** in `api/` handle form submissions and write to Google Sheets
 - Custom `Starfield` canvas component for the ambient background
@@ -104,41 +105,41 @@ alumni.bit.camp/
 
 ```typescript
 // tailwind.config.ts
-import type { Config } from 'tailwindcss'
+import type { Config } from "tailwindcss";
 
 export default {
-  content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
-        space:  '#010218',   // Page background
-        orange: '#FF6F3F',   // Primary CTA, accent, active nav
-        cream:  '#FFF7EB',   // Body text on dark
-        teal:   '#1A2E33',   // Card surfaces
-        star:   '#FFD580',   // Sparkle, decorative
-        muted:  '#A7A7A7',   // Secondary text
+        space: "#010218", // Page background
+        orange: "#FF6F3F", // Primary CTA, accent, active nav
+        cream: "#FFF7EB", // Body text on dark
+        teal: "#1A2E33", // Card surfaces
+        star: "#FFD580", // Sparkle, decorative
+        muted: "#A7A7A7", // Secondary text
       },
       fontFamily: {
-        display: ['Aleo', 'serif'],                  // Titles, heroes, warmth
-        body:    ['Avenir', 'Inter', 'sans-serif'],  // Body, storytelling, long-form
-        accent:  ['Caveat', 'cursive'],              // Handwritten accent, sparingly
+        display: ["Aleo", "serif"], // Titles, heroes, warmth
+        body: ["Avenir", "Inter", "sans-serif"], // Body, storytelling, long-form
+        accent: ["Caveat", "cursive"], // Handwritten accent, sparingly
       },
       borderRadius: {
-        card: '12px',
-        pill: '9999px',
+        card: "12px",
+        pill: "9999px",
       },
       animation: {
-        'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+        "pulse-glow": "pulse-glow 2s ease-in-out infinite",
       },
       keyframes: {
-        'pulse-glow': {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0.7' },
+        "pulse-glow": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.7" },
         },
       },
     },
   },
-} satisfies Config
+} satisfies Config;
 ```
 
 ---
@@ -148,60 +149,60 @@ export default {
 ```typescript
 // src/types/index.ts
 
-export type Role = 'Hacker' | 'Organizer' | 'Sponsor' | 'Staff' | 'Other'
+export type Role = "Hacker" | "Organizer" | "Sponsor" | "Staff" | "Other";
 
 export interface Member {
-  id: string
-  name: string
-  email: string          // Private — never display publicly
-  year: number | number[]
-  role: Role
-  school?: string
-  what_i_did?: string
-  headshot_url?: string
-  linkedin?: string
-  github?: string
-  website?: string
-  created_at: string
-  featured: boolean
-  approved: boolean
+  id: string;
+  name: string;
+  email: string; // Private — never display publicly
+  year: number | number[];
+  role: Role;
+  school?: string;
+  what_i_did?: string;
+  headshot_url?: string;
+  linkedin?: string;
+  github?: string;
+  website?: string;
+  created_at: string;
+  featured: boolean;
+  approved: boolean;
 }
 
 export interface Prize {
-  prize_id: string       // e.g. "zach-prize"
-  prize_name: string     // e.g. "Zach's Prize"
-  sponsor_name: string
-  description: string    // What the prize is for
-  active: boolean
+  prize_id: string; // e.g. "zach-prize"
+  prize_name: string; // e.g. "Zach's Prize"
+  sponsor_name: string;
+  description: string; // What the prize is for
+  active: boolean;
 }
 
 export interface Winner {
-  prize_id: string
-  year: number
-  team_name: string
-  project_name: string
-  description: string
-  members: string        // Comma-separated names
+  prize_id: string;
+  year: number;
+  team_name: string;
+  project_name: string;
+  description: string;
+  members: string; // Comma-separated names
 }
 
 export interface JoinFormData {
-  name: string
-  email: string
-  year: string
-  role: Role
-  school?: string
-  what_i_did?: string
-  headshot_url?: string
-  linkedin?: string
-  github?: string
-  website?: string
+  name: string;
+  email: string;
+  year: string;
+  role: Role;
+  school?: string;
+  what_i_did?: string;
+  headshot_url?: string;
+  linkedin?: string;
+  github?: string;
+  website?: string;
 }
 
 export interface ContactFormData {
-  name: string
-  email: string
-  subject: string
-  message: string
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
 }
 ```
 
@@ -210,11 +211,12 @@ export interface ContactFormData {
 ## Key Components & Props
 
 ### `Button.tsx`
+
 ```typescript
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'ghost'  // default: primary
-  size?: 'sm' | 'md' | 'lg'                    // default: md
-  isLoading?: boolean
+  variant?: "primary" | "secondary" | "ghost"; // default: primary
+  size?: "sm" | "md" | "lg"; // default: md
+  isLoading?: boolean;
 }
 // primary:   bg-orange text-white rounded-pill
 // secondary: bg-teal text-white rounded-pill
@@ -222,40 +224,44 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 ```
 
 ### `MemberCard.tsx`
+
 ```typescript
 interface MemberCardProps {
-  member: Member
-  rotation?: number   // -3 to 3 degrees, for polaroid effect
+  member: Member;
+  rotation?: number; // -3 to 3 degrees, for polaroid effect
 }
 // White border, slight rotation (inline style), name/role/year below
 ```
 
 ### `Starfield.tsx`
+
 ```typescript
 interface StarfieldProps {
-  count?: number    // default 150
-  speed?: number    // default 0.5, reduce on mobile
-  className?: string
+  count?: number; // default 150
+  speed?: number; // default 0.5, reduce on mobile
+  className?: string;
 }
 // Canvas-based; useEffect with requestAnimationFrame + cleanup on unmount
 ```
 
 ### `OrbitalArc.tsx`
+
 ```typescript
 interface OrbitalArcProps {
-  rx: number   // horizontal radius
-  ry: number   // vertical radius
-  opacity?: number
-  className?: string
+  rx: number; // horizontal radius
+  ry: number; // vertical radius
+  opacity?: number;
+  className?: string;
 }
 // SVG ellipse used decoratively behind section headings
 ```
 
 ### `PrizeSection.tsx`
+
 ```typescript
 interface PrizeSectionProps {
-  prize: Prize
-  winners: Winner[]
+  prize: Prize;
+  winners: Winner[];
 }
 // Groups all winners by year under a prize sponsor banner
 ```
@@ -319,11 +325,13 @@ interface PrizeSectionProps {
 ## Phase 3: Data Integration (Days 8–11)
 
 ### Google Sheets setup
+
 1. Create a Google Sheet with 3 tabs: **Members**, **Prizes**, **Winners**
 2. Create a Google Cloud Service Account, enable Sheets API, download JSON key
 3. Store key in `GOOGLE_SHEETS_PRIVATE_KEY` etc. env vars
 
 ### Implementation
+
 1. `lib/sheets.ts`:
    - `getMembers()` — reads Members tab, filters `approved=true`
    - `getPrizes()` — reads Prizes tab, filters `active=true`
@@ -339,9 +347,10 @@ interface PrizeSectionProps {
 10. Wire `Contact.tsx` submit to `POST /api/contact`
 11. Create `api/support.ts` — validate, branch on `type`, append to Supporters tab
 12. Wire `Give.tsx` form submit to `POST /api/support`
-11. Add all env vars as GitHub Actions Secrets; push to main and verify deploy
+13. Add all env vars as GitHub Actions Secrets; push to main and verify deploy
 
 ### Required env vars
+
 ```
 GOOGLE_SHEETS_ID=
 GOOGLE_SERVICE_ACCOUNT_EMAIL=
@@ -370,13 +379,13 @@ VITE_DISCORD_INVITE_URL=             # Public Discord invite link (e.g. discord.
 
 ## Admin Workflows (No-Code Required)
 
-| Task | How |
-|---|---|
-| Add a member | Add row to **Members** Google Sheet, set `approved=TRUE` |
-| Feature on homepage | Set `featured=TRUE` in Members sheet |
-| Add a prize winner | Add row to **Winners** sheet with `prize_id` and `year` |
-| Add a new prize | Add row to **Prizes** sheet |
-| Disable a prize | Set `active=FALSE` in Prizes sheet |
+| Task                | How                                                      |
+| ------------------- | -------------------------------------------------------- |
+| Add a member        | Add row to **Members** Google Sheet, set `approved=TRUE` |
+| Feature on homepage | Set `featured=TRUE` in Members sheet                     |
+| Add a prize winner  | Add row to **Winners** sheet with `prize_id` and `year`  |
+| Add a new prize     | Add row to **Prizes** sheet                              |
+| Disable a prize     | Set `active=FALSE` in Prizes sheet                       |
 
 ---
 
@@ -432,9 +441,9 @@ VITE_DISCORD_INVITE_URL=             # Public Discord invite link (e.g. discord.
 
 ## Timeline
 
-| Phase | Days | Output |
-|---|---|---|
-| 1 · Foundation | 1–3 | Scaffold, Tailwind config, UI components, layout shell |
-| 2 · Pages | 4–7 | All 6 pages with layouts, routing, mock data |
-| 3 · Data | 8–11 | Google Sheets integration, APIs, live forms |
-| 4 · Polish | 12–14 | Animations, a11y, SEO, Vercel production deploy |
+| Phase          | Days  | Output                                                 |
+| -------------- | ----- | ------------------------------------------------------ |
+| 1 · Foundation | 1–3   | Scaffold, Tailwind config, UI components, layout shell |
+| 2 · Pages      | 4–7   | All 6 pages with layouts, routing, mock data           |
+| 3 · Data       | 8–11  | Google Sheets integration, APIs, live forms            |
+| 4 · Polish     | 12–14 | Animations, a11y, SEO, Vercel production deploy        |
