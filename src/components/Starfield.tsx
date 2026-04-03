@@ -13,9 +13,15 @@ export const Starfield: React.FC<StarfieldProps> = ({
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const starsRef = useRef<
-    Array<{ x: number; y: number; radius: number; opacity: number; twinkleSpeed: number }>
+    Array<{
+      x: number;
+      y: number;
+      radius: number;
+      opacity: number;
+      twinkleSpeed: number;
+    }>
   >([]);
-  const animationIdRef = useRef<number>();
+  const animationIdRef = useRef<number>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
