@@ -33,10 +33,28 @@ export const Starfield: React.FC<StarfieldProps> = ({
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+
+      // Regenerate stars for new canvas size
+      starsRef.current = [];
+      for (let i = 0; i < count; i++) {
+        starsRef.current.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 1.5,
+          opacity: Math.random() * 0.8 + 0.2,
+          twinkleSpeed: Math.random() * 0.02 + 0.005,
+        });
+      }
+    };
+
+    let resizeTimeout: NodeJS.Timeout;
+    const debouncedResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(resizeCanvas, 200);
     };
 
     resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
+    window.addEventListener("resize", debouncedResize);
 
     // Initialize stars
     if (starsRef.current.length === 0) {
@@ -77,7 +95,8 @@ export const Starfield: React.FC<StarfieldProps> = ({
     animate();
 
     return () => {
-      window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("resize", debouncedResize);
+      clearTimeout(resizeTimeout);
       if (animationIdRef.current) {
         cancelAnimationFrame(animationIdRef.current);
       }
