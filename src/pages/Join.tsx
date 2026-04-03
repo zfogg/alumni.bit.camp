@@ -256,35 +256,46 @@ export const Join: React.FC = () => {
                     fontSize: "14px",
                     fontWeight: "600",
                     color: "#FFF7EB",
-                    marginBottom: "8px",
+                    marginBottom: "12px",
                   }}
                 >
-                  Year(s) Attended
+                  Year(s) Attended *
                 </label>
-                <input
-                  type="number"
-                  placeholder="2020"
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    borderRadius: "8px",
-                    backgroundColor: "#010218",
-                    border: "2px solid #1a2e33",
-                    color: "#FFF7EB",
-                    fontSize: "16px",
-                    boxSizing: "border-box",
-                    transition: "border-color 0.3s",
-                  }}
-                  onFocus={(e) => {
-                    e.currentTarget.style.borderColor = "#FF6F3F";
-                  }}
-                  onBlur={(e) => {
-                    e.currentTarget.style.borderColor = "#1a2e33";
-                  }}
-                  {...register("year", { required: "Year is required" })}
-                />
+                <div
+                  style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "12px" }}
+                >
+                  {[2014, 2016, 2018, 2019, 2020, 2022, 2024, 2025].map((y) => (
+                    <label
+                      key={y}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        cursor: "pointer",
+                        fontSize: "14px",
+                        color: "#FFF7EB",
+                      }}
+                    >
+                      <input
+                        type="checkbox"
+                        value={y}
+                        style={{
+                          width: "18px",
+                          height: "18px",
+                          cursor: "pointer",
+                          accentColor: "#FF6F3F",
+                        }}
+                        {...register("year", {
+                          validate: (value) =>
+                            (value && value.length > 0) || "Select at least one year",
+                        })}
+                      />
+                      {y}
+                    </label>
+                  ))}
+                </div>
                 {errors.year && (
-                  <p style={{ color: "#FF6F3F", fontSize: "12px", marginTop: "4px", margin: 0 }}>
+                  <p style={{ color: "#FF6F3F", fontSize: "12px", marginTop: "8px", margin: 0 }}>
                     {errors.year.message}
                   </p>
                 )}
