@@ -88,15 +88,12 @@ export const About: React.FC = () => {
           </div>
 
           {/* Timeline */}
-          <div style={{ marginTop: "4rem" }}>
+          <div className="mt-16">
             <h2 className="text-xl font-display font-bold text-white mb-8">
               Bitcamp through the years
             </h2>
             <div className="relative">
-              <div
-                className="hidden md:block absolute top-3 left-0 right-0 h-1"
-                style={{ backgroundColor: "rgba(255, 111, 63, 0.2)" }}
-              ></div>
+              <div className="hidden md:block absolute top-3 left-0 right-0 h-1 bg-orange/20"></div>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4 relative z-10">
                 {[
                   { year: 2014, label: "1k+ hackers" },
@@ -109,10 +106,7 @@ export const About: React.FC = () => {
                   { year: 2026, label: "Unknown" },
                 ].map((item) => (
                   <div key={item.year} className="text-center">
-                    <div
-                      className="hidden md:block w-6 h-6 rounded-full mx-auto mb-3 border-4"
-                      style={{ backgroundColor: "#FF6F3F", borderColor: "#010218" }}
-                    ></div>
+                    <div className="hidden md:block w-6 h-6 rounded-full mx-auto mb-3 border-4 bg-orange border-space"></div>
                     <div className="text-sm text-cream font-semibold">{item.year}</div>
                     <div className="text-xs text-muted">{item.label}</div>
                   </div>
