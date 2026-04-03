@@ -61,36 +61,13 @@ export const Give: React.FC = () => {
 
   if (status === "success") {
     return (
-      <div
-        style={{
-          minHeight: "100vh",
-          backgroundColor: "#010218",
-          color: "#FFF7EB",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "80px 20px",
-        }}
-      >
-        <div style={{ maxWidth: "600px", textAlign: "center" }}>
-          <div style={{ fontSize: "72px", marginBottom: "24px" }}>
-            {type === "donate" ? "💰" : "🏆"}
-          </div>
-          <h1
-            style={{
-              fontSize: "48px",
-              fontFamily: "Aleo, serif",
-              fontWeight: "bold",
-              color: "white",
-              marginBottom: "24px",
-              margin: 0,
-            }}
-          >
+      <div className="min-h-screen bg-space text-cream flex items-center justify-center py-20 px-6">
+        <div className="max-w-xl text-center">
+          <div className="text-8xl mb-6">{type === "donate" ? "💰" : "🏆"}</div>
+          <h1 className="text-5xl font-display font-bold text-white mb-6">
             {type === "donate" ? "Thank you!" : "Amazing!"}
           </h1>
-          <p
-            style={{ fontSize: "18px", color: "#FFF7EB", marginBottom: "40px", lineHeight: "1.6" }}
-          >
+          <p className="text-lg text-cream mb-10 leading-relaxed">
             {type === "donate"
               ? "We've received your donation interest. We'll be in touch within 48 hours with next steps."
               : "Your prize sponsorship interest has been submitted. We'll reach out within 48 hours to get the details sorted."}
@@ -104,142 +81,49 @@ export const Give: React.FC = () => {
   }
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#010218", color: "#FFF7EB" }}>
+    <div className="min-h-screen bg-space text-cream">
       {/* Hero */}
-      <section style={{ paddingTop: "120px", paddingBottom: "16px" }}>
-        <div
-          style={{
-            maxWidth: "1280px",
-            margin: "0 auto",
-            paddingLeft: "24px",
-            paddingRight: "24px",
-            textAlign: "center",
-          }}
-        >
-          <h1
-            style={{
-              fontSize: "60px",
-              fontFamily: "Aleo, serif",
-              fontWeight: "bold",
-              color: "white",
-              margin: 0,
-              marginBottom: "24px",
-              lineHeight: "1.2",
-            }}
-          >
+      <section className="pt-32 pb-4">
+        <div className="max-w-5xl mx-auto px-6 text-center">
+          <h1 className="text-6xl font-display font-bold text-white mb-6 leading-tight">
             You got something from Bitcamp.
             <br />
             Give something back.
           </h1>
-          <p
-            style={{
-              fontSize: "18px",
-              color: "#FFF7EB",
-              maxWidth: "800px",
-              margin: "0 auto 32px",
-              lineHeight: "1.6",
-            }}
-          >
+          <p className="text-lg text-cream max-w-2xl mx-auto mb-8 leading-relaxed">
             Keeping Bitcamp free and growing. Every contribution funds prizes, food, and the next
             generation of builders.
           </p>
-          <div
-            style={{
-              backgroundColor: "#1A2E33",
-              borderRadius: "12px",
-              padding: "24px",
-              maxWidth: "600px",
-              margin: "0 auto 32px",
-              border: "1px solid rgba(255, 111, 63, 0.2)",
-            }}
-          >
-            <p
-              style={{
-                fontSize: "24px",
-                color: "#FF6F3F",
-                fontFamily: "Aleo, serif",
-                fontWeight: "bold",
-                margin: 0,
-              }}
-            >
+          <div className="bg-teal rounded-2xl p-6 max-w-2xl mx-auto mb-8 border border-orange/20">
+            <p className="text-2xl text-orange font-display font-bold m-0">
               100% of donations go directly to Bitcamp.
             </p>
           </div>
-          <div style={{ height: "1px", backgroundColor: "rgba(255, 111, 63, 0.3)" }}></div>
+          <div className="h-px bg-orange/30"></div>
         </div>
       </section>
 
       {/* Donate Section */}
-      <section style={{ padding: "32px", paddingLeft: "24px", paddingRight: "24px" }}>
-        <div style={{ maxWidth: "600px", margin: "0 auto" }}>
+      <section className="py-8 px-6">
+        <div className="max-w-2xl mx-auto">
           <div
-            style={{
-              backgroundColor: "#1A2E33",
-              borderRadius: "16px",
-              padding: "32px",
-              border: `2px solid ${type === "donate" ? "#FF6F3F" : "rgba(255, 111, 63, 0.2)"}`,
-              cursor: "pointer",
-              transition: "all 0.3s",
-              transform: type === "donate" ? "scale(1.02)" : "scale(1)",
-              opacity: type === "donate" ? 1 : 0.7,
-            }}
+            className={`bg-teal rounded-2xl p-8 border-2 cursor-pointer transition-all ${
+              type === "donate"
+                ? "border-orange scale-105 opacity-100"
+                : "border-orange/20 scale-100 opacity-70 hover:border-orange"
+            }`}
             onClick={() => handleTypeChange("donate")}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.borderColor = "#FF6F3F";
-            }}
-            onMouseLeave={(e) => {
-              if (type !== "donate") {
-                (e.currentTarget as HTMLElement).style.borderColor = "rgba(255, 111, 63, 0.2)";
-              }
-            }}
           >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "flex-start",
-                marginBottom: "16px",
-              }}
-            >
-              <h2
-                style={{
-                  fontSize: "28px",
-                  fontFamily: "Aleo, serif",
-                  fontWeight: "bold",
-                  color: "white",
-                  margin: 0,
-                }}
-              >
-                Donate
-              </h2>
-              <span style={{ fontSize: "32px" }}>💰</span>
+            <div className="flex justify-between items-start gap-3 mb-4">
+              <h2 className="text-3xl font-display font-bold text-white m-0">Donate</h2>
+              <span className="text-4xl flex-shrink-0">💰</span>
             </div>
-            <p style={{ fontSize: "16px", color: "#FFF7EB", marginBottom: "16px", margin: 0 }}>
-              Give any amount to support Bitcamp
-            </p>
-            <ul
-              style={{
-                listStyle: "none",
-                padding: 0,
-                margin: 0,
-                display: "flex",
-                flexDirection: "column",
-                gap: "12px",
-              }}
-            >
+            <p className="text-base text-cream mb-4 m-0">Give any amount to support Bitcamp</p>
+            <ul className="list-none p-0 m-0 flex flex-col gap-3">
               {["One-time or recurring", "100% goes to Bitcamp", "Direct impact on hackers"].map(
                 (item, i) => (
-                  <li
-                    key={i}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      fontSize: "16px",
-                      color: "white",
-                      gap: "12px",
-                    }}
-                  >
-                    <span style={{ color: "#FF6F3F", fontSize: "18px" }}>✓</span>
+                  <li key={i} className="flex items-center text-base text-white gap-3">
+                    <span className="text-orange text-lg flex-shrink-0">✓</span>
                     {item}
                   </li>
                 ),
@@ -250,86 +134,31 @@ export const Give: React.FC = () => {
       </section>
 
       {/* Sponsor Section */}
-      <section
-        style={{
-          padding: "32px",
-          paddingLeft: "24px",
-          paddingRight: "24px",
-          paddingBottom: "80px",
-        }}
-      >
-        <div style={{ maxWidth: "600px", margin: "0 auto" }}>
+      <section className="py-8 px-6 pb-32">
+        <div className="max-w-2xl mx-auto">
           <div
-            style={{
-              backgroundColor: "#1A2E33",
-              borderRadius: "16px",
-              padding: "32px",
-              border: `2px solid ${type === "sponsor" ? "#FF6F3F" : "rgba(255, 111, 63, 0.2)"}`,
-              cursor: "pointer",
-              transition: "all 0.3s",
-              transform: type === "sponsor" ? "scale(1.02)" : "scale(1)",
-              opacity: type === "sponsor" ? 1 : 0.7,
-            }}
+            className={`bg-teal rounded-2xl p-8 border-2 cursor-pointer transition-all ${
+              type === "sponsor"
+                ? "border-orange scale-105 opacity-100"
+                : "border-orange/20 scale-100 opacity-70 hover:border-orange"
+            }`}
             onClick={() => handleTypeChange("sponsor")}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.borderColor = "#FF6F3F";
-            }}
-            onMouseLeave={(e) => {
-              if (type !== "sponsor") {
-                (e.currentTarget as HTMLElement).style.borderColor = "rgba(255, 111, 63, 0.2)";
-              }
-            }}
           >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "flex-start",
-                marginBottom: "16px",
-              }}
-            >
-              <h2
-                style={{
-                  fontSize: "28px",
-                  fontFamily: "Aleo, serif",
-                  fontWeight: "bold",
-                  color: "white",
-                  margin: 0,
-                }}
-              >
-                Sponsor a Prize
-              </h2>
-              <span style={{ fontSize: "32px" }}>🏆</span>
+            <div className="flex justify-between items-start gap-3 mb-4">
+              <h2 className="text-3xl font-display font-bold text-white m-0">Sponsor a Prize</h2>
+              <span className="text-4xl flex-shrink-0">🏆</span>
             </div>
-            <p style={{ fontSize: "16px", color: "#FFF7EB", marginBottom: "16px", margin: 0 }}>
+            <p className="text-base text-cream mb-4 m-0">
               Put your name on a prize at the next Bitcamp
             </p>
-            <ul
-              style={{
-                listStyle: "none",
-                padding: 0,
-                margin: 0,
-                display: "flex",
-                flexDirection: "column",
-                gap: "12px",
-              }}
-            >
+            <ul className="list-none p-0 m-0 flex flex-col gap-3">
               {[
                 "Your criteria, your impact",
                 "Winners remember you forever",
                 "Build your legacy",
               ].map((item, i) => (
-                <li
-                  key={i}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    fontSize: "16px",
-                    color: "white",
-                    gap: "12px",
-                  }}
-                >
-                  <span style={{ color: "#FF6F3F", fontSize: "18px" }}>✓</span>
+                <li key={i} className="flex items-center text-base text-white gap-3">
+                  <span className="text-orange text-lg flex-shrink-0">✓</span>
                   {item}
                 </li>
               ))}
@@ -339,69 +168,17 @@ export const Give: React.FC = () => {
       </section>
 
       {/* Testimonials */}
-      <section
-        style={{
-          padding: "32px",
-          paddingLeft: "24px",
-          paddingRight: "24px",
-          paddingBottom: "80px",
-        }}
-      >
-        <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
-          <h3
-            style={{
-              fontSize: "20px",
-              fontFamily: "Aleo, serif",
-              fontWeight: "bold",
-              color: "white",
-              textAlign: "center",
-              marginBottom: "48px",
-            }}
-          >
+      <section className="py-8 px-6 pb-32">
+        <div className="max-w-5xl mx-auto">
+          <h3 className="text-2xl font-display font-bold text-white text-center mb-12">
             Why alumni are giving back
           </h3>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-              gap: "24px",
-            }}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {testimonials.map((t, idx) => (
-              <div
-                key={idx}
-                style={{
-                  backgroundColor: "#1A2E33",
-                  borderRadius: "16px",
-                  padding: "24px",
-                  border: "1px solid rgba(255, 111, 63, 0.2)",
-                }}
-              >
-                <p
-                  style={{
-                    color: "#FFF7EB",
-                    marginBottom: "16px",
-                    fontStyle: "italic",
-                    fontSize: "16px",
-                    lineHeight: "1.6",
-                    margin: 0,
-                  }}
-                >
-                  "{t.quote}"
-                </p>
-                <p
-                  style={{
-                    color: "#FF6F3F",
-                    fontFamily: "Aleo, serif",
-                    fontWeight: "bold",
-                    fontSize: "16px",
-                    marginBottom: "4px",
-                    margin: 0,
-                  }}
-                >
-                  {t.author}
-                </p>
-                <p style={{ color: "#A7A7A7", fontSize: "14px", margin: 0 }}>{t.role}</p>
+              <div key={idx} className="bg-teal rounded-2xl p-6 border border-orange/20">
+                <p className="text-cream mb-4 italic text-base leading-relaxed m-0">"{t.quote}"</p>
+                <p className="text-orange font-display font-bold text-base mb-1 m-0">{t.author}</p>
+                <p className="text-muted text-sm m-0">{t.role}</p>
               </div>
             ))}
           </div>
@@ -409,41 +186,14 @@ export const Give: React.FC = () => {
       </section>
 
       {/* Form Section */}
-      <section
-        style={{
-          padding: "32px",
-          paddingLeft: "24px",
-          paddingRight: "24px",
-          paddingBottom: "128px",
-        }}
-      >
-        <div style={{ maxWidth: "600px", margin: "0 auto" }}>
-          <div
-            style={{
-              backgroundColor: "#1A2E33",
-              borderRadius: "16px",
-              padding: "32px",
-              border: "1px solid rgba(255, 111, 63, 0.2)",
-            }}
-          >
-            <h2
-              style={{
-                fontSize: "24px",
-                fontFamily: "Aleo, serif",
-                fontWeight: "bold",
-                color: "white",
-                textAlign: "center",
-                marginBottom: "32px",
-                margin: 0,
-              }}
-            >
+      <section className="py-8 px-6 pb-32">
+        <div className="max-w-2xl mx-auto">
+          <div className="bg-teal rounded-2xl p-8 border border-orange/20">
+            <h2 className="text-2xl font-display font-bold text-white text-center mb-8 m-0">
               {type === "donate" ? "Start Your Donation" : "Become a Prize Sponsor"}
             </h2>
 
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              style={{ display: "flex", flexDirection: "column", gap: "16px" }}
-            >
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
               <Input
                 label="Full Name"
                 placeholder="Your name"
@@ -465,27 +215,11 @@ export const Give: React.FC = () => {
               {type === "donate" && (
                 <>
                   <div>
-                    <label
-                      style={{
-                        display: "block",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                        color: "#FFF7EB",
-                        marginBottom: "12px",
-                      }}
-                    >
+                    <label className="block text-sm font-semibold text-cream mb-3">
                       Donation Range
                     </label>
                     <select
-                      style={{
-                        width: "100%",
-                        padding: "12px 16px",
-                        borderRadius: "12px",
-                        backgroundColor: "#010218",
-                        border: "2px solid #FF6F3F",
-                        color: "#FFF7EB",
-                        fontFamily: "inherit",
-                      }}
+                      className="w-full px-4 py-3 rounded-xl bg-space border-2 border-orange text-cream font-inherit"
                       {...register("donation_range")}
                     >
                       <option value="unsure">Not sure yet</option>
@@ -496,30 +230,12 @@ export const Give: React.FC = () => {
                     </select>
                   </div>
                   <div>
-                    <label
-                      style={{
-                        display: "block",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                        color: "#FFF7EB",
-                        marginBottom: "12px",
-                      }}
-                    >
+                    <label className="block text-sm font-semibold text-cream mb-3">
                       Message (optional)
                     </label>
                     <textarea
                       placeholder="Anything you'd like to say to the Bitcamp team?"
-                      style={{
-                        width: "100%",
-                        padding: "12px 16px",
-                        borderRadius: "12px",
-                        backgroundColor: "#010218",
-                        border: "2px solid #FF6F3F",
-                        color: "#FFF7EB",
-                        fontFamily: "inherit",
-                        minHeight: "100px",
-                        resize: "vertical",
-                      }}
+                      className="w-full px-4 py-3 rounded-xl bg-space border-2 border-orange text-cream font-inherit min-h-24 resize-vertical"
                       rows={4}
                       {...register("message")}
                     />
@@ -538,30 +254,12 @@ export const Give: React.FC = () => {
                     error={errors.prize_name?.message}
                   />
                   <div>
-                    <label
-                      style={{
-                        display: "block",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                        color: "#FFF7EB",
-                        marginBottom: "12px",
-                      }}
-                    >
+                    <label className="block text-sm font-semibold text-cream mb-3">
                       What will winners receive? *
                     </label>
                     <textarea
                       placeholder="Describe the prize: cash amount, merchandise, experience, mentorship, etc."
-                      style={{
-                        width: "100%",
-                        padding: "12px 16px",
-                        borderRadius: "12px",
-                        backgroundColor: "#010218",
-                        border: "2px solid #FF6F3F",
-                        color: "#FFF7EB",
-                        fontFamily: "inherit",
-                        minHeight: "100px",
-                        resize: "vertical",
-                      }}
+                      className="w-full px-4 py-3 rounded-xl bg-space border-2 border-orange text-cream font-inherit min-h-24 resize-vertical"
                       rows={4}
                       {...register("prize_description", {
                         required:
@@ -569,36 +267,16 @@ export const Give: React.FC = () => {
                       })}
                     />
                     {errors.prize_description && (
-                      <p style={{ color: "#FF6F3F", fontSize: "12px", marginTop: "8px" }}>
-                        {errors.prize_description.message}
-                      </p>
+                      <p className="text-orange text-xs mt-2">{errors.prize_description.message}</p>
                     )}
                   </div>
                   <div>
-                    <label
-                      style={{
-                        display: "block",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                        color: "#FFF7EB",
-                        marginBottom: "12px",
-                      }}
-                    >
+                    <label className="block text-sm font-semibold text-cream mb-3">
                       Prize criteria *
                     </label>
                     <textarea
                       placeholder="What kind of hack or achievement should win? (e.g., 'Most creative use of open-source libraries')"
-                      style={{
-                        width: "100%",
-                        padding: "12px 16px",
-                        borderRadius: "12px",
-                        backgroundColor: "#010218",
-                        border: "2px solid #FF6F3F",
-                        color: "#FFF7EB",
-                        fontFamily: "inherit",
-                        minHeight: "100px",
-                        resize: "vertical",
-                      }}
+                      className="w-full px-4 py-3 rounded-xl bg-space border-2 border-orange text-cream font-inherit min-h-24 resize-vertical"
                       rows={4}
                       {...register("prize_criteria", {
                         required:
@@ -608,33 +286,15 @@ export const Give: React.FC = () => {
                       })}
                     />
                     {errors.prize_criteria && (
-                      <p style={{ color: "#FF6F3F", fontSize: "12px", marginTop: "8px" }}>
-                        {errors.prize_criteria.message}
-                      </p>
+                      <p className="text-orange text-xs mt-2">{errors.prize_criteria.message}</p>
                     )}
                   </div>
                   <div>
-                    <label
-                      style={{
-                        display: "block",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                        color: "#FFF7EB",
-                        marginBottom: "12px",
-                      }}
-                    >
+                    <label className="block text-sm font-semibold text-cream mb-3">
                       Preferred year
                     </label>
                     <select
-                      style={{
-                        width: "100%",
-                        padding: "12px 16px",
-                        borderRadius: "12px",
-                        backgroundColor: "#010218",
-                        border: "2px solid #FF6F3F",
-                        color: "#FFF7EB",
-                        fontFamily: "inherit",
-                      }}
+                      className="w-full px-4 py-3 rounded-xl bg-space border-2 border-orange text-cream font-inherit"
                       {...register("preferred_year")}
                     >
                       <option value="unsure">Not sure yet</option>
@@ -646,16 +306,7 @@ export const Give: React.FC = () => {
               )}
 
               {status === "error" && (
-                <div
-                  style={{
-                    backgroundColor: "#1A2E33",
-                    border: "1px solid #FF6F3F",
-                    borderRadius: "12px",
-                    padding: "12px 16px",
-                    color: "#FF6F3F",
-                    fontSize: "14px",
-                  }}
-                >
+                <div className="bg-teal border border-orange rounded-xl px-4 py-3 text-orange text-sm">
                   {errorMsg}
                 </div>
               )}
@@ -673,16 +324,7 @@ export const Give: React.FC = () => {
                     : "Sponsor a Prize"}
               </Button>
 
-              <p
-                style={{
-                  color: "#A7A7A7",
-                  fontSize: "12px",
-                  textAlign: "center",
-                  borderTop: "1px solid #FF6F3F",
-                  paddingTop: "16px",
-                  margin: 0,
-                }}
-              >
+              <p className="text-muted text-xs text-center border-t border-orange pt-4 m-0">
                 ✓ This form expresses interest only — no payment is collected here.
                 <br />
                 We'll be in touch within 48 hours.
