@@ -1,20 +1,36 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Card } from "../components/ui/Card";
 import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
 import type { ContactFormData } from "../types";
+import { submitContactForm } from "../lib/api";
+
+type Status = "idle" | "loading" | "success" | "error";
 
 export const Contact: React.FC = () => {
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+  const discordUrl = import.meta.env.VITE_DISCORD_INVITE_URL || "https://discord.gg/bitcamp";
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm<ContactFormData>();
-  const discordUrl = import.meta.env.VITE_DISCORD_INVITE_URL || "https://discord.gg/bitcamp";
+  } = useForm<ContactFormData & { phone?: string }>();
 
-  const onSubmit = (data: ContactFormData) => {
-    console.log("Contact form data:", data);
-    alert("Message sent! (Mock)");
+  const onSubmit = async (data: ContactFormData & { phone?: string }) => {
+    setStatus("loading");
+    setErrorMsg("");
+    try {
+      await submitContactForm(data);
+      setStatus("success");
+      reset();
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : "Something went wrong.");
+      setStatus("error");
+    }
   };
 
   const contactMethods = [
@@ -53,7 +69,10 @@ export const Contact: React.FC = () => {
   return (
     <div className="min-h-screen bg-space text-cream" style={{ paddingBottom: 0 }}>
       {/* Hero Section */}
-      <section className="w-full px-4 sm:px-6 py-12 sm:py-16 text-center" style={{ marginTop: "100px" }}>
+      <section
+        className="w-full px-4 sm:px-6 py-12 sm:py-16 text-center"
+        style={{ marginTop: "100px" }}
+      >
         <div className="max-w-5xl mx-auto">
           <h1 className="text-6xl md:text-7xl font-display font-bold text-white mb-6 leading-tight">
             Get in Touch
@@ -67,7 +86,14 @@ export const Contact: React.FC = () => {
       {/* Contact Cards Grid */}
       <section className="w-full px-4 sm:px-6 py-12 sm:py-16">
         <div className="max-w-5xl mx-auto">
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.5rem", marginBottom: "2rem" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+              gap: "1.5rem",
+              marginBottom: "2rem",
+            }}
+          >
             {contactMethods.map((method, idx) => (
               <a
                 key={idx}
@@ -99,60 +125,95 @@ export const Contact: React.FC = () => {
       {/* Contact Form */}
       <section className="w-full px-4 sm:px-6 pt-12 sm:pt-16">
         <div className="max-w-3xl mx-auto">
-          <Card>
-            <h2 className="text-4xl font-display font-bold text-white mb-2 text-center">
-              Send us a Message
-            </h2>
-            <p className="text-cream text-center mb-10">
-              We typically respond within 24 hours.
-            </p>
-
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <Input
-                  label="Name"
-                  placeholder="Your name"
-                  {...register("name", { required: "Name is required" })}
-                  error={errors.name?.message}
-                />
-
-                <Input
-                  label="Email"
-                  type="email"
-                  placeholder="your@email.com"
-                  {...register("email", { required: "Email is required" })}
-                  error={errors.email?.message}
-                />
+          {status === "success" ? (
+            <Card>
+              <div className="text-center py-8">
+                <div className="text-6xl mb-4">🎉</div>
+                <h2 className="text-4xl font-display font-bold text-white mb-4">Message sent!</h2>
+                <p className="text-cream text-lg mb-8">We'll get back to you within 24 hours.</p>
+                <Button variant="secondary" onClick={() => setStatus("idle")}>
+                  Send another message
+                </Button>
               </div>
+            </Card>
+          ) : (
+            <Card>
+              <h2 className="text-4xl font-display font-bold text-white mb-2 text-center">
+                Send us a Message
+              </h2>
+              <p className="text-cream text-center mb-10">We typically respond within 24 hours.</p>
 
-              <Input
-                label="Subject"
-                placeholder="What's this about?"
-                {...register("subject")}
-              />
-
-              <div>
-                <label className="block text-sm font-semibold text-cream mb-3">Message *</label>
-                <textarea
-                  placeholder="Tell us what's on your mind..."
-                  className="w-full px-4 py-3 rounded-card bg-space border-2 border-orange text-cream placeholder-muted font-body focus:outline-none focus:border-white transition"
-                  rows={6}
-                  {...register("message", { required: "Message is required" })}
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                {/* Honeypot — hidden via CSS, bots fill it in */}
+                <input
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="hidden"
+                  {...register("phone")}
                 />
-                {errors.message && (
-                  <p className="text-orange text-sm mt-2">{errors.message.message}</p>
+
+                <div className="grid md:grid-cols-2 gap-6">
+                  <Input
+                    label="Name"
+                    placeholder="Your name"
+                    {...register("name", { required: "Name is required" })}
+                    error={errors.name?.message}
+                  />
+
+                  <Input
+                    label="Email"
+                    type="email"
+                    placeholder="your@email.com"
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                        message: "Enter a valid email",
+                      },
+                    })}
+                    error={errors.email?.message}
+                  />
+                </div>
+
+                <Input label="Subject" placeholder="What's this about?" {...register("subject")} />
+
+                <div>
+                  <label className="block text-sm font-semibold text-cream mb-3">Message *</label>
+                  <textarea
+                    placeholder="Tell us what's on your mind..."
+                    className="w-full px-4 py-3 rounded-card bg-space border-2 border-orange text-cream placeholder-muted font-body focus:outline-none focus:border-white transition"
+                    rows={6}
+                    {...register("message", { required: "Message is required" })}
+                  />
+                  {errors.message && (
+                    <p className="text-orange text-sm mt-2">{errors.message.message}</p>
+                  )}
+                </div>
+
+                {status === "error" && (
+                  <div className="bg-teal border border-orange rounded-card px-4 py-3 text-orange text-sm">
+                    {errorMsg}
+                  </div>
                 )}
-              </div>
 
-              <Button type="submit" variant="primary" size="lg" className="w-full mt-8">
-                Send Message
-              </Button>
+                <Button
+                  type="submit"
+                  variant="primary"
+                  size="lg"
+                  className="w-full mt-8"
+                  disabled={status === "loading"}
+                >
+                  {status === "loading" ? "Sending…" : "Send Message"}
+                </Button>
 
-              <p className="text-muted text-sm text-center border-t border-orange pt-4">
-                ✓ We respect your privacy. We'll never share your information.
-              </p>
-            </form>
-          </Card>
+                <p className="text-muted text-sm text-center border-t border-orange pt-4">
+                  ✓ We respect your privacy. We'll never share your information.
+                </p>
+              </form>
+            </Card>
+          )}
         </div>
       </section>
     </div>
