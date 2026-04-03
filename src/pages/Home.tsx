@@ -13,42 +13,19 @@ export const Home: React.FC = () => {
   return (
     <div className="min-h-screen bg-space text-cream">
       {/* Hero Section - LARGE */}
-      <section style={{ paddingTop: "80px", paddingBottom: "80px" }}>
-        <div style={{ textAlign: "center" }}>
-          <div
-            style={{ display: "flex", justifyContent: "center", marginBottom: "60px", gap: "40px" }}
-          >
+      <section className="py-20 text-center">
+        <div>
+          <div className="flex justify-center mb-16 gap-10">
             <Sparkle size={40} />
             <Sparkle size={40} />
           </div>
-          <h1
-            className="home-hero-title"
-            style={{
-              fontSize: "120px",
-              fontFamily: "Aleo, serif",
-              fontWeight: "bold",
-              color: "white",
-              marginBottom: "40px",
-              lineHeight: "1",
-            }}
-          >
+          <h1 className="home-hero-title text-9xl font-display font-bold text-white mb-10 leading-tight">
             Bitcamp Alumni
           </h1>
-          <p
-            className="home-hero-tagline"
-            style={{ fontSize: "32px", color: "#FFF7EB", marginBottom: "60px", lineHeight: "1.4" }}
-          >
+          <p className="home-hero-tagline text-4xl text-cream mb-16 leading-relaxed">
             Eleven years of builders. One community.
           </p>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "24px",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+          <div className="flex flex-col gap-6 justify-center items-center">
             <Button size="lg" as={Link} to="/join">
               JOIN NOW
             </Button>
@@ -60,185 +37,64 @@ export const Home: React.FC = () => {
       </section>
 
       {/* Stats Section */}
-      <section style={{ paddingTop: "80px", paddingBottom: "80px" }}>
+      <section className="py-20">
         <div>
-          <div
-            className="home-stats-grid"
-            style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "40px" }}
-          >
-            <div
-              className="home-stat-item"
-              style={{
-                textAlign: "center",
-                borderRight: "1px solid rgba(200, 200, 200, 0.2)",
-                paddingRight: "40px",
-              }}
-            >
-              <div
-                className="home-stat-number"
-                style={{
-                  fontSize: "80px",
-                  fontWeight: "bold",
-                  color: "#FF6F3F",
-                  marginBottom: "16px",
-                }}
-              >
-                11
-              </div>
-              <div style={{ fontSize: "16px", color: "#FFF7EB", fontWeight: "600" }}>
-                Years of Bitcamp
-              </div>
+          <div className="home-stats-grid grid grid-cols-4 gap-10">
+            <div className="home-stat-item text-center border-r border-gray-700 pr-10">
+              <div className="home-stat-number text-7xl font-bold text-orange mb-4">11</div>
+              <div className="text-base text-cream font-semibold">Years of Bitcamp</div>
             </div>
-            <div
-              className="home-stat-item"
-              style={{
-                textAlign: "center",
-                borderRight: "1px solid rgba(200, 200, 200, 0.2)",
-                paddingRight: "40px",
-              }}
-            >
-              <div
-                className="home-stat-number"
-                style={{
-                  fontSize: "80px",
-                  fontWeight: "bold",
-                  color: "#FF6F3F",
-                  marginBottom: "16px",
-                }}
-              >
-                1,400+
-              </div>
-              <div style={{ fontSize: "16px", color: "#FFF7EB", fontWeight: "600" }}>
-                Hackers per year
-              </div>
+            <div className="home-stat-item text-center border-r border-gray-700 pr-10">
+              <div className="home-stat-number text-7xl font-bold text-orange mb-4">1,400+</div>
+              <div className="text-base text-cream font-semibold">Hackers per year</div>
             </div>
-            <div
-              className="home-stat-item"
-              style={{
-                textAlign: "center",
-                borderRight: "1px solid rgba(200, 200, 200, 0.2)",
-                paddingRight: "40px",
-              }}
-            >
-              <div
-                className="home-stat-number"
-                style={{
-                  fontSize: "80px",
-                  fontWeight: "bold",
-                  color: "#FF6F3F",
-                  marginBottom: "16px",
-                }}
-              >
-                100+
-              </div>
-              <div style={{ fontSize: "16px", color: "#FFF7EB", fontWeight: "600" }}>
-                Alumni connected
-              </div>
+            <div className="home-stat-item text-center border-r border-gray-700 pr-10">
+              <div className="home-stat-number text-7xl font-bold text-orange mb-4">100+</div>
+              <div className="text-base text-cream font-semibold">Alumni connected</div>
             </div>
-            <div className="home-stat-item" style={{ textAlign: "center" }}>
-              <div
-                className="home-stat-number"
-                style={{
-                  fontSize: "80px",
-                  fontWeight: "bold",
-                  color: "#FF6F3F",
-                  marginBottom: "16px",
-                }}
-              >
-                ∞
-              </div>
-              <div style={{ fontSize: "16px", color: "#FFF7EB", fontWeight: "600" }}>
-                Ideas spawned
-              </div>
+            <div className="home-stat-item text-center">
+              <div className="home-stat-number text-7xl font-bold text-orange mb-4">∞</div>
+              <div className="text-base text-cream font-semibold">Ideas spawned</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Join CTA Section - HEAVILY PADDED */}
-      <section className="home-cta-section" style={{ paddingTop: "120px", paddingBottom: "120px" }}>
-        <div
-          className="home-cta-box"
-          style={{
-            maxWidth: "800px",
-            margin: "0 auto",
-            backgroundColor: "#1A2E33",
-            borderRadius: "32px",
-            padding: "80px 60px",
-          }}
-        >
-          <h2
-            className="home-cta-title"
-            style={{
-              fontSize: "56px",
-              fontFamily: "Aleo, serif",
-              fontWeight: "bold",
-              color: "white",
-              marginBottom: "32px",
-            }}
-          >
+      <section className="home-cta-section py-32">
+        <div className="home-cta-box max-w-3xl mx-auto bg-teal rounded-3xl p-20">
+          <h2 className="home-cta-title text-6xl font-display font-bold text-white mb-8">
             Are you a Bitcamp alum?
           </h2>
-          <p
-            className="home-cta-text"
-            style={{ fontSize: "20px", color: "#FFF7EB", marginBottom: "48px", lineHeight: "1.6" }}
-          >
+          <p className="home-cta-text text-xl text-cream mb-12 leading-relaxed">
             Whether you hacked, organized, sponsored, or staffed — this community is for you. Share
             your info and we'll add you to the alumni network.
           </p>
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "16px", marginBottom: "32px" }}
-          >
+          <div className="flex flex-col gap-4 mb-8">
             <input
               type="email"
               placeholder="Your email address"
-              style={{
-                width: "100%",
-                padding: "16px 24px",
-                borderRadius: "12px",
-                backgroundColor: "rgba(1, 2, 24, 0.5)",
-                border: "1px solid #555",
-                color: "#FFF7EB",
-                fontSize: "16px",
-              }}
+              className="w-full px-6 py-4 rounded-lg bg-space/50 border border-gray-700 text-cream text-base focus:outline-none focus:border-orange"
             />
             <input
               type="number"
               placeholder="Year attended"
-              style={{
-                width: "100%",
-                padding: "16px 24px",
-                borderRadius: "12px",
-                backgroundColor: "rgba(1, 2, 24, 0.5)",
-                border: "1px solid #555",
-                color: "#FFF7EB",
-                fontSize: "16px",
-              }}
+              className="w-full px-6 py-4 rounded-lg bg-space/50 border border-gray-700 text-cream text-base focus:outline-none focus:border-orange"
             />
             <Button as={Link} to="/join" size="lg">
               JOIN
             </Button>
           </div>
-          <p style={{ fontSize: "14px", color: "#aaa", marginBottom: "24px" }}>
+          <p className="text-sm text-gray-400 mb-6">
             Your info is saved to a private spreadsheet. We'll never share it.
           </p>
-          <div style={{ borderTop: "1px solid rgba(200, 200, 200, 0.2)", paddingTop: "24px" }}>
-            <p style={{ fontSize: "16px", color: "#FFF7EB", marginBottom: "12px" }}>
-              Then join our community:
-            </p>
+          <div className="border-t border-gray-700 pt-6">
+            <p className="text-base text-cream mb-3">Then join our community:</p>
             <a
               href={import.meta.env.VITE_DISCORD_INVITE_URL || "https://discord.gg/bitcamp"}
               target="_blank"
               rel="noopener noreferrer"
-              style={{
-                display: "inline-block",
-                fontSize: "16px",
-                color: "#FF6F3F",
-                textDecoration: "none",
-                fontWeight: "600",
-                borderBottom: "2px solid #FF6F3F",
-                paddingBottom: "4px",
-              }}
+              className="inline-block text-base text-orange no-underline font-semibold border-b-2 border-orange pb-1"
             >
               Join our Discord →
             </a>
@@ -247,74 +103,35 @@ export const Home: React.FC = () => {
       </section>
 
       {/* Featured Alumni Section */}
-      <section style={{ paddingTop: "80px", paddingBottom: "80px", marginBottom: "80px" }}>
+      <section className="py-20 mb-20">
         <div>
-          <h2
-            className="home-featured-title"
-            style={{
-              fontSize: "56px",
-              fontFamily: "Aleo, serif",
-              fontWeight: "bold",
-              color: "white",
-              textAlign: "center",
-              marginBottom: "24px",
-            }}
-          >
+          <h2 className="home-featured-title text-6xl font-display font-bold text-white text-center mb-6">
             Featured Alumni
           </h2>
-          <p style={{ color: "#999", textAlign: "center", marginBottom: "60px", fontSize: "18px" }}>
+          <p className="text-gray-400 text-center mb-16 text-lg">
             A few of the people who've made Bitcamp what it is.
           </p>
-          <section
-            className="home-featured-grid"
-            style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "24px" }}
-          >
+          <div className="home-featured-grid grid grid-cols-4 gap-6">
             {alumni.map((person) => (
-              <div
-                key={person.initial}
-                style={{ borderRadius: "24px", overflow: "hidden", backgroundColor: "#1A2E33" }}
-              >
+              <div key={person.initial} className="rounded-2xl overflow-hidden bg-teal">
                 <div
-                  style={{
-                    height: "160px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: person.color,
-                  }}
+                  className="h-40 flex items-center justify-center"
+                  style={{ backgroundColor: person.color }}
                 >
-                  <span style={{ fontSize: "80px", fontWeight: "bold", color: "white" }}>
-                    {person.initial}
-                  </span>
+                  <span className="text-8xl font-bold text-white">{person.initial}</span>
                 </div>
-                <div style={{ padding: "32px 24px", textAlign: "center" }}>
-                  <h3
-                    style={{
-                      color: "white",
-                      fontWeight: "600",
-                      fontSize: "18px",
-                      marginBottom: "8px",
-                    }}
-                  >
-                    {person.name}
-                  </h3>
-                  <p
-                    style={{
-                      color: "#FF6F3F",
-                      fontSize: "14px",
-                      fontWeight: "600",
-                      marginBottom: "12px",
-                    }}
-                  >
+                <div className="p-8 text-center">
+                  <h3 className="text-white font-semibold text-lg mb-2">{person.name}</h3>
+                  <p className="text-orange text-sm font-semibold mb-3">
                     {person.role} {person.year}
                   </p>
-                  <p style={{ color: "#FFF7EB", fontSize: "14px", lineHeight: "1.5" }}>
+                  <p className="text-cream text-sm leading-relaxed">
                     Built something amazing at Bitcamp and never looked back.
                   </p>
                 </div>
               </div>
             ))}
-          </section>
+          </div>
         </div>
       </section>
     </div>
