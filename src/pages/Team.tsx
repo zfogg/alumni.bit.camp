@@ -5,14 +5,14 @@ import { Button } from "../components/ui/Button";
 import { Link } from "react-router-dom";
 
 const colors = [
-  "#FF6F3F", // orange
-  "#4A90E2", // blue
-  "#66BB6A", // green
-  "#E91E63", // pink
-  "#FFD580", // yellow
-  "#4FC3F7", // cyan
-  "#9C27B0", // purple
-  "#FF9800", // deep orange
+  "#FF6F3F",
+  "#4A90E2",
+  "#66BB6A",
+  "#E91E63",
+  "#FFD580",
+  "#4FC3F7",
+  "#9C27B0",
+  "#FF9800",
 ];
 
 export const Team: React.FC = () => {
@@ -35,53 +35,22 @@ export const Team: React.FC = () => {
   return (
     <div className="min-h-screen bg-space text-cream">
       {/* Hero */}
-      <section style={{ paddingTop: "120px", paddingBottom: "16px" }}>
-        <div
-          style={{
-            maxWidth: "1280px",
-            margin: "0 auto",
-            paddingLeft: "24px",
-            paddingRight: "24px",
-          }}
-        >
-          <h1
-            style={{
-              fontSize: "60px",
-              fontFamily: "Aleo, serif",
-              fontWeight: "bold",
-              color: "white",
-              margin: 0,
-              marginBottom: "8px",
-            }}
-          >
-            Who We Are <span style={{ fontSize: "24px" }}>✨</span>
+      <section className="pt-30 pb-4">
+        <div className="max-w-5xl mx-auto px-6">
+          <h1 className="text-6xl font-display font-bold text-white mb-1">
+            Who We Are <span className="text-2xl">✨</span>
           </h1>
-          <p
-            style={{
-              fontSize: "16px",
-              color: "#FFF7EB",
-              margin: 0,
-              marginBottom: "32px",
-              lineHeight: "1.5",
-            }}
-          >
+          <p className="text-base text-cream m-0 mb-8 leading-relaxed">
             The people behind Bitcamp Alumni — organizers, hackers, sponsors, and friends.
           </p>
-          <div style={{ height: "1px", backgroundColor: "rgba(255, 111, 63, 0.3)" }}></div>
+          <div className="h-px bg-orange/30"></div>
         </div>
       </section>
 
       {/* Filters */}
-      <section style={{ padding: "16px" }}>
-        <div
-          style={{
-            maxWidth: "1280px",
-            margin: "0 auto",
-            paddingLeft: "24px",
-            paddingRight: "24px",
-          }}
-        >
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+      <section className="p-4">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="flex flex-wrap gap-2">
             {[
               { label: "All", value: "all" },
               { label: "Organizers", value: "organizer" },
@@ -92,17 +61,9 @@ export const Team: React.FC = () => {
               <button
                 key={f.value}
                 onClick={() => setFilter(f.value)}
-                style={{
-                  padding: "8px 16px",
-                  borderRadius: "9999px",
-                  fontWeight: "600",
-                  fontSize: "14px",
-                  border: "none",
-                  cursor: "pointer",
-                  backgroundColor: filter === f.value ? "#FF6F3F" : "rgba(26, 46, 51, 0.6)",
-                  color: filter === f.value ? "white" : "#FFF7EB",
-                  transition: "all 0.3s",
-                }}
+                className={`px-4 py-2 rounded-full font-semibold text-sm border-none cursor-pointer transition-all ${
+                  filter === f.value ? "bg-orange text-white" : "bg-teal/60 text-cream"
+                }`}
               >
                 {f.label}
               </button>
@@ -112,21 +73,13 @@ export const Team: React.FC = () => {
       </section>
 
       {/* Profile Grid */}
-      <section style={{ padding: "16px", paddingBottom: "128px" }}>
-        <div
-          style={{
-            maxWidth: "1280px",
-            margin: "0 auto",
-            paddingLeft: "24px",
-            paddingRight: "24px",
-          }}
-        >
+      <section className="p-4 pb-32">
+        <div className="max-w-5xl mx-auto px-6">
           <div
+            className="gap-6 mb-12"
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-              gap: "24px",
-              marginBottom: "48px",
             }}
           >
             {filteredMembers.map((member) => {
@@ -137,59 +90,20 @@ export const Team: React.FC = () => {
               return (
                 <div
                   key={member.id}
-                  style={{
-                    borderRadius: "16px",
-                    overflow: "hidden",
-                    backgroundColor: "#1A2E33",
-                    border: "1px solid rgba(255, 111, 63, 0.2)",
-                    transition: "transform 0.3s",
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.transform = "scale(1.05)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.transform = "scale(1)";
-                  }}
+                  className="rounded-2xl overflow-hidden bg-teal border border-orange/20 transition-transform hover:scale-105"
                 >
                   <div
-                    style={{
-                      height: "140px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      backgroundColor: member.color,
-                      fontSize: "48px",
-                      fontWeight: "bold",
-                      color: "white",
-                    }}
+                    className="h-32 flex items-center justify-center text-5xl font-bold text-white"
+                    style={{ backgroundColor: member.color }}
                   >
                     {initials}
                   </div>
-                  <div style={{ padding: "20px", textAlign: "center" }}>
-                    <h3
-                      style={{
-                        color: "white",
-                        fontWeight: "600",
-                        fontSize: "16px",
-                        margin: 0,
-                        marginBottom: "4px",
-                      }}
-                    >
-                      {member.name}
-                    </h3>
-                    <p
-                      style={{
-                        color: "#FF6F3F",
-                        fontSize: "12px",
-                        fontWeight: "600",
-                        margin: 0,
-                        marginBottom: "4px",
-                        textTransform: "capitalize",
-                      }}
-                    >
+                  <div className="p-5 text-center">
+                    <h3 className="text-white font-semibold text-base m-0 mb-1">{member.name}</h3>
+                    <p className="text-orange text-xs font-semibold m-0 mb-1 capitalize">
                       {member.role}
                     </p>
-                    <p style={{ color: "#A7A7A7", fontSize: "12px", margin: 0 }}>{member.year}</p>
+                    <p className="text-muted text-xs m-0">{member.year}</p>
                   </div>
                 </div>
               );
@@ -197,31 +111,12 @@ export const Team: React.FC = () => {
           </div>
 
           {/* CTA */}
-          <div
-            style={{
-              backgroundColor: "#1A2E33",
-              borderRadius: "16px",
-              padding: "32px",
-              border: "1px solid rgba(255, 111, 63, 0.2)",
-              display: "flex",
-              flexDirection: "column",
-              gap: "24px",
-            }}
-          >
+          <div className="bg-teal rounded-2xl p-8 border border-orange/20 flex flex-col gap-6">
             <div>
-              <h2
-                style={{
-                  fontSize: "20px",
-                  fontFamily: "Aleo, serif",
-                  fontWeight: "bold",
-                  color: "white",
-                  margin: 0,
-                  marginBottom: "8px",
-                }}
-              >
+              <h2 className="text-xl font-display font-bold text-white m-0 mb-2">
                 Are you a Bitcamp alum? Add yourself to the team page →
               </h2>
-              <p style={{ fontSize: "14px", color: "#FFF7EB", margin: 0, lineHeight: "1.5" }}>
+              <p className="text-sm text-cream m-0 leading-relaxed">
                 Submit your name, headshot, role, and Bitcamp year. We'll add you to the directory.
               </p>
             </div>
