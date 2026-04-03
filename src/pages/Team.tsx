@@ -4,17 +4,6 @@ import { useState } from "react";
 import { Button } from "../components/ui/Button";
 import { Link } from "react-router-dom";
 
-const colors = [
-  "#FF6F3F",
-  "#4A90E2",
-  "#66BB6A",
-  "#E91E63",
-  "#FFD580",
-  "#4FC3F7",
-  "#9C27B0",
-  "#FF9800",
-];
-
 export const Team: React.FC = () => {
   const [filter, setFilter] = useState<string>("all");
 

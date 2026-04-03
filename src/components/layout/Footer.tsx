@@ -4,17 +4,24 @@ const FooterLink: React.FC<{
   to?: string;
   href?: string;
   children: React.ReactNode;
-  external?: boolean;
-}> = ({ to, href, children, external }) => {
-  const LinkComponent = to ? Link : "a";
+}> = ({ to, href, children }) => {
+  if (to) {
+    return (
+      <Link to={to} className="text-cream text-sm no-underline transition-colors hover:text-orange">
+        {children}
+      </Link>
+    );
+  }
 
   return (
-    <LinkComponent
-      {...(to ? { to } : { href, target: "_blank", rel: "noopener noreferrer" })}
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       className="text-cream text-sm no-underline transition-colors hover:text-orange"
     >
       {children}
-    </LinkComponent>
+    </a>
   );
 };
 
@@ -69,14 +76,10 @@ export const Footer: React.FC = () => {
             <h3 className="text-white font-semibold mb-4 text-base">Community</h3>
             <ul className="list-none p-0 m-0 flex flex-col gap-3">
               <li>
-                <FooterLink href={discordUrl} external>
-                  Discord
-                </FooterLink>
+                <FooterLink href={discordUrl}>Discord</FooterLink>
               </li>
               <li>
-                <FooterLink href="https://bit.camp" external>
-                  Main Event
-                </FooterLink>
+                <FooterLink href="https://bit.camp">Main Event</FooterLink>
               </li>
             </ul>
           </div>
