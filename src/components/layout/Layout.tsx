@@ -19,46 +19,16 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
     location.pathname !== "/contact";
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: "#010218",
-      }}
-    >
+    <div className="min-h-screen bg-space flex flex-col">
       <Starfield count={150} speed={0.5} />
       <Navigation />
 
       <main
-        style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          zIndex: 10,
-          marginTop: "100px",
-          paddingLeft: "24px",
-          paddingRight: "24px",
-          ...(is404
-            ? {
-                justifyContent: "center",
-                alignItems: "center",
-                minHeight: "calc(100vh - 100px)",
-              }
-            : {
-                alignItems: "center",
-              }),
-        }}
-        className="main-content"
+        className={`flex-1 flex flex-col z-10 mt-24 px-6 main-content ${
+          is404 ? "justify-center items-center min-h-[calc(100vh-100px)]" : "items-center"
+        }`}
       >
-        <div
-          style={{
-            width: "100%",
-            maxWidth: "1200px",
-          }}
-        >
-          {children}
-        </div>
+        <div className="w-full max-w-5xl">{children}</div>
       </main>
 
       <Footer />
