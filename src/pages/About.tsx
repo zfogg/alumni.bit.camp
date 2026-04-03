@@ -1,166 +1,67 @@
 export const About: React.FC = () => {
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#010218", color: "#FFF7EB" }}>
+    <div className="min-h-screen bg-space text-cream">
       {/* Hero */}
-      <section style={{ paddingTop: "120px", paddingBottom: "16px" }}>
-        <div
-          style={{
-            maxWidth: "1280px",
-            margin: "0 auto",
-            paddingLeft: "24px",
-            paddingRight: "24px",
-          }}
-        >
-          <h1
-            style={{
-              fontSize: "60px",
-              fontFamily: "Aleo, serif",
-              fontWeight: "bold",
-              color: "white",
-              margin: 0,
-              marginBottom: "8px",
-            }}
-          >
-            About Bitcamp Alumni
-          </h1>
-          <p style={{ fontSize: "12px", color: "#FF6F3F", margin: 0, marginBottom: "32px" }}>
+      <section className="pt-30 pb-4">
+        <div className="max-w-5xl mx-auto px-6">
+          <h1 className="text-6xl font-display font-bold text-white mb-1">About Bitcamp Alumni</h1>
+          <p className="text-sm text-orange mb-8">
             Why we exist · What Bitcamp is · Why this community matters
           </p>
-          <div
-            style={{
-              height: "1px",
-              backgroundColor: "rgba(255, 111, 63, 0.3)",
-              marginBottom: "32px",
-            }}
-          ></div>
+          <div className="h-px bg-orange/30"></div>
         </div>
       </section>
 
       {/* Content */}
-      <section style={{ padding: "16px", paddingBottom: "128px" }}>
-        <div
-          style={{
-            maxWidth: "1280px",
-            margin: "0 auto",
-            paddingLeft: "24px",
-            paddingRight: "24px",
-          }}
-        >
-          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "48px" }}>
-            {/* Left Column - Text */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+      <section className="py-8 sm:py-16 pb-32 px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-20">
+            {/* Left Column - Text (2 cols on desktop) */}
+            <div className="md:col-span-2 flex flex-col gap-8">
               <div>
-                <h2
-                  style={{
-                    fontSize: "20px",
-                    fontFamily: "Aleo, serif",
-                    fontWeight: "bold",
-                    color: "white",
-                    marginBottom: "16px",
-                    margin: 0,
-                  }}
-                >
-                  What is Bitcamp?
-                </h2>
-                <p
-                  style={{
-                    fontSize: "16px",
-                    color: "#FFF7EB",
-                    lineHeight: "1.6",
-                    marginBottom: "12px",
-                    margin: 0,
-                  }}
-                >
+                <h2 className="text-xl font-display font-bold text-white mb-4">What is Bitcamp?</h2>
+                <p className="text-base text-cream leading-relaxed mb-3">
                   Bitcamp is the University of Maryland's premier hackathon, founded in 2014. Every
                   year, 1,400+ students gather for 36 hours of building, learning, and connecting —
                   making it one of the largest collegiate hackathons on the East Coast.
                 </p>
-                <p style={{ fontSize: "16px", color: "#FFF7EB", lineHeight: "1.6", margin: 0 }}>
+                <p className="text-base text-cream leading-relaxed">
                   The name combines two things every hacker loves: bits (the language of computers)
                   and camp (the spirit of community). A campfire where ideas catch fire.
                 </p>
               </div>
 
               <div>
-                <h2
-                  style={{
-                    fontSize: "20px",
-                    fontFamily: "Aleo, serif",
-                    fontWeight: "bold",
-                    color: "white",
-                    marginBottom: "16px",
-                    margin: 0,
-                  }}
-                >
+                <h2 className="text-xl font-display font-bold text-white mb-4">
                   Why does this alumni group exist?
                 </h2>
-                <p
-                  style={{
-                    fontSize: "16px",
-                    color: "#FFF7EB",
-                    lineHeight: "1.6",
-                    marginBottom: "12px",
-                    margin: 0,
-                  }}
-                >
+                <p className="text-base text-cream leading-relaxed mb-3">
                   Bitcamp has changed thousands of lives. Friendships formed over late-night
                   debugging sessions. Startups born from hackathon projects. Careers shaped by a
                   weekend of creative pressure and community support.
                 </p>
-                <p style={{ fontSize: "16px", color: "#FFF7EB", lineHeight: "1.6", margin: 0 }}>
+                <p className="text-base text-cream leading-relaxed">
                   This alumni network exists to keep those connections alive — and to give back to
                   the next generation of Bitcamp hackers through mentorship, prizes, and memory.
                 </p>
               </div>
 
-              <div>
-                <h2
-                  style={{
-                    fontSize: "20px",
-                    fontFamily: "Aleo, serif",
-                    fontWeight: "bold",
-                    color: "white",
-                    marginBottom: "16px",
-                    margin: 0,
-                  }}
-                >
-                  Who can join?
-                </h2>
-                <p
-                  style={{
-                    fontSize: "16px",
-                    color: "#FFF7EB",
-                    lineHeight: "1.6",
-                    marginBottom: "12px",
-                    margin: 0,
-                  }}
-                >
+              <div className="pb-8 md:pb-0">
+                <h2 className="text-xl font-display font-bold text-white mb-4">Who can join?</h2>
+                <p className="text-base text-cream leading-relaxed mb-4">
                   Anyone who has ever been part of Bitcamp is welcome:
                 </p>
-                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <div className="flex flex-col gap-2">
                   {[
                     { color: "#66BB6A", text: "Hacker — you built something here" },
                     { color: "#FF6F3F", text: "Organizer — you made it happen" },
                     { color: "#FF6F3F", text: "Sponsor — you made it possible" },
                     { color: "#9C27B0", text: "Event staff — you kept it running" },
                   ].map((item, i) => (
-                    <div
-                      key={i}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "12px",
-                        fontSize: "16px",
-                        color: "#FFF7EB",
-                      }}
-                    >
+                    <div key={i} className="flex items-center gap-3 text-base text-cream">
                       <span
-                        style={{
-                          width: "12px",
-                          height: "12px",
-                          backgroundColor: item.color,
-                          display: "inline-block",
-                        }}
+                        className="w-3 h-3 flex-shrink-0 inline-block"
+                        style={{ backgroundColor: item.color }}
                       ></span>
                       {item.text}
                     </div>
@@ -169,8 +70,8 @@ export const About: React.FC = () => {
               </div>
             </div>
 
-            {/* Right Column - Stats */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+            {/* Right Column - Stats (1 col on desktop) */}
+            <div className="flex flex-col gap-4">
               {[
                 { num: "11", label: "Years running" },
                 { num: "1,400+", label: "Hackers per year" },
@@ -178,65 +79,25 @@ export const About: React.FC = () => {
                 { num: "100s", label: "Of projects" },
                 { num: "~15k", label: "Alumni total" },
               ].map((stat, i) => (
-                <div
-                  key={i}
-                  style={{
-                    backgroundColor: "#1A2E33",
-                    borderRadius: "12px",
-                    padding: "24px",
-                    border: "1px solid rgba(255, 111, 63, 0.2)",
-                  }}
-                >
-                  <div
-                    style={{
-                      fontSize: "36px",
-                      fontWeight: "bold",
-                      color: "#FF6F3F",
-                      marginBottom: "8px",
-                    }}
-                  >
-                    {stat.num}
-                  </div>
-                  <div style={{ fontSize: "14px", color: "#FFF7EB" }}>{stat.label}</div>
+                <div key={i} className="bg-teal rounded-lg p-6 border border-orange/20">
+                  <div className="text-4xl font-bold text-orange mb-2">{stat.num}</div>
+                  <div className="text-sm text-cream">{stat.label}</div>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Timeline */}
-          <div style={{ marginTop: "80px" }}>
-            <h2
-              style={{
-                fontSize: "20px",
-                fontFamily: "Aleo, serif",
-                fontWeight: "bold",
-                color: "white",
-                marginBottom: "32px",
-                margin: 0,
-              }}
-            >
+          <div className="mt-20">
+            <h2 className="text-xl font-display font-bold text-white mb-8">
               Bitcamp through the years
             </h2>
-            <div style={{ position: "relative" }}>
+            <div className="relative">
               <div
-                style={{
-                  height: "4px",
-                  backgroundColor: "rgba(255, 111, 63, 0.2)",
-                  position: "absolute",
-                  top: "12px",
-                  left: 0,
-                  right: 0,
-                }}
+                className="absolute top-3 left-0 right-0 h-1"
+                style={{ backgroundColor: "rgba(255, 111, 63, 0.2)" }}
               ></div>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))",
-                  gap: "16px",
-                  position: "relative",
-                  zIndex: 10,
-                }}
-              >
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4 relative z-10">
                 {[
                   { year: 2014, label: "First camp" },
                   { year: 2016, label: "Growing" },
@@ -247,21 +108,13 @@ export const About: React.FC = () => {
                   { year: 2024, label: "Journey" },
                   { year: 2026, label: "Unknown" },
                 ].map((item) => (
-                  <div key={item.year} style={{ textAlign: "center" }}>
+                  <div key={item.year} className="text-center">
                     <div
-                      style={{
-                        width: "24px",
-                        height: "24px",
-                        backgroundColor: "#FF6F3F",
-                        borderRadius: "50%",
-                        margin: "0 auto 12px",
-                        border: "4px solid #010218",
-                      }}
+                      className="w-6 h-6 rounded-full mx-auto mb-3 border-4"
+                      style={{ backgroundColor: "#FF6F3F", borderColor: "#010218" }}
                     ></div>
-                    <div style={{ fontSize: "14px", color: "#FFF7EB", fontWeight: "600" }}>
-                      {item.year}
-                    </div>
-                    <div style={{ fontSize: "12px", color: "#A7A7A7" }}>{item.label}</div>
+                    <div className="text-sm text-cream font-semibold">{item.year}</div>
+                    <div className="text-xs text-muted">{item.label}</div>
                   </div>
                 ))}
               </div>
