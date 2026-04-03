@@ -1,30 +1,30 @@
 // api/contact.ts  —  POST /api/contact
 // Saves a contact form message to the Contacts tab.
 // Optionally sends an email notification via Resend if RESEND_API_KEY is set.
-import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { v4 as uuid } from 'uuid'
-import { appendRow } from '../lib/sheets'
+import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { v4 as uuid } from "uuid";
+import { appendRow } from "../lib/sheets";
 
 const ALLOWED_ORIGINS = [
-  'https://alumni.bit.camp',
-  'http://localhost:3000',
-  'http://localhost:5173',
-]
+  "https://alumni.bit.camp",
+  "http://localhost:3000",
+  "http://localhost:5173",
+];
 
 function setCors(req: VercelRequest, res: VercelResponse) {
-  const origin = req.headers.origin ?? ''
+  const origin = req.headers.origin ?? "";
   if (ALLOWED_ORIGINS.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin)
+    res.setHeader("Access-Control-Allow-Origin", origin);
   }
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  setCors(req, res)
+  setCors(req, res);
 
-  if (req.method === 'OPTIONS') return res.status(204).end()
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
+  if (req.method === "OPTIONS") return res.status(204).end();
+  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
   try {
     const {
@@ -34,37 +34,37 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       message,
       // honeypot — hidden via CSS; bots fill it, real users don't
       phone,
-    } = req.body ?? {}
+    } = req.body ?? {};
 
     // Honeypot
-    if (phone) return res.status(200).json({ success: true })
+    if (phone) return res.status(200).json({ success: true });
 
     // Validation
-    if (!name?.trim()) return res.status(400).json({ error: 'Name is required' })
+    if (!name?.trim()) return res.status(400).json({ error: "Name is required" });
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return res.status(400).json({ error: 'Valid email is required' })
+      return res.status(400).json({ error: "Valid email is required" });
     }
-    if (!message?.trim()) return res.status(400).json({ error: 'Message is required' })
+    if (!message?.trim()) return res.status(400).json({ error: "Message is required" });
 
-    await appendRow('Contacts', [
+    await appendRow("Contacts", [
       uuid(),
       name.trim(),
       email.trim().toLowerCase(),
-      subject?.trim() || '(no subject)',
+      subject?.trim() || "(no subject)",
       message.trim(),
       new Date().toISOString(),
-    ])
+    ]);
 
     // Optional email notification via Resend
     // Remove this block if you prefer to just check the Sheet.
     if (process.env.RESEND_API_KEY && process.env.ADMIN_EMAIL) {
-      await sendEmailNotification({ name, email, subject, message })
+      await sendEmailNotification({ name, email, subject, message });
     }
 
-    return res.status(200).json({ success: true })
+    return res.status(200).json({ success: true });
   } catch (err) {
-    console.error('[/api/contact] Error:', err)
-    return res.status(500).json({ error: 'Something went wrong. Please try again.' })
+    console.error("[/api/contact] Error:", err);
+    return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }
 
@@ -74,25 +74,25 @@ async function sendEmailNotification({
   subject,
   message,
 }: {
-  name: string
-  email: string
-  subject?: string
-  message: string
+  name: string;
+  email: string;
+  subject?: string;
+  message: string;
 }) {
-  const r = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
+  const r = await fetch("https://api.resend.com/emails", {
+    method: "POST",
     headers: {
       Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: 'alumni@bit.camp',
+      from: "alumni@bit.camp",
       to: process.env.ADMIN_EMAIL,
-      subject: `[Bitcamp Alumni] ${subject ?? '(no subject)'}`,
+      subject: `[Bitcamp Alumni] ${subject ?? "(no subject)"}`,
       text: `From: ${name} <${email}>\n\n${message}`,
     }),
-  })
+  });
   if (!r.ok) {
-    console.error('[/api/contact] Resend error:', await r.text())
+    console.error("[/api/contact] Resend error:", await r.text());
   }
 }

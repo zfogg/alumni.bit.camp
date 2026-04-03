@@ -1,33 +1,33 @@
 // api/support.ts  —  POST /api/support
 // Accepts "Give Back" form submissions: either a donation interest or prize sponsorship.
 // Branches on `type: 'donate' | 'sponsor'` and appends a row to the Supporters tab.
-import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { v4 as uuid } from 'uuid'
-import { appendRow } from '../lib/sheets'
+import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { v4 as uuid } from "uuid";
+import { appendRow } from "../lib/sheets";
 
 const ALLOWED_ORIGINS = [
-  'https://alumni.bit.camp',
-  'http://localhost:3000',
-  'http://localhost:5173',
-]
+  "https://alumni.bit.camp",
+  "http://localhost:3000",
+  "http://localhost:5173",
+];
 
-const DONATION_RANGES = ['<50', '50-200', '200-500', '500+', 'unsure']
-const PREFERRED_YEARS = ['2026', '2027', 'unsure']
+const DONATION_RANGES = ["<50", "50-200", "200-500", "500+", "unsure"];
+const PREFERRED_YEARS = ["2026", "2027", "unsure"];
 
 function setCors(req: VercelRequest, res: VercelResponse) {
-  const origin = req.headers.origin ?? ''
+  const origin = req.headers.origin ?? "";
   if (ALLOWED_ORIGINS.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin)
+    res.setHeader("Access-Control-Allow-Origin", origin);
   }
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  setCors(req, res)
+  setCors(req, res);
 
-  if (req.method === 'OPTIONS') return res.status(204).end()
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
+  if (req.method === "OPTIONS") return res.status(204).end();
+  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
   try {
     const {
@@ -44,63 +44,63 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       preferred_year,
       // honeypot — hidden from real users via CSS
       company_name,
-    } = req.body ?? {}
+    } = req.body ?? {};
 
     // Honeypot
-    if (company_name) return res.status(200).json({ success: true })
+    if (company_name) return res.status(200).json({ success: true });
 
     // Shared validation
-    if (!name?.trim()) return res.status(400).json({ error: 'Name is required' })
+    if (!name?.trim()) return res.status(400).json({ error: "Name is required" });
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return res.status(400).json({ error: 'Valid email is required' })
+      return res.status(400).json({ error: "Valid email is required" });
     }
-    if (!['donate', 'sponsor'].includes(type)) {
-      return res.status(400).json({ error: 'Please select donate or sponsor a prize' })
+    if (!["donate", "sponsor"].includes(type)) {
+      return res.status(400).json({ error: "Please select donate or sponsor a prize" });
     }
 
     // Donate-specific validation
-    if (type === 'donate') {
+    if (type === "donate") {
       if (donation_range && !DONATION_RANGES.includes(donation_range)) {
-        return res.status(400).json({ error: 'Invalid donation range' })
+        return res.status(400).json({ error: "Invalid donation range" });
       }
     }
 
     // Sponsor-specific validation
-    if (type === 'sponsor') {
+    if (type === "sponsor") {
       if (!prize_name?.trim()) {
-        return res.status(400).json({ error: 'Prize name is required' })
+        return res.status(400).json({ error: "Prize name is required" });
       }
       if (!prize_description?.trim()) {
-        return res.status(400).json({ error: 'Please describe what winners will receive' })
+        return res.status(400).json({ error: "Please describe what winners will receive" });
       }
       if (!prize_criteria?.trim()) {
-        return res.status(400).json({ error: 'Please describe what kind of hack should win' })
+        return res.status(400).json({ error: "Please describe what kind of hack should win" });
       }
       if (preferred_year && !PREFERRED_YEARS.includes(preferred_year)) {
-        return res.status(400).json({ error: 'Invalid preferred year' })
+        return res.status(400).json({ error: "Invalid preferred year" });
       }
     }
 
-    await appendRow('Supporters', [
+    await appendRow("Supporters", [
       uuid(),
       name.trim(),
       email.trim().toLowerCase(),
       type,
       // donate fields (blank for sponsor rows)
-      type === 'donate' ? (donation_range ?? 'unsure') : '',
-      type === 'donate' ? (message?.trim() ?? '') : '',
+      type === "donate" ? (donation_range ?? "unsure") : "",
+      type === "donate" ? (message?.trim() ?? "") : "",
       // sponsor fields (blank for donate rows)
-      type === 'sponsor' ? prize_name.trim() : '',
-      type === 'sponsor' ? prize_description.trim() : '',
-      type === 'sponsor' ? prize_criteria.trim() : '',
-      type === 'sponsor' ? (preferred_year ?? 'unsure') : '',
+      type === "sponsor" ? prize_name.trim() : "",
+      type === "sponsor" ? prize_description.trim() : "",
+      type === "sponsor" ? prize_criteria.trim() : "",
+      type === "sponsor" ? (preferred_year ?? "unsure") : "",
       new Date().toISOString(),
-      'FALSE', // contacted — mark TRUE in Sheets after following up
-    ])
+      "FALSE", // contacted — mark TRUE in Sheets after following up
+    ]);
 
-    return res.status(200).json({ success: true, type })
+    return res.status(200).json({ success: true, type });
   } catch (err) {
-    console.error('[/api/support] Error:', err)
-    return res.status(500).json({ error: 'Something went wrong. Please try again.' })
+    console.error("[/api/support] Error:", err);
+    return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }
