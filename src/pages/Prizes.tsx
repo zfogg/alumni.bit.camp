@@ -120,7 +120,7 @@ export const Prizes: React.FC = () => {
                         >
                           {w.year}
                         </span>
-                        <p className="text-white font-semibold text-sm m-0">{w.team}</p>
+                        <p className="text-white font-semibold text-sm m-0 mb-0">{w.team}</p>
                       </div>
                       <p className="text-cream/95 text-xs leading-relaxed m-0">{w.project}</p>
                     </div>
