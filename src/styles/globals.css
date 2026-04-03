@@ -196,3 +196,123 @@ label {
   color: #fff7eb;
   margin-bottom: 0.5rem;
 }
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  /* Home Page */
+  .home-hero-title {
+    font-size: 48px !important;
+  }
+
+  .home-hero-tagline {
+    font-size: 20px !important;
+  }
+
+  .home-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 24px !important;
+  }
+
+  .home-stat-item {
+    border-right: none !important;
+    padding-right: 0 !important;
+    padding-bottom: 24px !important;
+    border-bottom: 1px solid rgba(200, 200, 200, 0.2) !important;
+  }
+
+  .home-stat-item:nth-child(2n) {
+    border-bottom: 1px solid rgba(200, 200, 200, 0.2) !important;
+  }
+
+  .home-stat-number {
+    font-size: 48px !important;
+  }
+
+  .home-cta-section {
+    padding-top: 60px !important;
+    padding-bottom: 60px !important;
+  }
+
+  .home-cta-box {
+    padding: 40px 24px !important;
+  }
+
+  .home-cta-title {
+    font-size: 32px !important;
+  }
+
+  .home-featured-title {
+    font-size: 32px !important;
+  }
+
+  .home-featured-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Navigation */
+  .nav-links {
+    display: none !important;
+  }
+
+  .mobile-menu-button {
+    display: block !important;
+  }
+
+  /* Footer */
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 24px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Mobile Phone Sizes */
+  .home-hero-title {
+    font-size: 36px !important;
+  }
+
+  .home-hero-tagline {
+    font-size: 16px !important;
+  }
+
+  .home-stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .home-stat-item {
+    padding-bottom: 24px !important;
+  }
+
+  .home-stat-number {
+    font-size: 36px !important;
+  }
+
+  .home-featured-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .home-cta-box {
+    padding: 24px 16px !important;
+  }
+
+  .home-cta-title {
+    font-size: 24px !important;
+  }
+
+  .home-cta-text {
+    font-size: 16px !important;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  section {
+    padding: 2rem 0.75rem !important;
+  }
+
+  .main-content {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+}

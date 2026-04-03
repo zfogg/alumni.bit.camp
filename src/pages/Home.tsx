@@ -15,17 +15,40 @@ export const Home: React.FC = () => {
       {/* Hero Section - LARGE */}
       <section style={{ paddingTop: "80px", paddingBottom: "80px" }}>
         <div style={{ textAlign: "center" }}>
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: "60px", gap: "40px" }}>
+          <div
+            style={{ display: "flex", justifyContent: "center", marginBottom: "60px", gap: "40px" }}
+          >
             <Sparkle size={40} />
             <Sparkle size={40} />
           </div>
-          <h1 style={{ fontSize: "120px", fontFamily: "Aleo, serif", fontWeight: "bold", color: "white", marginBottom: "40px", lineHeight: "1" }}>
+          <h1
+            className="home-hero-title"
+            style={{
+              fontSize: "120px",
+              fontFamily: "Aleo, serif",
+              fontWeight: "bold",
+              color: "white",
+              marginBottom: "40px",
+              lineHeight: "1",
+            }}
+          >
             Bitcamp Alumni
           </h1>
-          <p style={{ fontSize: "32px", color: "#FFF7EB", marginBottom: "60px", lineHeight: "1.4" }}>
+          <p
+            className="home-hero-tagline"
+            style={{ fontSize: "32px", color: "#FFF7EB", marginBottom: "60px", lineHeight: "1.4" }}
+          >
             Eleven years of builders. One community.
           </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: "24px", justifyContent: "center", alignItems: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "24px",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <Button size="lg" as={Link} to="/join">
               JOIN NOW
             </Button>
@@ -39,38 +62,133 @@ export const Home: React.FC = () => {
       {/* Stats Section */}
       <section style={{ paddingTop: "80px", paddingBottom: "80px" }}>
         <div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "40px" }}>
-            <div style={{ textAlign: "center", borderRight: "1px solid rgba(200, 200, 200, 0.2)", paddingRight: "40px" }}>
-              <div style={{ fontSize: "80px", fontWeight: "bold", color: "#FF6F3F", marginBottom: "16px" }}>11</div>
-              <div style={{ fontSize: "16px", color: "#FFF7EB", fontWeight: "600" }}>Years of Bitcamp</div>
+          <div
+            className="home-stats-grid"
+            style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "40px" }}
+          >
+            <div
+              className="home-stat-item"
+              style={{
+                textAlign: "center",
+                borderRight: "1px solid rgba(200, 200, 200, 0.2)",
+                paddingRight: "40px",
+              }}
+            >
+              <div
+                className="home-stat-number"
+                style={{
+                  fontSize: "80px",
+                  fontWeight: "bold",
+                  color: "#FF6F3F",
+                  marginBottom: "16px",
+                }}
+              >
+                11
+              </div>
+              <div style={{ fontSize: "16px", color: "#FFF7EB", fontWeight: "600" }}>
+                Years of Bitcamp
+              </div>
             </div>
-            <div style={{ textAlign: "center", borderRight: "1px solid rgba(200, 200, 200, 0.2)", paddingRight: "40px" }}>
-              <div style={{ fontSize: "80px", fontWeight: "bold", color: "#FF6F3F", marginBottom: "16px" }}>1,400+</div>
-              <div style={{ fontSize: "16px", color: "#FFF7EB", fontWeight: "600" }}>Hackers per year</div>
+            <div
+              className="home-stat-item"
+              style={{
+                textAlign: "center",
+                borderRight: "1px solid rgba(200, 200, 200, 0.2)",
+                paddingRight: "40px",
+              }}
+            >
+              <div
+                className="home-stat-number"
+                style={{
+                  fontSize: "80px",
+                  fontWeight: "bold",
+                  color: "#FF6F3F",
+                  marginBottom: "16px",
+                }}
+              >
+                1,400+
+              </div>
+              <div style={{ fontSize: "16px", color: "#FFF7EB", fontWeight: "600" }}>
+                Hackers per year
+              </div>
             </div>
-            <div style={{ textAlign: "center", borderRight: "1px solid rgba(200, 200, 200, 0.2)", paddingRight: "40px" }}>
-              <div style={{ fontSize: "80px", fontWeight: "bold", color: "#FF6F3F", marginBottom: "16px" }}>100+</div>
-              <div style={{ fontSize: "16px", color: "#FFF7EB", fontWeight: "600" }}>Alumni connected</div>
+            <div
+              className="home-stat-item"
+              style={{
+                textAlign: "center",
+                borderRight: "1px solid rgba(200, 200, 200, 0.2)",
+                paddingRight: "40px",
+              }}
+            >
+              <div
+                className="home-stat-number"
+                style={{
+                  fontSize: "80px",
+                  fontWeight: "bold",
+                  color: "#FF6F3F",
+                  marginBottom: "16px",
+                }}
+              >
+                100+
+              </div>
+              <div style={{ fontSize: "16px", color: "#FFF7EB", fontWeight: "600" }}>
+                Alumni connected
+              </div>
             </div>
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: "80px", fontWeight: "bold", color: "#FF6F3F", marginBottom: "16px" }}>∞</div>
-              <div style={{ fontSize: "16px", color: "#FFF7EB", fontWeight: "600" }}>Ideas spawned</div>
+            <div className="home-stat-item" style={{ textAlign: "center" }}>
+              <div
+                className="home-stat-number"
+                style={{
+                  fontSize: "80px",
+                  fontWeight: "bold",
+                  color: "#FF6F3F",
+                  marginBottom: "16px",
+                }}
+              >
+                ∞
+              </div>
+              <div style={{ fontSize: "16px", color: "#FFF7EB", fontWeight: "600" }}>
+                Ideas spawned
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Join CTA Section - HEAVILY PADDED */}
-      <section style={{ paddingTop: "120px", paddingBottom: "120px" }}>
-        <div style={{ maxWidth: "800px", margin: "0 auto", backgroundColor: "#1A2E33", borderRadius: "32px", padding: "80px 60px" }}>
-          <h2 style={{ fontSize: "56px", fontFamily: "Aleo, serif", fontWeight: "bold", color: "white", marginBottom: "32px" }}>
+      <section className="home-cta-section" style={{ paddingTop: "120px", paddingBottom: "120px" }}>
+        <div
+          className="home-cta-box"
+          style={{
+            maxWidth: "800px",
+            margin: "0 auto",
+            backgroundColor: "#1A2E33",
+            borderRadius: "32px",
+            padding: "80px 60px",
+          }}
+        >
+          <h2
+            className="home-cta-title"
+            style={{
+              fontSize: "56px",
+              fontFamily: "Aleo, serif",
+              fontWeight: "bold",
+              color: "white",
+              marginBottom: "32px",
+            }}
+          >
             Are you a Bitcamp alum?
           </h2>
-          <p style={{ fontSize: "20px", color: "#FFF7EB", marginBottom: "48px", lineHeight: "1.6" }}>
-            Whether you hacked, organized, sponsored, or staffed — this community is for you.
-            Share your info and we'll add you to the alumni network.
+          <p
+            className="home-cta-text"
+            style={{ fontSize: "20px", color: "#FFF7EB", marginBottom: "48px", lineHeight: "1.6" }}
+          >
+            Whether you hacked, organized, sponsored, or staffed — this community is for you. Share
+            your info and we'll add you to the alumni network.
           </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginBottom: "32px" }}>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "16px", marginBottom: "32px" }}
+          >
             <input
               type="email"
               placeholder="Your email address"
@@ -81,7 +199,7 @@ export const Home: React.FC = () => {
                 backgroundColor: "rgba(1, 2, 24, 0.5)",
                 border: "1px solid #555",
                 color: "#FFF7EB",
-                fontSize: "16px"
+                fontSize: "16px",
               }}
             />
             <input
@@ -94,7 +212,7 @@ export const Home: React.FC = () => {
                 backgroundColor: "rgba(1, 2, 24, 0.5)",
                 border: "1px solid #555",
                 color: "#FFF7EB",
-                fontSize: "16px"
+                fontSize: "16px",
               }}
             />
             <Button as={Link} to="/join" size="lg">
@@ -119,7 +237,7 @@ export const Home: React.FC = () => {
                 textDecoration: "none",
                 fontWeight: "600",
                 borderBottom: "2px solid #FF6F3F",
-                paddingBottom: "4px"
+                paddingBottom: "4px",
               }}
             >
               Join our Discord →
@@ -131,22 +249,38 @@ export const Home: React.FC = () => {
       {/* Featured Alumni Section */}
       <section style={{ paddingTop: "80px", paddingBottom: "80px", marginBottom: "80px" }}>
         <div>
-          <h2 style={{ fontSize: "56px", fontFamily: "Aleo, serif", fontWeight: "bold", color: "white", textAlign: "center", marginBottom: "24px" }}>
+          <h2
+            className="home-featured-title"
+            style={{
+              fontSize: "56px",
+              fontFamily: "Aleo, serif",
+              fontWeight: "bold",
+              color: "white",
+              textAlign: "center",
+              marginBottom: "24px",
+            }}
+          >
             Featured Alumni
           </h2>
           <p style={{ color: "#999", textAlign: "center", marginBottom: "60px", fontSize: "18px" }}>
             A few of the people who've made Bitcamp what it is.
           </p>
-          <section style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "24px" }}>
+          <section
+            className="home-featured-grid"
+            style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "24px" }}
+          >
             {alumni.map((person) => (
-              <div key={person.initial} style={{ borderRadius: "24px", overflow: "hidden", backgroundColor: "#1A2E33" }}>
+              <div
+                key={person.initial}
+                style={{ borderRadius: "24px", overflow: "hidden", backgroundColor: "#1A2E33" }}
+              >
                 <div
                   style={{
                     height: "160px",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    backgroundColor: person.color
+                    backgroundColor: person.color,
                   }}
                 >
                   <span style={{ fontSize: "80px", fontWeight: "bold", color: "white" }}>
@@ -154,10 +288,24 @@ export const Home: React.FC = () => {
                   </span>
                 </div>
                 <div style={{ padding: "32px 24px", textAlign: "center" }}>
-                  <h3 style={{ color: "white", fontWeight: "600", fontSize: "18px", marginBottom: "8px" }}>
+                  <h3
+                    style={{
+                      color: "white",
+                      fontWeight: "600",
+                      fontSize: "18px",
+                      marginBottom: "8px",
+                    }}
+                  >
                     {person.name}
                   </h3>
-                  <p style={{ color: "#FF6F3F", fontSize: "14px", fontWeight: "600", marginBottom: "12px" }}>
+                  <p
+                    style={{
+                      color: "#FF6F3F",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      marginBottom: "12px",
+                    }}
+                  >
                     {person.role} {person.year}
                   </p>
                   <p style={{ color: "#FFF7EB", fontSize: "14px", lineHeight: "1.5" }}>

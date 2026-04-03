@@ -9,10 +9,24 @@ interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
-  const is404 = location.pathname !== "/" && location.pathname !== "/about" && location.pathname !== "/join" && location.pathname !== "/team" && location.pathname !== "/prizes" && location.pathname !== "/give" && location.pathname !== "/contact";
+  const is404 =
+    location.pathname !== "/" &&
+    location.pathname !== "/about" &&
+    location.pathname !== "/join" &&
+    location.pathname !== "/team" &&
+    location.pathname !== "/prizes" &&
+    location.pathname !== "/give" &&
+    location.pathname !== "/contact";
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "#010218" }}>
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: "#010218",
+      }}
+    >
       <Starfield count={150} speed={0.5} />
       <Navigation />
 
@@ -35,6 +49,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                 alignItems: "center",
               }),
         }}
+        className="main-content"
       >
         <div
           style={{
