@@ -11,7 +11,8 @@ function getAuth() {
 }
 
 function getSheets() {
-  return google.sheets({ version: "v4", auth: getAuth() });
+  const auth = getAuth();
+  return google.sheets({ version: "v4", auth });
 }
 
 const SHEET_ID = () => {
@@ -75,7 +76,9 @@ export async function initializeSheet(): Promise<void> {
 
   // Fetch the spreadsheet to see which sheets (tabs) already exist
   const { data } = await sheets.spreadsheets.get({ spreadsheetId: id });
-  const existingTitles = new Set((data.sheets ?? []).map((s) => s.properties?.title ?? ""));
+  const existingTitles = new Set(
+    (data.sheets ?? []).map((s) => s.properties?.title).filter((title): title is string => !!title),
+  );
 
   const tabsToCreate = Object.keys(TABS).filter((t) => !existingTitles.has(t));
 
