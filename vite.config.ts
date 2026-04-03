@@ -11,7 +11,6 @@ export default defineConfig({
       "manjaro-twopal.egret-sunfish.ts.net",
       "localhost",
       "127.0.0.1",
-      ".ts.net",
     ],
   },
   staged: {

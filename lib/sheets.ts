@@ -1,4 +1,4 @@
-import { google } from "googleapis";
+import { google, sheets_v4 } from "googleapis";
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
 
@@ -10,9 +10,8 @@ function getAuth() {
   });
 }
 
-function getSheets() {
-  const auth = getAuth();
-  return google.sheets({ version: "v4", auth });
+function getSheets(): sheets_v4.Sheets {
+  return google.sheets({ version: "v4" });
 }
 
 const SHEET_ID = () => {
@@ -73,11 +72,12 @@ export async function initializeSheet(): Promise<void> {
 
   const sheets = getSheets();
   const id = SHEET_ID();
+  const auth = getAuth();
 
   // Fetch the spreadsheet to see which sheets (tabs) already exist
-  const { data } = await sheets.spreadsheets.get({ spreadsheetId: id });
+  const { data } = await sheets.spreadsheets.get({ spreadsheetId: id, auth });
   const existingTitles = new Set(
-    (data.sheets ?? []).map((s) => s.properties?.title).filter((title): title is string => !!title),
+    (data.sheets ?? []).map((s: sheets_v4.Schema$SheetProperties) => s.title).filter((title: string | undefined): title is string => !!title),
   );
 
   const tabsToCreate = Object.keys(TABS).filter((t) => !existingTitles.has(t));
@@ -86,6 +86,7 @@ export async function initializeSheet(): Promise<void> {
   if (tabsToCreate.length > 0) {
     await sheets.spreadsheets.batchUpdate({
       spreadsheetId: id,
+      auth,
       requestBody: {
         requests: tabsToCreate.map((title) => ({
           addSheet: { properties: { title } },
@@ -96,6 +97,7 @@ export async function initializeSheet(): Promise<void> {
     // Write the header row to each newly created tab
     await sheets.spreadsheets.values.batchUpdate({
       spreadsheetId: id,
+      auth,
       requestBody: {
         valueInputOption: "RAW",
         data: tabsToCreate.map((title) => ({
@@ -122,11 +124,13 @@ export async function appendRow(
   await initializeSheet();
 
   const sheets = getSheets();
+  const auth = getAuth();
   await sheets.spreadsheets.values.append({
     spreadsheetId: SHEET_ID(),
     range: `${tab}!A1`,
     valueInputOption: "USER_ENTERED",
     insertDataOption: "INSERT_ROWS",
+    auth,
     requestBody: {
       values: [values.map((v) => (v === null || v === undefined ? "" : String(v)))],
     },
@@ -141,9 +145,11 @@ export async function readRows(tab: string): Promise<string[][]> {
   await initializeSheet();
 
   const sheets = getSheets();
+  const auth = getAuth();
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: SHEET_ID(),
     range: `${tab}!A2:Z`,
+    auth,
   });
   return (res.data.values ?? []) as string[][];
 }
