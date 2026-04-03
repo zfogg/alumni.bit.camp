@@ -9,10 +9,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, className, ...props }, ref) => {
     return (
       <div className="w-full">
-        {label && <label className="block text-sm font-semibold text-cream mb-2">{label}</label>}
+        {label && <label className="block text-sm font-semibold text-cream mb-3">{label}</label>}
         <input
           ref={ref}
-          className={`w-full px-4 py-2 rounded-card bg-space border-2 border-teal text-cream placeholder-muted focus:outline-none focus:border-orange transition-colors ${className || ""}`}
+          className={`w-full px-4 py-3 rounded-card bg-space border-2 border-orange text-cream placeholder-muted focus:outline-none focus:border-white transition-colors ${className || ""}`}
           {...props}
         />
         {error && <p className="text-orange text-sm mt-1">{error}</p>}

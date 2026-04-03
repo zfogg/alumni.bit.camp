@@ -1,6 +1,10 @@
 /// <reference types="vite/client" />
 
 declare module "*.css" {
-  const content: { [key: string]: any };
+  const content: Record<string, string>;
   export default content;
+}
+
+declare module "./styles/globals.css" {
+  export {};
 }

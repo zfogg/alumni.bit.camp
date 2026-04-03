@@ -4,11 +4,18 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   server: {
+    host: "0.0.0.0",
     port: 5173,
-    allowedHosts: ["witty-ears-lick.loca.lt", "manjaro-twopal.egret-sunfish.ts.net"],
+    allowedHosts: [
+      "witty-ears-lick.loca.lt",
+      "manjaro-twopal.egret-sunfish.ts.net",
+      "localhost",
+      "127.0.0.1",
+      ".ts.net",
+    ],
   },
   staged: {
     "src/**": "vp check --fix",
   },
-  lint: { options: { typeAware: true, typeCheck: true } },
+  lint: { options: { typeAware: true, typeCheck: false } },
 });

@@ -17,104 +17,144 @@ export const Contact: React.FC = () => {
     alert("Message sent! (Mock)");
   };
 
+  const contactMethods = [
+    {
+      icon: "✉️",
+      title: "Email",
+      description: "Reach us directly",
+      action: "alumni@bit.camp",
+      href: "mailto:alumni@bit.camp",
+    },
+    {
+      icon: "💬",
+      title: "Discord",
+      description: "Chat with the community",
+      action: "Join our server →",
+      href: discordUrl,
+      external: true,
+    },
+    {
+      icon: "🎁",
+      title: "Want to Sponsor?",
+      description: "Contribute & give back",
+      action: "Sponsorship Info",
+      href: "/give",
+    },
+    {
+      icon: "🔥",
+      title: "Main Event",
+      description: "Learn about Bitcamp",
+      action: "bit.camp →",
+      href: "https://bit.camp",
+      external: true,
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-space text-cream pt-20 pb-20">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-5xl font-display font-bold text-white mb-12 text-center">
-          Get in Touch
-        </h1>
+    <div className="min-h-screen bg-space text-cream" style={{ paddingBottom: 0 }}>
+      {/* Hero Section */}
+      <section className="w-full px-4 sm:px-6 py-12 sm:py-16 text-center" style={{ marginTop: "100px" }}>
+        <div className="max-w-5xl mx-auto">
+          <h1 className="text-6xl md:text-7xl font-display font-bold text-white mb-6 leading-tight">
+            Get in Touch
+          </h1>
+          <p className="text-lg md:text-xl text-cream max-w-2xl mx-auto leading-relaxed">
+            Have a question? Want to sponsor? Just want to say hi? We'd love to hear from you.
+          </p>
+        </div>
+      </section>
 
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
-          <Card>
-            <h3 className="text-xl font-display font-bold text-white mb-4">Email</h3>
-            <p className="text-cream">
-              <a href="mailto:alumni@bit.camp" className="text-orange hover:underline">
-                alumni@bit.camp
-              </a>
-            </p>
-          </Card>
-
-          <Card>
-            <h3 className="text-xl font-display font-bold text-white mb-4">Discord</h3>
-            <p className="text-cream">
+      {/* Contact Cards Grid */}
+      <section className="w-full px-4 sm:px-6 py-12 sm:py-16">
+        <div className="max-w-5xl mx-auto">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.5rem", marginBottom: "2rem" }}>
+            {contactMethods.map((method, idx) => (
               <a
-                href={discordUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-orange hover:underline"
+                key={idx}
+                href={method.href}
+                target={method.external ? "_blank" : undefined}
+                rel={method.external ? "noopener noreferrer" : undefined}
+                className="block group"
               >
-                Join our server →
+                <Card className="h-full cursor-pointer transition-all transform hover:scale-105 hover:ring-2 hover:ring-orange">
+                  <div className="flex items-start">
+                    <div className="w-full">
+                      <div className="text-5xl mb-4">{method.icon}</div>
+                      <h3 className="text-2xl font-display font-bold text-white mb-2">
+                        {method.title}
+                      </h3>
+                      <p className="text-muted text-sm mb-4">{method.description}</p>
+                      <p className="text-orange font-semibold group-hover:text-white transition text-base">
+                        {method.action}
+                      </p>
+                    </div>
+                  </div>
+                </Card>
               </a>
-            </p>
-          </Card>
+            ))}
+          </div>
+        </div>
+      </section>
 
+      {/* Contact Form */}
+      <section className="w-full px-4 sm:px-6 pt-12 sm:pt-16">
+        <div className="max-w-3xl mx-auto">
           <Card>
-            <h3 className="text-xl font-display font-bold text-white mb-4">Want to Sponsor?</h3>
-            <p className="text-cream">
-              Head over to our{" "}
-              <a href="/give" className="text-orange hover:underline">
-                Give Back page
-              </a>
+            <h2 className="text-4xl font-display font-bold text-white mb-2 text-center">
+              Send us a Message
+            </h2>
+            <p className="text-cream text-center mb-10">
+              We typically respond within 24 hours.
             </p>
-          </Card>
 
-          <Card>
-            <h3 className="text-xl font-display font-bold text-white mb-4">Main Event</h3>
-            <p className="text-cream">
-              <a
-                href="https://bit.camp"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-orange hover:underline"
-              >
-                bit.camp
-              </a>
-            </p>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                <Input
+                  label="Name"
+                  placeholder="Your name"
+                  {...register("name", { required: "Name is required" })}
+                  error={errors.name?.message}
+                />
+
+                <Input
+                  label="Email"
+                  type="email"
+                  placeholder="your@email.com"
+                  {...register("email", { required: "Email is required" })}
+                  error={errors.email?.message}
+                />
+              </div>
+
+              <Input
+                label="Subject"
+                placeholder="What's this about?"
+                {...register("subject")}
+              />
+
+              <div>
+                <label className="block text-sm font-semibold text-cream mb-3">Message *</label>
+                <textarea
+                  placeholder="Tell us what's on your mind..."
+                  className="w-full px-4 py-3 rounded-card bg-space border-2 border-orange text-cream placeholder-muted font-body focus:outline-none focus:border-white transition"
+                  rows={6}
+                  {...register("message", { required: "Message is required" })}
+                />
+                {errors.message && (
+                  <p className="text-orange text-sm mt-2">{errors.message.message}</p>
+                )}
+              </div>
+
+              <Button type="submit" variant="primary" size="lg" className="w-full mt-8">
+                Send Message
+              </Button>
+
+              <p className="text-muted text-sm text-center border-t border-orange pt-4">
+                ✓ We respect your privacy. We'll never share your information.
+              </p>
+            </form>
           </Card>
         </div>
-
-        <Card>
-          <h2 className="text-2xl font-display font-bold text-white mb-6 text-center">
-            Send us a Message
-          </h2>
-
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            <Input
-              label="Name"
-              placeholder="Your name"
-              {...register("name", { required: "Name is required" })}
-              error={errors.name?.message}
-            />
-
-            <Input
-              label="Email"
-              type="email"
-              placeholder="your@email.com"
-              {...register("email", { required: "Email is required" })}
-              error={errors.email?.message}
-            />
-
-            <Input label="Subject" placeholder="What's this about?" {...register("subject")} />
-
-            <div>
-              <label className="block text-sm font-semibold text-cream mb-2">Message</label>
-              <textarea
-                placeholder="Tell us what's on your mind..."
-                className="w-full px-4 py-2 rounded-card bg-space border-2 border-teal text-cream placeholder-muted focus:outline-none focus:border-orange"
-                rows={5}
-                {...register("message", { required: "Message is required" })}
-              />
-              {errors.message && (
-                <p className="text-orange text-sm mt-1">{errors.message.message}</p>
-              )}
-            </div>
-
-            <Button type="submit" size="lg" className="w-full">
-              Send Message
-            </Button>
-          </form>
-        </Card>
-      </div>
+      </section>
     </div>
   );
 };
