@@ -41,19 +41,19 @@ export const Home: React.FC = () => {
         <div>
           <div className="home-stats-grid grid grid-cols-4 gap-10">
             <div className="home-stat-item text-center border-r border-gray-700 pr-10">
-              <div className="home-stat-number text-7xl font-bold text-orange mb-4">11</div>
+              <div className="home-stat-number text-6xl font-bold text-orange mb-4">11</div>
               <div className="text-base text-cream font-semibold">Years of Bitcamp</div>
             </div>
             <div className="home-stat-item text-center border-r border-gray-700 pr-10">
-              <div className="home-stat-number text-7xl font-bold text-orange mb-4">1,400+</div>
+              <div className="home-stat-number text-6xl font-bold text-orange mb-4">1,400+</div>
               <div className="text-base text-cream font-semibold">Hackers per year</div>
             </div>
             <div className="home-stat-item text-center border-r border-gray-700 pr-10">
-              <div className="home-stat-number text-7xl font-bold text-orange mb-4">100+</div>
+              <div className="home-stat-number text-6xl font-bold text-orange mb-4">100+</div>
               <div className="text-base text-cream font-semibold">Alumni connected</div>
             </div>
             <div className="home-stat-item text-center">
-              <div className="home-stat-number text-7xl font-bold text-orange mb-4">∞</div>
+              <div className="home-stat-number text-6xl font-bold text-orange mb-4">∞</div>
               <div className="text-base text-cream font-semibold">Ideas spawned</div>
             </div>
           </div>
