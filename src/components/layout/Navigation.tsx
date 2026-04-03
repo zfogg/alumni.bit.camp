@@ -31,15 +31,13 @@ export const Navigation: React.FC = () => {
           <span>Bitcamp Alumni</span>
         </Link>
 
-        <div className="nav-links flex gap-8 items-center">
+        <div className="hidden md:flex gap-8 items-center">
           {navLinks.map(({ path, label }) => (
             <Link
               key={path}
               to={path}
-              className={`text-sm no-underline transition-colors ${
-                isActive(path)
-                  ? "text-orange font-bold"
-                  : "text-cream font-semibold hover:text-orange"
+              className={`text-sm no-underline ${
+                isActive(path) ? "text-orange font-bold" : "text-cream font-semibold"
               }`}
             >
               {label}
@@ -50,7 +48,7 @@ export const Navigation: React.FC = () => {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="mobile-menu-button hidden bg-transparent border-none text-cream text-2xl cursor-pointer ml-auto"
+          className="block md:hidden bg-transparent border-none text-cream text-2xl cursor-pointer ml-auto"
         >
           ☰
         </button>
@@ -59,7 +57,7 @@ export const Navigation: React.FC = () => {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div
-          className="flex flex-col gap-3 md:px-6 py-3 border-t border-gray-600/30"
+          className="md:hidden flex flex-col gap-3 p-4 border-t border-gray-600/30"
           style={{ backgroundColor: "rgba(1, 2, 24, 0.98)" }}
         >
           {navLinks.map(({ path, label }) => (

@@ -104,9 +104,6 @@ button {
   border: none;
   cursor: pointer;
   transition: all 0.3s;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
 }
 
 button.primary {
@@ -282,15 +279,6 @@ label {
 
   .home-featured-grid {
     grid-template-columns: repeat(2, 1fr) !important;
-  }
-
-  /* Navigation */
-  .nav-links {
-    display: none !important;
-  }
-
-  .mobile-menu-button {
-    display: block !important;
   }
 
   /* Footer */

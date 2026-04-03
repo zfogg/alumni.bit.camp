@@ -32,7 +32,7 @@
     "tailwindcss": "^4.2.2",
     "typescript": "~6.0.2",
     "vite": "^8.0.3",
-    "vite-plus": "latest"
+    "vite-plus": "^0.1.15"
   },
   "packageManager": "pnpm@10.33.0",
   "pnpm": {
