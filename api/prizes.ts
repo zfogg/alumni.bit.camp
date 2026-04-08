@@ -45,13 +45,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const auth = getAuth();
 
     console.log("[/api/prizes] Fetching from sheet", SHEET_ID);
-    const { data } = await sheets.spreadsheets.values.get({
+    const response = await sheets.spreadsheets.values.get({
       spreadsheetId: SHEET_ID,
       range: "Prizes!A2:E",
       auth,
     });
 
-    const rows = (data.values ?? []) as string[][];
+    console.log("[/api/prizes] Full response:", {
+      status: response.status,
+      range: response.data.range,
+      majorDimension: response.data.majorDimension,
+      valuesCount: (response.data.values || []).length,
+    });
+
+    const rows = (response.data.values ?? []) as string[][];
     console.log("[/api/prizes] Got", rows.length, "rows from API");
 
     // Map raw rows to Prize objects
