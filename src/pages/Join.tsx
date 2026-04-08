@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
@@ -8,6 +9,7 @@ import { submitJoinForm } from "../lib/api";
 type Status = "idle" | "loading" | "success" | "error";
 
 export const Join: React.FC = () => {
+  const [searchParams] = useSearchParams();
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -15,8 +17,17 @@ export const Join: React.FC = () => {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<JoinFormData & { website_url?: string }>();
+
+  // Prefill email from query parameter if present
+  useEffect(() => {
+    const emailParam = searchParams.get("email");
+    if (emailParam) {
+      setValue("email", emailParam);
+    }
+  }, [searchParams, setValue]);
 
   const onSubmit = async (data: JoinFormData & { website_url?: string }) => {
     setStatus("loading");

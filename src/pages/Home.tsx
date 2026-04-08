@@ -1,8 +1,20 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import { Sparkle } from "../components/ui/Sparkle";
 
 export const Home: React.FC = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+
+  const handleJoinClick = () => {
+    if (email) {
+      navigate(`/join?email=${encodeURIComponent(email)}`);
+    } else {
+      navigate("/join");
+    }
+  };
+
   const alumni = [
     { initial: "Z", name: "Zach F.", role: "Hacker", year: "'14", color: "#FF8A65" },
     { initial: "P", name: "Priya M.", role: "Organizer", year: "'19", color: "#42A5F5" },
@@ -74,14 +86,11 @@ export const Home: React.FC = () => {
             <input
               type="email"
               placeholder="Your email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-6 py-4 rounded-lg bg-space/50 border border-gray-700 text-cream text-base focus:outline-none focus:border-orange"
             />
-            <input
-              type="number"
-              placeholder="Year attended"
-              className="w-full px-6 py-4 rounded-lg bg-space/50 border border-gray-700 text-cream text-base focus:outline-none focus:border-orange"
-            />
-            <Button as={Link} to="/join" size="lg">
+            <Button onClick={handleJoinClick} size="lg">
               JOIN
             </Button>
           </div>
