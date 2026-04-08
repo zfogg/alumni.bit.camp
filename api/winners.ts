@@ -32,19 +32,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const rows = await readRows("Winners");
-    console.log("[/api/winners] Read", rows.length, "rows from Winners sheet");
+    console.log("[/api/winners] Read", rows.length, "rows");
+    if (rows.length > 0) {
+      console.log("[/api/winners] First row:", JSON.stringify(rows[0]));
+    }
 
     // Map raw rows to Winner objects
-    const winners: Winner[] = rows.map((row) => ({
-      prize_id: row[0] || "",
-      year: parseInt(row[1] || "0", 10),
-      team_name: row[2] || "",
-      project_name: row[3] || "",
-      description: row[4] || "",
-      members: row[5] || "",
-    }));
-
-    console.log("[/api/winners] Mapped", winners.length, "winners:", winners.slice(0, 2));
+    const winners: Winner[] = rows.map((row, idx) => {
+      const mapped = {
+        prize_id: row[0] || "",
+        year: parseInt(row[1] || "0", 10),
+        team_name: row[2] || "",
+        project_name: row[3] || "",
+        description: row[4] || "",
+        members: row[5] || "",
+      };
+      if (idx === 0) {
+        console.log("[/api/winners] First mapped winner:", JSON.stringify(mapped));
+      }
+      return mapped;
+    });
 
     res.setHeader("Cache-Control", "public, s-maxage=300, stale-while-revalidate=600");
     return res.status(200).json(winners);

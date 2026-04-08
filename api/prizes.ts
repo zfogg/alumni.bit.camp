@@ -31,21 +31,31 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const rows = await readRows("Prizes");
-    console.log("[/api/prizes] Read", rows.length, "rows from Prizes sheet");
+    console.log("[/api/prizes] Read", rows.length, "rows");
+    if (rows.length > 0) {
+      console.log("[/api/prizes] First row:", JSON.stringify(rows[0]));
+    }
 
     // Map raw rows to Prize objects
-    const prizes: Prize[] = rows.map((row) => ({
-      prize_id: row[0] || "",
-      prize_name: row[1] || "",
-      sponsor_name: row[2] || "",
-      description: row[3] || "",
-      active: row[4] || "FALSE",
-    }));
-
-    console.log("[/api/prizes] Mapped", prizes.length, "prizes:", prizes.slice(0, 2));
+    const prizes: Prize[] = rows.map((row, idx) => {
+      const mapped = {
+        prize_id: row[0] || "",
+        prize_name: row[1] || "",
+        sponsor_name: row[2] || "",
+        description: row[3] || "",
+        active: row[4] || "FALSE",
+      };
+      if (idx === 0) {
+        console.log("[/api/prizes] First mapped prize:", JSON.stringify(mapped));
+      }
+      return mapped;
+    });
 
     // Filter to only active prizes
-    const activePrizes = prizes.filter((p) => p.active?.toUpperCase() === "TRUE");
+    const activePrizes = prizes.filter((p) => {
+      const matches = p.active?.toUpperCase() === "TRUE";
+      return matches;
+    });
     console.log("[/api/prizes] Filtered to", activePrizes.length, "active prizes");
 
     res.setHeader("Cache-Control", "public, s-maxage=300, stale-while-revalidate=600");
