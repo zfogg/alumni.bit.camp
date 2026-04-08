@@ -73,7 +73,7 @@ export async function initializeSheet(): Promise<void> {
   const { data } = await sheets.spreadsheets.get({ spreadsheetId: id, auth });
   const existingTitles = new Set(
     (data.sheets ?? [])
-      .map((s: sheets_v4.Schema$SheetProperties) => s.properties?.title)
+      .map((s: sheets_v4.Schema$Sheet) => s.properties?.title)
       .filter((title: string | undefined): title is string => !!title),
   );
 
