@@ -2,7 +2,7 @@
 // Returns all active prizes from Google Sheets
 
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { readRows } from "../lib/sheets.js";
+import { google, sheets_v4 } from "googleapis";
 
 interface Prize {
   prize_id: string;
@@ -10,6 +10,14 @@ interface Prize {
   sponsor_name: string;
   description: string;
   active: string;
+}
+
+function getAuth() {
+  return new google.auth.JWT({
+    email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+    key: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+  });
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -30,32 +38,33 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
 
   try {
-    const rows = await readRows("Prizes");
-    console.log("[/api/prizes] Read", rows.length, "rows");
-    if (rows.length > 0) {
-      console.log("[/api/prizes] First row:", JSON.stringify(rows[0]));
-    }
+    const SHEET_ID = process.env.GOOGLE_SHEETS_ID;
+    if (!SHEET_ID) throw new Error("Missing GOOGLE_SHEETS_ID");
+
+    const sheets = google.sheets({ version: "v4" });
+    const auth = getAuth();
+
+    console.log("[/api/prizes] Fetching from sheet", SHEET_ID);
+    const { data } = await sheets.spreadsheets.values.get({
+      spreadsheetId: SHEET_ID,
+      range: "Prizes!A2:E",
+      auth,
+    });
+
+    const rows = (data.values ?? []) as string[][];
+    console.log("[/api/prizes] Got", rows.length, "rows from API");
 
     // Map raw rows to Prize objects
-    const prizes: Prize[] = rows.map((row, idx) => {
-      const mapped = {
-        prize_id: row[0] || "",
-        prize_name: row[1] || "",
-        sponsor_name: row[2] || "",
-        description: row[3] || "",
-        active: row[4] || "FALSE",
-      };
-      if (idx === 0) {
-        console.log("[/api/prizes] First mapped prize:", JSON.stringify(mapped));
-      }
-      return mapped;
-    });
+    const prizes: Prize[] = rows.map((row) => ({
+      prize_id: row[0] || "",
+      prize_name: row[1] || "",
+      sponsor_name: row[2] || "",
+      description: row[3] || "",
+      active: row[4] || "FALSE",
+    }));
 
     // Filter to only active prizes
-    const activePrizes = prizes.filter((p) => {
-      const matches = p.active?.toUpperCase() === "TRUE";
-      return matches;
-    });
+    const activePrizes = prizes.filter((p) => p.active?.toUpperCase() === "TRUE");
     console.log("[/api/prizes] Filtered to", activePrizes.length, "active prizes");
 
     res.setHeader("Cache-Control", "public, s-maxage=300, stale-while-revalidate=600");
