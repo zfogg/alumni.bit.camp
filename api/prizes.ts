@@ -39,12 +39,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const SHEET_ID = process.env.GOOGLE_SHEETS_ID;
-    const EMAIL = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-    const KEY = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY;
-
     if (!SHEET_ID) throw new Error("Missing GOOGLE_SHEETS_ID");
-    if (!EMAIL) throw new Error("Missing GOOGLE_SERVICE_ACCOUNT_EMAIL");
-    if (!KEY) throw new Error("Missing GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY");
 
     const sheets = google.sheets({ version: "v4" });
     const auth = getAuth();
@@ -56,15 +51,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       auth,
     });
 
-    console.log("[/api/prizes] Full response:", {
-      status: response.status,
-      range: response.data.range,
-      majorDimension: response.data.majorDimension,
-      valuesCount: (response.data.values || []).length,
-    });
-
     const rows = (response.data.values ?? []) as string[][];
-    console.log("[/api/prizes] Got", rows.length, "rows from API");
 
     // Map raw rows to Prize objects
     const prizes: Prize[] = rows.map((row) => ({
@@ -77,32 +64,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Filter to only active prizes
     const activePrizes = prizes.filter((p) => p.active?.toUpperCase() === "TRUE");
-    console.log("[/api/prizes] Filtered to", activePrizes.length, "active prizes");
 
-    // If no prizes found, include debug info in response
-    if (activePrizes.length === 0) {
-      console.log("[/api/prizes] DEBUG: No active prizes. Total rows:", rows.length);
-      console.log("[/api/prizes] DEBUG: All prizes:", JSON.stringify(prizes));
-    }
-
-    res.setHeader("Cache-Control", "public, s-maxage=0");
-
-    // Debug response
-    const debugResponse = {
-      _debug: {
-        timestamp: new Date().toISOString(),
-        totalRowsRead: rows.length,
-        allPrizes: prizes,
-        activeCount: activePrizes.length,
-      },
-      prizes: activePrizes,
-    };
-
-    return res.status(200).json(debugResponse);
+    res.setHeader("Cache-Control", "public, s-maxage=300, stale-while-revalidate=600");
+    return res.status(200).json(activePrizes);
   } catch (err) {
-    const errorMsg = err instanceof Error ? err.message : String(err);
-    console.error("[/api/prizes] Error:", errorMsg);
-    console.error("[/api/prizes] Full error:", JSON.stringify(err, null, 2));
-    return res.status(500).json({ error: "Failed to fetch prizes", details: errorMsg });
+    console.error("[/api/prizes] Error:", err);
+    return res.status(500).json({ error: "Failed to fetch prizes" });
   }
 }

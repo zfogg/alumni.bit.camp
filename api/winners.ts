@@ -52,7 +52,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
 
     const rows = (data.values ?? []) as string[][];
-    console.log("[/api/winners] Got", rows.length, "rows from API");
 
     // Map raw rows to Winner objects
     const winners: Winner[] = rows.map((row) => ({
