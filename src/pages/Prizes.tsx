@@ -118,17 +118,20 @@ export const Prizes: React.FC = () => {
                       prize.winners.map((w, widx) => (
                         <div
                           key={widx}
-                          className="p-3 bg-orange/10 rounded-lg border-l-4 transition-colors hover:bg-orange/20"
+                          className="p-4 bg-gradient-to-r from-orange/10 to-transparent rounded-lg border-l-4 transition-all hover:shadow-lg hover:scale-102"
                           style={{ borderLeftColor: prize.headerColor }}
                         >
-                          <div className="flex items-center gap-2 mb-1">
+                          <div className="flex items-center gap-3 mb-2">
                             <span
-                              className="text-xs font-bold px-2 py-1 rounded text-white flex-shrink-0"
-                              style={{ backgroundColor: prize.headerColor }}
+                              className="text-xs font-bold px-3 py-1.5 rounded-full text-white flex-shrink-0 shadow-md ring-2"
+                              style={{
+                                backgroundColor: prize.headerColor,
+                                ringColor: prize.headerColor,
+                              }}
                             >
                               {w.year}
                             </span>
-                            <p className="text-white font-semibold text-sm m-0 !mb-0">
+                            <p className="text-white font-semibold text-sm m-0 !mb-0 flex-1">
                               {w.team_name}
                             </p>
                           </div>

@@ -8,6 +8,16 @@ import { submitJoinForm } from "../lib/api";
 
 type Status = "idle" | "loading" | "success" | "error";
 
+// Year button styling via CSS
+const YEAR_STYLES = `
+  input[type="checkbox"]:checked + div {
+    border-color: #FF6F3F !important;
+    background-color: #FF6F3F !important;
+    color: #1a1a2e !important;
+    box-shadow: 0 0 12px rgba(255, 111, 63, 0.3) !important;
+  }
+`;
+
 export const Join: React.FC = () => {
   const [searchParams] = useSearchParams();
   const [status, setStatus] = useState<Status>("idle");
@@ -61,6 +71,7 @@ export const Join: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-space text-cream pt-32 pb-20">
+      <style>{YEAR_STYLES}</style>
       {/* Hero */}
       <section className="pb-8">
         <div className="max-w-5xl mx-auto px-6">
@@ -112,22 +123,21 @@ export const Join: React.FC = () => {
                 <label className="block text-sm font-semibold text-cream mb-3">
                   Year(s) Attended *
                 </label>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-4 gap-2">
                   {[2014, 2016, 2018, 2019, 2020, 2022, 2024, 2025].map((y) => (
-                    <label
-                      key={y}
-                      className="flex items-center gap-2 cursor-pointer text-sm text-cream"
-                    >
+                    <label key={y} className="relative group cursor-pointer">
                       <input
                         type="checkbox"
                         value={y}
-                        className="w-5 h-5 cursor-pointer accent-orange"
+                        className="hidden"
                         {...register("year", {
                           validate: (value) =>
                             (value && value.length > 0) || "Select at least one year",
                         })}
                       />
-                      {y}
+                      <div className="px-3 py-2 rounded-lg bg-space border-2 border-cream/30 text-cream text-xs font-semibold text-center transition-all duration-200 group-hover:border-orange/50">
+                        {y}
+                      </div>
                     </label>
                   ))}
                 </div>
