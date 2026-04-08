@@ -23,7 +23,7 @@ export const Home: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-space text-cream">
+    <div className="bg-space text-cream flex-1">
       {/* Hero Section - LARGE */}
       <section className="py-20 text-center">
         <div>

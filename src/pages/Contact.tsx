@@ -67,7 +67,7 @@ export const Contact: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-space text-cream pb-0">
+    <div className="bg-space text-cream flex-1 pb-0">
       {/* Hero Section */}
       <section className="w-full px-4 sm:px-6 py-12 sm:py-16 text-center mt-24">
         <div className="max-w-5xl mx-auto">

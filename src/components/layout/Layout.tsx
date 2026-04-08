@@ -25,10 +25,10 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 
       <main
         className={`flex-1 flex flex-col z-10 mt-24 px-6 main-content ${
-          is404 ? "justify-center items-center min-h-[calc(100vh-100px)]" : "items-center"
+          is404 ? "justify-center items-center" : "items-center"
         }`}
       >
-        <div className="w-full max-w-5xl">{children}</div>
+        <div className="w-full max-w-5xl flex flex-col flex-1">{children}</div>
       </main>
 
       <Footer />

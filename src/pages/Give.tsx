@@ -61,7 +61,7 @@ export const Give: React.FC = () => {
 
   if (status === "success") {
     return (
-      <div className="min-h-screen bg-space text-cream flex items-center justify-center py-20 px-6">
+      <div className="bg-space text-cream flex-1 flex items-center justify-center py-20 px-6">
         <div className="max-w-xl text-center">
           <div className="text-8xl mb-6">{type === "donate" ? "💰" : "🏆"}</div>
           <h1 className="text-5xl font-display font-bold text-white mb-6">
@@ -81,7 +81,7 @@ export const Give: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-space text-cream">
+    <div className="bg-space text-cream flex-1">
       {/* Hero */}
       <section className="pt-32 pb-4">
         <div className="max-w-5xl mx-auto px-6 text-center">

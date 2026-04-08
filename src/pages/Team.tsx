@@ -22,7 +22,7 @@ export const Team: React.FC = () => {
     filter === "all" ? members : members.filter((m) => m.role === filter.toLowerCase());
 
   return (
-    <div className="min-h-screen bg-space text-cream">
+    <div className="bg-space text-cream flex-1">
       {/* Hero */}
       <section className="pt-30 pb-4">
         <div className="max-w-5xl mx-auto px-6">
