@@ -123,10 +123,10 @@ export const Prizes: React.FC = () => {
                         >
                           <div className="flex items-center gap-3 mb-2">
                             <span
-                              className="text-xs font-bold px-3 py-1.5 rounded-full text-white flex-shrink-0 shadow-md ring-2"
+                              className="text-xs font-bold px-3 py-1.5 rounded-full text-white flex-shrink-0 shadow-md"
                               style={{
                                 backgroundColor: prize.headerColor,
-                                ringColor: prize.headerColor,
+                                boxShadow: `0 0 0 2px ${prize.headerColor}33`,
                               }}
                             >
                               {w.year}
