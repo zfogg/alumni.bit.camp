@@ -61,15 +61,10 @@ const TABS: Record<string, string[]> = {
 };
 
 // ── initializeSheet ───────────────────────────────────────────────────────────
-// Call once on cold start. Checks which tabs exist; creates any that are
-// missing and writes the header row. Safe to call repeatedly — skips tabs
-// that already exist.
-
-let initialized = false;
+// Checks which tabs exist; creates any that are missing and writes the header row.
+// Safe to call repeatedly — always checks current state before creating.
 
 export async function initializeSheet(): Promise<void> {
-  if (initialized) return;
-
   const sheets = getSheets();
   const id = SHEET_ID();
   const auth = getAuth();
@@ -77,7 +72,9 @@ export async function initializeSheet(): Promise<void> {
   // Fetch the spreadsheet to see which sheets (tabs) already exist
   const { data } = await sheets.spreadsheets.get({ spreadsheetId: id, auth });
   const existingTitles = new Set(
-    (data.sheets ?? []).map((s: sheets_v4.Schema$SheetProperties) => s.title).filter((title: string | undefined): title is string => !!title),
+    (data.sheets ?? [])
+      .map((s: sheets_v4.Schema$SheetProperties) => s.properties?.title)
+      .filter((title: string | undefined): title is string => !!title),
   );
 
   const tabsToCreate = Object.keys(TABS).filter((t) => !existingTitles.has(t));
@@ -109,8 +106,6 @@ export async function initializeSheet(): Promise<void> {
 
     console.log(`[sheets] Created tabs: ${tabsToCreate.join(", ")}`);
   }
-
-  initialized = true;
 }
 
 // ── appendRow ─────────────────────────────────────────────────────────────────
