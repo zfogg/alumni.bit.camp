@@ -39,7 +39,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const SHEET_ID = process.env.GOOGLE_SHEETS_ID;
+    const EMAIL = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
+    const KEY = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY;
+
     if (!SHEET_ID) throw new Error("Missing GOOGLE_SHEETS_ID");
+    if (!EMAIL) throw new Error("Missing GOOGLE_SERVICE_ACCOUNT_EMAIL");
+    if (!KEY) throw new Error("Missing GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY");
 
     const sheets = google.sheets({ version: "v4" });
     const auth = getAuth();
