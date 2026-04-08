@@ -85,8 +85,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       console.log("[/api/prizes] DEBUG: All prizes:", JSON.stringify(prizes));
     }
 
-    res.setHeader("Cache-Control", "public, s-maxage=300, stale-while-revalidate=600");
-    return res.status(200).json(activePrizes);
+    res.setHeader("Cache-Control", "public, s-maxage=0");
+
+    // Debug response
+    const debugResponse = {
+      _debug: {
+        timestamp: new Date().toISOString(),
+        totalRowsRead: rows.length,
+        allPrizes: prizes,
+        activeCount: activePrizes.length,
+      },
+      prizes: activePrizes,
+    };
+
+    return res.status(200).json(debugResponse);
   } catch (err) {
     const errorMsg = err instanceof Error ? err.message : String(err);
     console.error("[/api/prizes] Error:", errorMsg);
