@@ -74,6 +74,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const activePrizes = prizes.filter((p) => p.active?.toUpperCase() === "TRUE");
     console.log("[/api/prizes] Filtered to", activePrizes.length, "active prizes");
 
+    // If no prizes found, include debug info in response
+    if (activePrizes.length === 0) {
+      console.log("[/api/prizes] DEBUG: No active prizes. Total rows:", rows.length);
+      console.log("[/api/prizes] DEBUG: All prizes:", JSON.stringify(prizes));
+    }
+
     res.setHeader("Cache-Control", "public, s-maxage=300, stale-while-revalidate=600");
     return res.status(200).json(activePrizes);
   } catch (err) {
