@@ -25,3 +25,7 @@ dist-ssr
 
 .env
 .vercel
+
+# Generated compiled files (intentionally tracked for Vercel)
+# api/**/*.js
+# lib/**/*.js
