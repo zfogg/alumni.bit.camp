@@ -3,7 +3,7 @@
 // Optionally sends an email notification via Resend if RESEND_API_KEY is set.
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { v4 as uuid } from "uuid";
-import { appendRow } from "../lib/sheets";
+import { appendRow } from "../lib/sheets.js";
 
 const ALLOWED_ORIGINS = [
   "https://alumni.bit.camp",

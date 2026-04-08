@@ -3,7 +3,7 @@
 // Branches on `type: 'donate' | 'sponsor'` and appends a row to the Supporters tab.
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { v4 as uuid } from "uuid";
-import { appendRow } from "../lib/sheets";
+import { appendRow } from "../lib/sheets.js";
 
 const ALLOWED_ORIGINS = [
   "https://alumni.bit.camp",
