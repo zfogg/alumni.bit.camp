@@ -2,7 +2,7 @@
 // Returns all active prizes from Google Sheets
 
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { google, sheets_v4 } from "googleapis";
+import { google } from "googleapis";
 
 interface Prize {
   prize_id: string;
