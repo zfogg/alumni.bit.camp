@@ -31,6 +31,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const rows = await readRows("Prizes");
+    console.log("[/api/prizes] Read", rows.length, "rows from Prizes sheet");
 
     // Map raw rows to Prize objects
     const prizes: Prize[] = rows.map((row) => ({
@@ -41,8 +42,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       active: row[4] || "FALSE",
     }));
 
+    console.log("[/api/prizes] Mapped", prizes.length, "prizes:", prizes.slice(0, 2));
+
     // Filter to only active prizes
     const activePrizes = prizes.filter((p) => p.active?.toUpperCase() === "TRUE");
+    console.log("[/api/prizes] Filtered to", activePrizes.length, "active prizes");
 
     res.setHeader("Cache-Control", "public, s-maxage=300, stale-while-revalidate=600");
     return res.status(200).json(activePrizes);

@@ -32,6 +32,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const rows = await readRows("Winners");
+    console.log("[/api/winners] Read", rows.length, "rows from Winners sheet");
 
     // Map raw rows to Winner objects
     const winners: Winner[] = rows.map((row) => ({
@@ -42,6 +43,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       description: row[4] || "",
       members: row[5] || "",
     }));
+
+    console.log("[/api/winners] Mapped", winners.length, "winners:", winners.slice(0, 2));
 
     res.setHeader("Cache-Control", "public, s-maxage=300, stale-while-revalidate=600");
     return res.status(200).json(winners);
