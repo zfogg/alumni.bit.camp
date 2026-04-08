@@ -1,25 +1,61 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "../components/ui/Button";
 import { Link } from "react-router-dom";
 
+interface Member {
+  id: string;
+  name: string;
+  email: string;
+  year: string;
+  role: string;
+  school?: string;
+  what_i_did?: string;
+  headshot_url?: string;
+  linkedin?: string;
+  github?: string;
+  website?: string;
+  created_at: string;
+  featured: boolean;
+}
+
+const ROLE_COLORS: Record<string, string> = {
+  hacker: "#FF6F3F",
+  organizer: "#4A90E2",
+  sponsor: "#E91E63",
+  staff: "#4FC3F7",
+  other: "#9C27B0",
+};
+
 export const Team: React.FC = () => {
   const [filter, setFilter] = useState<string>("all");
+  const [members, setMembers] = useState<Member[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const members = [
-    { id: 1, name: "Member 1", role: "hacker", year: 2020, color: "#FF6F3F" },
-    { id: 2, name: "Member 2", role: "organizer", year: 2020, color: "#4A90E2" },
-    { id: 3, name: "Member 3", role: "hacker", year: 2020, color: "#66BB6A" },
-    { id: 4, name: "Member 4", role: "sponsor", year: 2020, color: "#E91E63" },
-    { id: 5, name: "Member 5", role: "hacker", year: 2020, color: "#FFD580" },
-    { id: 6, name: "Member 6", role: "staff", year: 2020, color: "#4FC3F7" },
-    { id: 7, name: "Member 7", role: "organizer", year: 2020, color: "#9C27B0" },
-    { id: 8, name: "Member 8", role: "hacker", year: 2020, color: "#FF9800" },
-  ];
+  useEffect(() => {
+    async function loadMembers() {
+      try {
+        const res = await fetch("/api/members", { cache: "no-store" });
+        if (!res.ok) throw new Error(`Failed to fetch members: ${res.status}`);
+        const data = await res.json();
+        setMembers(data);
+      } catch (err) {
+        console.error("Error loading members:", err);
+        setError("Failed to load members. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadMembers();
+  }, []);
 
   const filteredMembers =
-    filter === "all" ? members : members.filter((m) => m.role === filter.toLowerCase());
+    filter === "all"
+      ? members
+      : members.filter((m) => m.role.toLowerCase() === filter.toLowerCase());
 
   return (
     <div className="bg-space text-cream flex-1">
@@ -61,60 +97,82 @@ export const Team: React.FC = () => {
         </div>
       </section>
 
-      {/* Profile Grid */}
-      <section className="p-4 pb-32">
-        <div className="max-w-5xl mx-auto px-6">
-          <div
-            className="gap-6 mb-12"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-            }}
-          >
-            {filteredMembers.map((member) => {
-              const initials = member.name
-                .split(" ")
-                .map((n) => n[0])
-                .join("");
-              return (
-                <div
-                  key={member.id}
-                  className="rounded-2xl overflow-hidden bg-teal border border-orange/20 transition-transform hover:scale-105"
-                >
-                  <div
-                    className="h-32 flex items-center justify-center text-5xl font-bold text-white"
-                    style={{ backgroundColor: member.color }}
-                  >
-                    {initials}
-                  </div>
-                  <div className="p-5 text-center">
-                    <h3 className="text-white font-semibold text-base m-0 mb-1">{member.name}</h3>
-                    <p className="text-orange text-xs font-semibold m-0 mb-1 capitalize">
-                      {member.role}
-                    </p>
-                    <p className="text-muted text-xs m-0">{member.year}</p>
-                  </div>
-                </div>
-              );
-            })}
+      {/* Loading State */}
+      {loading && (
+        <section className="py-12">
+          <div className="max-w-5xl mx-auto px-6 text-center">
+            <p className="text-cream">Loading team members...</p>
           </div>
+        </section>
+      )}
 
-          {/* CTA */}
-          <div className="bg-teal rounded-2xl p-8 border border-orange/20 flex flex-col gap-6">
-            <div>
-              <h2 className="text-xl font-display font-bold text-white m-0 mb-2">
-                Are you a Bitcamp alum? Add yourself to the team page →
-              </h2>
-              <p className="text-sm text-cream m-0 leading-relaxed">
-                Submit your name, headshot, role, and Bitcamp year. We'll add you to the directory.
-              </p>
-            </div>
-            <Button size="lg" as={Link} to="/join">
-              JOIN NOW
-            </Button>
+      {/* Error State */}
+      {error && (
+        <section className="py-12">
+          <div className="max-w-5xl mx-auto px-6 text-center">
+            <p className="text-orange">{error}</p>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
+
+      {/* Profile Grid */}
+      {!loading && !error && (
+        <section className="p-4 pb-32">
+          <div className="max-w-5xl mx-auto px-6">
+            <div
+              className="gap-6 mb-12"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+              }}
+            >
+              {filteredMembers.map((member) => {
+                const initials = member.name
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("");
+                const roleColor = ROLE_COLORS[member.role.toLowerCase()] || ROLE_COLORS.other;
+                return (
+                  <div
+                    key={member.id}
+                    className="rounded-2xl overflow-hidden bg-teal border border-orange/20 transition-transform hover:scale-105"
+                  >
+                    <div
+                      className="h-32 flex items-center justify-center text-5xl font-bold text-white"
+                      style={{ backgroundColor: roleColor }}
+                    >
+                      {initials}
+                    </div>
+                    <div className="p-5 text-center">
+                      <h3 className="text-white font-semibold text-base m-0 mb-1">{member.name}</h3>
+                      <p className="text-orange text-xs font-semibold m-0 mb-1 capitalize">
+                        {member.role}
+                      </p>
+                      <p className="text-muted text-xs m-0">{member.year}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* CTA */}
+            <div className="bg-teal rounded-2xl p-8 border border-orange/20 flex flex-col gap-6">
+              <div>
+                <h2 className="text-xl font-display font-bold text-white m-0 mb-2">
+                  Are you a Bitcamp alum? Add yourself to the team page →
+                </h2>
+                <p className="text-sm text-cream m-0 leading-relaxed">
+                  Submit your name, headshot, role, and Bitcamp year. We'll add you to the
+                  directory.
+                </p>
+              </div>
+              <Button size="lg" as={Link} to="/join">
+                JOIN NOW
+              </Button>
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 };
