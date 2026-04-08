@@ -74,7 +74,7 @@ export async function initializeSheet(): Promise<void> {
   const existingTitles = new Set(
     (data.sheets ?? [])
       .map((s: sheets_v4.Schema$Sheet) => s.properties?.title)
-      .filter((title: string | undefined): title is string => !!title),
+      .filter((title: string | null | undefined): title is string => !!title),
   );
 
   const tabsToCreate = Object.keys(TABS).filter((t) => !existingTitles.has(t));
