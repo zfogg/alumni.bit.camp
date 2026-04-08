@@ -70,7 +70,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     res.setHeader("Cache-Control", "public, s-maxage=300, stale-while-revalidate=600");
     return res.status(200).json(activePrizes);
   } catch (err) {
-    console.error("[/api/prizes] Error:", err);
-    return res.status(500).json({ error: "Failed to fetch prizes" });
+    const errorMsg = err instanceof Error ? err.message : String(err);
+    console.error("[/api/prizes] Error:", errorMsg);
+    console.error("[/api/prizes] Full error:", JSON.stringify(err, null, 2));
+    return res.status(500).json({ error: "Failed to fetch prizes", details: errorMsg });
   }
 }
