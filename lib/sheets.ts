@@ -16,6 +16,7 @@ function getSheets(): sheets_v4.Sheets {
 
 const SHEET_ID = () => {
   const id = process.env.GOOGLE_SHEETS_ID;
+  console.log("[sheets] SHEET_ID called, env var available:", !!id);
   if (!id) throw new Error("GOOGLE_SHEETS_ID env var is not set");
   return id;
 };
@@ -65,6 +66,7 @@ const TABS: Record<string, string[]> = {
 // Safe to call repeatedly — always checks current state before creating.
 
 export async function initializeSheet(): Promise<void> {
+  console.log("[sheets.initializeSheet] Starting");
   const sheets = getSheets();
   const id = SHEET_ID();
   const auth = getAuth();
@@ -77,7 +79,10 @@ export async function initializeSheet(): Promise<void> {
       .filter((title: string | null | undefined): title is string => !!title),
   );
 
+  console.log("[sheets.initializeSheet] Existing tabs:", Array.from(existingTitles));
+
   const tabsToCreate = Object.keys(TABS).filter((t) => !existingTitles.has(t));
+  console.log("[sheets.initializeSheet] Tabs to create:", tabsToCreate);
 
   // Create all missing tabs in a single batchUpdate
   if (tabsToCreate.length > 0) {
@@ -105,6 +110,8 @@ export async function initializeSheet(): Promise<void> {
     });
 
     console.log(`[sheets] Created tabs: ${tabsToCreate.join(", ")}`);
+  } else {
+    console.log("[sheets.initializeSheet] All tabs exist, skipping creation");
   }
 }
 
@@ -137,14 +144,22 @@ export async function appendRow(
 // Returns raw string[][] — callers map to typed objects.
 
 export async function readRows(tab: string): Promise<string[][]> {
+  console.log(`[sheets.readRows] Starting for tab: ${tab}`);
   await initializeSheet();
 
   const sheets = getSheets();
   const auth = getAuth();
+  const sheetId = SHEET_ID();
+  const range = `${tab}!A2:Z`;
+
+  console.log(`[sheets.readRows] Reading from ${range} in sheet ${sheetId}`);
   const res = await sheets.spreadsheets.values.get({
-    spreadsheetId: SHEET_ID(),
-    range: `${tab}!A2:Z`,
+    spreadsheetId: sheetId,
+    range: range,
     auth,
   });
-  return (res.data.values ?? []) as string[][];
+
+  const rows = (res.data.values ?? []) as string[][];
+  console.log(`[sheets.readRows] Got ${rows.length} rows from ${tab}`);
+  return rows;
 }
