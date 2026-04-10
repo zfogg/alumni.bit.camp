@@ -37,6 +37,8 @@ const TABS: Record<string, string[]> = {
     "linkedin",
     "github",
     "website",
+    "wants_to_sponsor",
+    "involvement_note",
     "created_at",
     "featured",
     "approved",
@@ -53,6 +55,7 @@ const TABS: Record<string, string[]> = {
     "prize_description",
     "prize_criteria",
     "preferred_year",
+    "budget_range",
     "created_at",
     "contacted",
   ],
@@ -70,7 +73,7 @@ export async function initializeSheet(): Promise<void> {
   const auth = getAuth();
 
   // Fetch the spreadsheet to see which sheets (tabs) already exist
-  const { data } = await sheets.spreadsheets.get({ spreadsheetId: id, auth });
+  let { data } = await sheets.spreadsheets.get({ spreadsheetId: id, auth });
   const existingTitles = new Set(
     (data.sheets ?? [])
       .map((s: sheets_v4.Schema$Sheet) => s.properties?.title)
@@ -103,6 +106,34 @@ export async function initializeSheet(): Promise<void> {
         })),
       },
     });
+
+    // Fetch again to get sheet IDs for the newly created tabs
+    const { data: updatedData } = await sheets.spreadsheets.get({ spreadsheetId: id, auth });
+
+    // Freeze the first row on all newly created tabs
+    const freezeRequests = (updatedData.sheets ?? [])
+      .filter((s: sheets_v4.Schema$Sheet) => tabsToCreate.includes(s.properties?.title ?? ""))
+      .map((s: sheets_v4.Schema$Sheet) => ({
+        updateSheetProperties: {
+          fields: "gridProperties.frozenRowCount",
+          properties: {
+            sheetId: s.properties?.sheetId,
+            gridProperties: {
+              frozenRowCount: 1,
+            },
+          },
+        },
+      }));
+
+    if (freezeRequests.length > 0) {
+      await sheets.spreadsheets.batchUpdate({
+        spreadsheetId: id,
+        auth,
+        requestBody: {
+          requests: freezeRequests,
+        },
+      });
+    }
 
     console.log(`[sheets] Created tabs: ${tabsToCreate.join(", ")}`);
   }
