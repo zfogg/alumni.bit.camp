@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { getPrizes, getWinners } from "../lib/sheets";
 import type { Prize, Winner } from "../types";
@@ -96,7 +94,7 @@ export const Prizes: React.FC = () => {
               {prizes.map((prize) => (
                 <div
                   key={prize.prize_id}
-                  className="flex-1 min-w-80 max-w-lg rounded-2xl overflow-hidden bg-teal border border-orange/20"
+                  className="flex-1 min-w-[250px] sm:min-w-80 max-w-lg rounded-2xl overflow-hidden bg-teal border border-orange/20"
                 >
                   {/* Card Header */}
                   <div

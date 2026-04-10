@@ -12,7 +12,14 @@ export default defineConfig({
       "manjaro-twopal.egret-sunfish.ts.net",
       "localhost",
       "127.0.0.1",
+      "192.168.0.3",
     ],
+    proxy: {
+      "/api": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+      },
+    },
   },
   staged: {
     "src/**": "vp check --fix",
