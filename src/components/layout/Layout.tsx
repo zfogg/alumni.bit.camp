@@ -19,7 +19,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
     location.pathname !== "/contact";
 
   return (
-    <div className="bg-space flex flex-col">
+    <div className="min-h-screen bg-space flex flex-col">
       <Starfield count={150} speed={0.5} />
       <Navigation />
 

@@ -136,7 +136,6 @@ button.ghost:hover {
 main {
   position: relative;
   z-index: 10;
-  min-height: 100vh;
   color: #fff7eb;
 }
 
