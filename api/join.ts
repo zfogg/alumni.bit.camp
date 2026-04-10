@@ -39,6 +39,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       linkedin,
       github,
       website,
+      wants_to_sponsor,
+      involvement_note,
       // honeypot — bots fill this in, real users never see it
       website_url,
     } = req.body ?? {};
@@ -72,6 +74,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       linkedin?.trim() ?? "", // linkedin
       github?.trim() ?? "", // github
       website?.trim() ?? "", // website
+      wants_to_sponsor ?? "", // wants_to_sponsor
+      involvement_note?.trim() ?? "", // involvement_note
       new Date().toISOString(), // created_at
       "FALSE", // featured — set manually in Sheets
       "FALSE", // approved — set manually in Sheets

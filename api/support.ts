@@ -13,6 +13,7 @@ const ALLOWED_ORIGINS = [
 
 const DONATION_RANGES = ["<50", "50-200", "200-500", "500+", "unsure"];
 const PREFERRED_YEARS = ["2026", "2027", "unsure"];
+const BUDGET_RANGES = ["0-250", "250-500", "500-750", "750-1000", "1000+"];
 
 function setCors(req: VercelRequest, res: VercelResponse) {
   const origin = req.headers.origin ?? "";
@@ -42,6 +43,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       prize_description,
       prize_criteria,
       preferred_year,
+      budget_range,
       // honeypot — hidden from real users via CSS
       company_name,
     } = req.body ?? {};
@@ -79,6 +81,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       if (preferred_year && !PREFERRED_YEARS.includes(preferred_year)) {
         return res.status(400).json({ error: "Invalid preferred year" });
       }
+      if (budget_range && !BUDGET_RANGES.includes(budget_range)) {
+        return res.status(400).json({ error: "Invalid budget range" });
+      }
     }
 
     await appendRow("Supporters", [
@@ -94,6 +99,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       type === "sponsor" ? prize_description.trim() : "",
       type === "sponsor" ? prize_criteria.trim() : "",
       type === "sponsor" ? (preferred_year ?? "unsure") : "",
+      type === "sponsor" ? (budget_range ?? "") : "",
       new Date().toISOString(),
       "FALSE", // contacted — mark TRUE in Sheets after following up
     ]);

@@ -45,6 +45,8 @@ export interface JoinFormData {
   linkedin?: string;
   github?: string;
   website?: string;
+  wants_to_sponsor?: string;
+  involvement_note?: string;
 }
 
 export interface ContactFormData {
@@ -64,4 +66,5 @@ export interface SupportFormData {
   prize_description?: string;
   prize_criteria?: string;
   preferred_year?: string;
+  budget_range?: string;
 }

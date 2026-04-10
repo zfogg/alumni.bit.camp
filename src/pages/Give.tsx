@@ -151,6 +151,11 @@ export const Give: React.FC = () => {
             <p className="text-base text-cream mb-4 m-0">
               Put your name on a prize at the next Bitcamp
             </p>
+            <div className="bg-orange/10 border border-orange/30 rounded-lg p-3 mb-4">
+              <p className="text-sm text-cream m-0">
+                💡 Prize budgets under $400 may be combined with another sponsor's contribution.
+              </p>
+            </div>
             <ul className="list-none p-0 m-0 flex flex-col gap-3">
               {[
                 "Your criteria, your impact",
@@ -288,6 +293,22 @@ export const Give: React.FC = () => {
                     {errors.prize_criteria && (
                       <p className="text-orange text-xs mt-2">{errors.prize_criteria.message}</p>
                     )}
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-cream mb-3">
+                      Estimated Budget (Bitcamp Contribution + Prizes for Hackers)
+                    </label>
+                    <select
+                      className="w-full px-4 py-3 rounded-xl bg-space border-2 border-orange text-cream font-inherit"
+                      {...register("budget_range")}
+                    >
+                      <option value="">Select a budget range</option>
+                      <option value="0-250">$0–$250</option>
+                      <option value="250-500">$250–$500</option>
+                      <option value="500-750">$500–$750</option>
+                      <option value="750-1000">$750–$1,000</option>
+                      <option value="1000+">$1,000+</option>
+                    </select>
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-cream mb-3">

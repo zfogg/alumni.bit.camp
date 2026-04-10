@@ -8,9 +8,10 @@ import { submitJoinForm } from "../lib/api";
 
 type Status = "idle" | "loading" | "success" | "error";
 
-// Year button styling via CSS
-const YEAR_STYLES = `
-  input[type="checkbox"]:checked + div {
+// Button styling via CSS for checkboxes and radio buttons
+const BUTTON_STYLES = `
+  input[type="checkbox"]:checked + div,
+  input[type="radio"]:checked + div {
     border-color: #FF6F3F !important;
     background-color: #FF6F3F !important;
     color: #1a1a2e !important;
@@ -61,9 +62,21 @@ export const Join: React.FC = () => {
           <p className="text-lg text-cream mb-10 leading-relaxed">
             Welcome to the Bitcamp alumni network. We'll review your profile and reach out soon.
           </p>
-          <Button onClick={() => setStatus("idle")} size="lg">
-            Submit another entry
-          </Button>
+          <div className="flex flex-col gap-4 mb-8">
+            <Button onClick={() => setStatus("idle")} size="lg">
+              Submit another entry
+            </Button>
+            <a
+              href="https://discord.gg/bitcamp"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block"
+            >
+              <Button variant="secondary" size="lg" className="w-full">
+                Join the Discord
+              </Button>
+            </a>
+          </div>
         </div>
       </div>
     );
@@ -71,7 +84,7 @@ export const Join: React.FC = () => {
 
   return (
     <div className="bg-space text-cream flex-1 pt-32 pb-20">
-      <style>{YEAR_STYLES}</style>
+      <style>{BUTTON_STYLES}</style>
       {/* Hero */}
       <section className="pb-8">
         <div className="max-w-5xl mx-auto px-6">
@@ -182,6 +195,33 @@ export const Join: React.FC = () => {
                 label="GitHub (optional)"
                 placeholder="https://github.com/..."
                 {...register("github")}
+              />
+
+              <div>
+                <label className="block text-sm font-semibold text-cream mb-3">
+                  Would you be interested in sponsoring a prize at a future Bitcamp?
+                </label>
+                <div className="flex gap-3">
+                  {["yes", "no"].map((option) => (
+                    <label key={option} className="relative group cursor-pointer">
+                      <input
+                        type="radio"
+                        value={option}
+                        className="hidden"
+                        {...register("wants_to_sponsor")}
+                      />
+                      <div className="px-4 py-2 rounded-lg bg-space border-2 border-cream/30 text-cream text-sm font-semibold text-center transition-all duration-200 group-hover:border-orange/50 capitalize">
+                        {option}
+                      </div>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <Input
+                label="How would you like to be involved? (optional)"
+                placeholder="Tell us if you're interested in volunteering, connecting with others, or anything else!"
+                {...register("involvement_note")}
               />
 
               {status === "error" && (
