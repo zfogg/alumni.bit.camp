@@ -74,13 +74,12 @@ export async function initializeSheet(): Promise<void> {
 
   // Fetch the spreadsheet to see which sheets (tabs) already exist
   let { data } = await sheets.spreadsheets.get({ spreadsheetId: id, auth });
-  const existingTitles = new Set(
-    (data.sheets ?? [])
-      .map((s: sheets_v4.Schema$Sheet) => s.properties?.title)
-      .filter((title: string | null | undefined): title is string => !!title),
+  const existingSheets = new Map(
+    (data.sheets ?? []).map((s: sheets_v4.Schema$Sheet) => [s.properties?.title, s]),
   );
 
-  const tabsToCreate = Object.keys(TABS).filter((t) => !existingTitles.has(t));
+  const tabsToCreate = Object.keys(TABS).filter((t) => !existingSheets.has(t));
+  const tabsToCheckHeaders = Object.keys(TABS).filter((t) => existingSheets.has(t));
 
   // Create all missing tabs in a single batchUpdate
   if (tabsToCreate.length > 0) {
@@ -107,35 +106,75 @@ export async function initializeSheet(): Promise<void> {
       },
     });
 
-    // Fetch again to get sheet IDs for the newly created tabs
-    const { data: updatedData } = await sheets.spreadsheets.get({ spreadsheetId: id, auth });
+    console.log(`[sheets] Created tabs: ${tabsToCreate.join(", ")}`);
+  }
 
-    // Freeze the first row on all newly created tabs
-    const freezeRequests = (updatedData.sheets ?? [])
-      .filter((s: sheets_v4.Schema$Sheet) => tabsToCreate.includes(s.properties?.title ?? ""))
-      .map((s: sheets_v4.Schema$Sheet) => ({
-        updateSheetProperties: {
-          fields: "gridProperties.frozenRowCount",
-          properties: {
-            sheetId: s.properties?.sheetId,
-            gridProperties: {
-              frozenRowCount: 1,
-            },
-          },
-        },
-      }));
+  // Check existing tabs for missing columns
+  if (tabsToCheckHeaders.length > 0) {
+    const headerResults = await sheets.spreadsheets.values.batchGet({
+      spreadsheetId: id,
+      ranges: tabsToCheckHeaders.map((t) => `${t}!1:1`),
+      auth,
+    });
 
-    if (freezeRequests.length > 0) {
-      await sheets.spreadsheets.batchUpdate({
+    const headersToUpdate = [];
+
+    for (let i = 0; i < tabsToCheckHeaders.length; i++) {
+      const tabName = tabsToCheckHeaders[i];
+      const expectedHeaders = TABS[tabName];
+      const currentHeaders = (headerResults.data.valueRanges?.[i]?.values?.[0] ?? []) as string[];
+
+      // Check if headers match; if not, update them
+      if (JSON.stringify(currentHeaders) !== JSON.stringify(expectedHeaders)) {
+        headersToUpdate.push({
+          range: `${tabName}!A1`,
+          values: [expectedHeaders],
+        });
+        console.log(
+          `[sheets] Updating headers for ${tabName}:`,
+          `expected [${expectedHeaders.join(", ")}]`,
+          `got [${currentHeaders.join(", ")}]`,
+        );
+      }
+    }
+
+    if (headersToUpdate.length > 0) {
+      await sheets.spreadsheets.values.batchUpdate({
         spreadsheetId: id,
         auth,
         requestBody: {
-          requests: freezeRequests,
+          valueInputOption: "RAW",
+          data: headersToUpdate,
         },
       });
     }
+  }
 
-    console.log(`[sheets] Created tabs: ${tabsToCreate.join(", ")}`);
+  // Fetch again to get sheet IDs and freeze rows
+  const { data: finalData } = await sheets.spreadsheets.get({ spreadsheetId: id, auth });
+
+  const freezeRequests = (finalData.sheets ?? [])
+    .filter((s: sheets_v4.Schema$Sheet) => Object.keys(TABS).includes(s.properties?.title ?? ""))
+    .map((s: sheets_v4.Schema$Sheet) => ({
+      updateSheetProperties: {
+        fields: "gridProperties.frozenRowCount",
+        properties: {
+          sheetId: s.properties?.sheetId,
+          gridProperties: {
+            frozenRowCount: 1,
+          },
+        },
+      },
+    }));
+
+  if (freezeRequests.length > 0) {
+    await sheets.spreadsheets.batchUpdate({
+      spreadsheetId: id,
+      auth,
+      requestBody: {
+        requests: freezeRequests,
+      },
+    });
   }
 }
 
