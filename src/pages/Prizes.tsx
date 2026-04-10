@@ -163,8 +163,17 @@ export const Prizes: React.FC = () => {
                 </h3>
               </div>
               <p className="text-sm text-cream leading-relaxed m-0">
-                Prize winners are managed via a connected Google Sheet — no coding required. Prize
-                sponsors can add winners directly; the page updates automatically.
+                Prize winners are managed via{" "}
+                <a
+                  href="https://docs.google.com/spreadsheets/d/1WTq7U2SOWJQI836oQydv0kgTPSY2fl7J8oIZCuKCeE8/edit"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-orange hover:underline"
+                >
+                  a connected Google Sheet
+                </a>{" "}
+                — no coding required. Prize sponsors can add winners directly; the page updates
+                automatically.
               </p>
             </div>
 
