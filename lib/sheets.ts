@@ -197,7 +197,8 @@ export async function initializeSheet(): Promise<void> {
 
     log(`[sheets] ===== initializeSheet() END =====`);
   } catch (err) {
-    log(`[sheets] ERROR: ERROR IN initializeSheet():`, err);
+    const errMsg = err instanceof Error ? err.message : String(err);
+    log(`[sheets] ERROR IN initializeSheet(): ${errMsg}`);
     throw err;
   }
 }
@@ -210,20 +211,37 @@ export async function appendRow(
   tab: string,
   values: (string | boolean | number | null | undefined)[],
 ): Promise<void> {
-  await initializeSheet();
+  try {
+    log(`[sheets] appendRow() START for tab "${tab}"`);
 
-  const sheets = getSheets();
-  const auth = getAuth();
-  await sheets.spreadsheets.values.append({
-    spreadsheetId: SHEET_ID(),
-    range: `${tab}!A1`,
-    valueInputOption: "USER_ENTERED",
-    insertDataOption: "INSERT_ROWS",
-    auth,
-    requestBody: {
-      values: [values.map((v) => (v === null || v === undefined ? "" : String(v)))],
-    },
-  });
+    await initializeSheet();
+    log(`[sheets] initializeSheet() completed`);
+
+    const sheets = getSheets();
+    const auth = getAuth();
+
+    const sheetId = SHEET_ID();
+    const rowData = [values.map((v) => (v === null || v === undefined ? "" : String(v)))];
+
+    log(`[sheets] About to append to ${tab}!A1 with ${rowData[0].length} columns`);
+
+    const response = await sheets.spreadsheets.values.append({
+      spreadsheetId: sheetId,
+      range: `${tab}!A1`,
+      valueInputOption: "USER_ENTERED",
+      insertDataOption: "INSERT_ROWS",
+      auth,
+      requestBody: {
+        values: rowData,
+      },
+    });
+
+    log(`[sheets] Append succeeded. Response updates: ${JSON.stringify(response.data.updates)}`);
+  } catch (err) {
+    const errMsg = err instanceof Error ? err.message : String(err);
+    log(`[sheets] ERROR IN appendRow(): ${errMsg}`);
+    throw err;
+  }
 }
 
 // ── readRows ──────────────────────────────────────────────────────────────────
