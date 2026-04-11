@@ -8,6 +8,12 @@ import { submitJoinForm } from "../lib/api";
 
 type Status = "idle" | "loading" | "success" | "error";
 
+// Generate years from 2014 to current year
+const getYears = () => {
+  const currentYear = new Date().getFullYear();
+  return Array.from({ length: currentYear - 2014 + 1 }, (_, i) => 2014 + i);
+};
+
 // Button styling via CSS for checkboxes and radio buttons
 const BUTTON_STYLES = `
   input[type="checkbox"]:checked + div,
@@ -137,7 +143,7 @@ export const Join: React.FC = () => {
                   Year(s) Attended *
                 </label>
                 <div className="grid grid-cols-4 gap-2">
-                  {[2014, 2016, 2018, 2019, 2020, 2022, 2024, 2025].map((y) => (
+                  {getYears().map((y) => (
                     <label key={y} className="relative group cursor-pointer">
                       <input
                         type="checkbox"
