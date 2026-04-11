@@ -142,7 +142,7 @@ export const Join: React.FC = () => {
                 <label className="block text-sm font-semibold text-cream mb-3">
                   Year(s) Attended *
                 </label>
-                <div className="grid grid-cols-4 gap-2 max-h-[calc(4*2.5rem+1.5rem)] overflow-y-auto pr-2">
+                <div className="grid grid-cols-4 gap-2 max-h-[calc(4*2.5rem+2.5rem)] overflow-y-auto pr-2">
                   {getYears().map((y) => (
                     <label key={y} className="relative group cursor-pointer">
                       <input
