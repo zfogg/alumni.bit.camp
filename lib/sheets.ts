@@ -1,16 +1,5 @@
 import "dotenv/config";
 import { google, sheets_v4 } from "googleapis";
-import { writeFileSync, appendFileSync } from "fs";
-import { join } from "path";
-
-const LOG_FILE = "/tmp/sheets-debug.log";
-
-function log(msg: string): void {
-  const timestamp = new Date().toISOString();
-  const fullMsg = `${timestamp} ${msg}\n`;
-  appendFileSync(LOG_FILE, fullMsg);
-  console.log(msg);
-}
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
 
@@ -81,35 +70,22 @@ const TABS: Record<string, string[]> = {
 
 export async function initializeSheet(): Promise<void> {
   try {
-    log(`[sheets] ===== initializeSheet() START =====`);
-
     const sheets = getSheets();
-    log(`[sheets] Got sheets service`);
-
     const id = SHEET_ID();
-    log(`[sheets] Sheet ID: ${id}`);
-
     const auth = getAuth();
-    log(`[sheets] Got auth`);
 
     // Fetch the spreadsheet to see which sheets (tabs) already exist
-    log(`[sheets] Fetching spreadsheet...`);
     const { data } = await sheets.spreadsheets.get({ spreadsheetId: id, auth });
-    log(`[sheets] Spreadsheet fetch complete. Found ${data.sheets?.length ?? 0} sheets`);
 
     const existingSheets = new Map(
       (data.sheets ?? []).map((s: sheets_v4.Schema$Sheet) => [s.properties?.title, s]),
     );
-    log(`[sheets] Existing sheet titles: ${Array.from(existingSheets.keys()).join(", ")}`);
 
     const tabsToCreate = Object.keys(TABS).filter((t) => !existingSheets.has(t));
     const existingTabs = Object.keys(TABS).filter((t) => existingSheets.has(t));
-    log(`[sheets] Tabs to create: [${tabsToCreate.join(", ")}]`);
-    log(`[sheets] Existing tabs to check: [${existingTabs.join(", ")}]`);
 
     // Create all missing tabs
     if (tabsToCreate.length > 0) {
-      log(`[sheets] Creating ${tabsToCreate.length} new tabs...`);
       await sheets.spreadsheets.batchUpdate({
         spreadsheetId: id,
         auth,
@@ -119,10 +95,8 @@ export async function initializeSheet(): Promise<void> {
           })),
         },
       });
-      log(`[sheets] Sheets created`);
 
       // Write the header row to each newly created tab
-      log(`[sheets] Writing headers to new tabs...`);
       await sheets.spreadsheets.values.batchUpdate({
         spreadsheetId: id,
         auth,
@@ -134,20 +108,15 @@ export async function initializeSheet(): Promise<void> {
           })),
         },
       });
-      log(`[sheets] Headers written`);
     }
 
     // For existing tabs, check and add missing columns
     if (existingTabs.length > 0) {
-      log(`[sheets] ===== CHECKING ${existingTabs.length} EXISTING TABS =====`);
-
-      log(`[sheets] Fetching headers from existing tabs...`);
       const headerResults = await sheets.spreadsheets.values.batchGet({
         spreadsheetId: id,
         ranges: existingTabs.map((t) => `${t}!1:1`),
         auth,
       });
-      log(`[sheets] Header fetch complete`);
 
       const columnsToAdd = [];
 
@@ -156,18 +125,11 @@ export async function initializeSheet(): Promise<void> {
         const expectedHeaders = TABS[tabName];
         const currentHeaders = (headerResults.data.valueRanges?.[i]?.values?.[0] ?? []) as string[];
 
-        log(`[sheets] --- Tab "${tabName}" ---`);
-        log(`[sheets]   Current (${currentHeaders.length}): [${currentHeaders.join(", ")}]`);
-        log(`[sheets]   Expected (${expectedHeaders.length}): [${expectedHeaders.join(", ")}]`);
-
         const missingCols = expectedHeaders.filter((col) => !currentHeaders.includes(col));
-        log(`[sheets]   Missing (${missingCols.length}): [${missingCols.join(", ")}]`);
 
         if (missingCols.length > 0) {
-          log(`[sheets] *** WILL ADD MISSING COLUMNS TO ${tabName} ***`);
           // Append missing columns to the right
           const newHeaders = [...currentHeaders, ...missingCols];
-          log(`[sheets]   New headers will be: [${newHeaders.join(", ")}]`);
           columnsToAdd.push({
             range: `${tabName}!A1`,
             values: [newHeaders],
@@ -175,10 +137,7 @@ export async function initializeSheet(): Promise<void> {
         }
       }
 
-      log(`[sheets] ===== SUMMARY: ${columnsToAdd.length} tabs need updates =====`);
-
       if (columnsToAdd.length > 0) {
-        log(`[sheets] EXECUTING COLUMN UPDATES...`);
         await sheets.spreadsheets.values.batchUpdate({
           spreadsheetId: id,
           auth,
@@ -187,18 +146,9 @@ export async function initializeSheet(): Promise<void> {
             data: columnsToAdd,
           },
         });
-        log(`[sheets] *** COLUMN UPDATES COMPLETED SUCCESSFULLY ***`);
-      } else {
-        log(`[sheets] No column updates needed`);
       }
-    } else {
-      log(`[sheets] No existing tabs to check`);
     }
-
-    log(`[sheets] ===== initializeSheet() END =====`);
   } catch (err) {
-    const errMsg = err instanceof Error ? err.message : String(err);
-    log(`[sheets] ERROR IN initializeSheet(): ${errMsg}`);
     throw err;
   }
 }
@@ -211,37 +161,20 @@ export async function appendRow(
   tab: string,
   values: (string | boolean | number | null | undefined)[],
 ): Promise<void> {
-  try {
-    log(`[sheets] appendRow() START for tab "${tab}"`);
+  await initializeSheet();
 
-    await initializeSheet();
-    log(`[sheets] initializeSheet() completed`);
-
-    const sheets = getSheets();
-    const auth = getAuth();
-
-    const sheetId = SHEET_ID();
-    const rowData = [values.map((v) => (v === null || v === undefined ? "" : String(v)))];
-
-    log(`[sheets] About to append to ${tab}!A1 with ${rowData[0].length} columns`);
-
-    const response = await sheets.spreadsheets.values.append({
-      spreadsheetId: sheetId,
-      range: `${tab}!A1`,
-      valueInputOption: "USER_ENTERED",
-      insertDataOption: "INSERT_ROWS",
-      auth,
-      requestBody: {
-        values: rowData,
-      },
-    });
-
-    log(`[sheets] Append succeeded. Response updates: ${JSON.stringify(response.data.updates)}`);
-  } catch (err) {
-    const errMsg = err instanceof Error ? err.message : String(err);
-    log(`[sheets] ERROR IN appendRow(): ${errMsg}`);
-    throw err;
-  }
+  const sheets = getSheets();
+  const auth = getAuth();
+  await sheets.spreadsheets.values.append({
+    spreadsheetId: SHEET_ID(),
+    range: `${tab}!A1`,
+    valueInputOption: "USER_ENTERED",
+    insertDataOption: "INSERT_ROWS",
+    auth,
+    requestBody: {
+      values: [values.map((v) => (v === null || v === undefined ? "" : String(v)))],
+    },
+  });
 }
 
 // ── readRows ──────────────────────────────────────────────────────────────────
