@@ -89,7 +89,7 @@ export const Join: React.FC = () => {
   }
 
   return (
-    <div className="bg-space text-cream flex-1 pt-32 pb-8">
+    <div className="bg-space text-cream flex-1 pt-8 pb-8">
       <style>{BUTTON_STYLES}</style>
       {/* Hero */}
       <section className="pb-8">
