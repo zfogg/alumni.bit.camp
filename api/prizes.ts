@@ -9,6 +9,8 @@ interface Prize {
   prize_name: string;
   sponsor_name: string;
   description: string;
+  color: string;
+  icon: string;
   active: string;
 }
 
@@ -47,7 +49,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     console.log("[/api/prizes] Fetching from sheet", SHEET_ID);
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: SHEET_ID,
-      range: "Prizes!A2:E",
+      range: "Prizes!A2:G",
       auth,
     });
 
@@ -59,7 +61,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       prize_name: row[1] || "",
       sponsor_name: row[2] || "",
       description: row[3] || "",
-      active: row[4] || "FALSE",
+      color: row[4] || "#999999",
+      icon: row[5] || "🏆",
+      active: row[6] || "FALSE",
     }));
 
     // Filter to only active prizes

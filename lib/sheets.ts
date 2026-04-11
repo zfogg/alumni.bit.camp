@@ -60,7 +60,7 @@ const TABS: Record<string, string[]> = {
     "created_at",
     "contacted",
   ],
-  Prizes: ["prize_id", "prize_name", "sponsor_name", "description", "active"],
+  Prizes: ["prize_id", "prize_name", "sponsor_name", "description", "color", "icon", "active"],
   Winners: ["prize_id", "year", "team_name", "project_name", "description", "members"],
 };
 

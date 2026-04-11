@@ -2,19 +2,8 @@ import { useEffect, useState } from "react";
 import { getPrizes, getWinners } from "../lib/sheets";
 import type { Prize, Winner } from "../types";
 
-const PRIZE_COLORS: Record<string, { color: string; icon: string }> = {
-  "zach-open-source": { color: "#FF6F3F", icon: "🔧" },
-  "gurpreet-social-good": { color: "#4A90E2", icon: "💙" },
-  "best-ai-innovation": { color: "#9C27B0", icon: "🤖" },
-  "peoples-choice": { color: "#E91E63", icon: "❤️" },
-  "rookie-of-year": { color: "#66BB6A", icon: "🌱" },
-  "community-spirit": { color: "#F59E0B", icon: "🔥" },
-};
-
 interface PrizeWithWinners extends Prize {
   winners: Winner[];
-  headerColor: string;
-  icon: string;
 }
 
 export const Prizes: React.FC = () => {
@@ -27,13 +16,10 @@ export const Prizes: React.FC = () => {
       try {
         const [prizeData, winnerData] = await Promise.all([getPrizes(), getWinners()]);
 
-        // Combine prizes with their winners and colors
+        // Combine prizes with their winners
         const combined = prizeData.map((prize) => {
-          const colors = PRIZE_COLORS[prize.prize_id] || { color: "#999999", icon: "🏆" };
           return {
             ...prize,
-            headerColor: colors.color,
-            icon: colors.icon,
             winners: winnerData
               .filter((w) => w.prize_id === prize.prize_id)
               .sort((a, b) => Number(b.year) - Number(a.year)), // Sort by year descending
@@ -99,7 +85,7 @@ export const Prizes: React.FC = () => {
                   {/* Card Header */}
                   <div
                     className="px-6 py-6 text-white flex justify-between items-start gap-3"
-                    style={{ backgroundColor: prize.headerColor }}
+                    style={{ backgroundColor: prize.color }}
                   >
                     <div>
                       <h2 className="text-2xl font-display font-bold m-0 mb-2">
@@ -117,14 +103,14 @@ export const Prizes: React.FC = () => {
                         <div
                           key={widx}
                           className="p-4 bg-gradient-to-r from-orange/10 to-transparent rounded-lg border-l-4 transition-all hover:shadow-lg hover:scale-102"
-                          style={{ borderLeftColor: prize.headerColor }}
+                          style={{ borderLeftColor: prize.color }}
                         >
                           <div className="flex items-center gap-3 mb-2">
                             <span
                               className="text-xs font-bold px-3 py-1.5 rounded-full text-white flex-shrink-0 shadow-md"
                               style={{
-                                backgroundColor: prize.headerColor,
-                                boxShadow: `0 0 0 2px ${prize.headerColor}33`,
+                                backgroundColor: prize.color,
+                                boxShadow: `0 0 0 2px ${prize.color}33`,
                               }}
                             >
                               {w.year}

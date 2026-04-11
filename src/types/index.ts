@@ -22,6 +22,8 @@ export interface Prize {
   prize_name: string;
   sponsor_name: string;
   description: string;
+  color: string;
+  icon: string;
   active: boolean;
 }
 
