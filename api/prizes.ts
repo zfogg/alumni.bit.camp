@@ -61,9 +61,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       prize_name: row[1] || "",
       sponsor_name: row[2] || "",
       description: row[3] || "",
-      color: row[4] || "#999999",
-      icon: row[5] || "🏆",
-      active: row[6] || "FALSE",
+      active: row[4] || "FALSE",
+      color: row[5] || "#999999",
+      icon: row[6] || "🏆",
     }));
 
     // Filter to only active prizes
