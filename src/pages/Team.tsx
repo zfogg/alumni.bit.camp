@@ -49,7 +49,7 @@ export const Team: React.FC = () => {
       }
     }
 
-    loadMembers();
+    void loadMembers();
   }, []);
 
   const filteredMembers =

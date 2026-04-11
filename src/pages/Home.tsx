@@ -9,9 +9,9 @@ export const Home: React.FC = () => {
 
   const handleJoinClick = () => {
     if (email) {
-      navigate(`/join?email=${encodeURIComponent(email)}`);
+      void navigate(`/join?email=${encodeURIComponent(email)}`);
     } else {
-      navigate("/join");
+      void navigate("/join");
     }
   };
 

@@ -180,9 +180,6 @@ export async function initializeSheet(): Promise<void> {
         },
       });
     }
-  } catch (err) {
-    throw err;
-  }
 }
 
 // ── appendRow ─────────────────────────────────────────────────────────────────

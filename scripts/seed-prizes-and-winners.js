@@ -233,7 +233,9 @@ async function seedData() {
         insertDataOption: "INSERT_ROWS",
         auth,
         requestBody: {
-          values: [[prize.prize_id, prize.prize_name, prize.sponsor_name, prize.description, prize.active]],
+          values: [
+            [prize.prize_id, prize.prize_name, prize.sponsor_name, prize.description, prize.active],
+          ],
         },
       });
       console.log(`  ✓ Added: ${prize.prize_name}`);
@@ -248,7 +250,16 @@ async function seedData() {
         insertDataOption: "INSERT_ROWS",
         auth,
         requestBody: {
-          values: [[winner.prize_id, winner.year, winner.team_name, winner.project_name, winner.description, winner.members]],
+          values: [
+            [
+              winner.prize_id,
+              winner.year,
+              winner.team_name,
+              winner.project_name,
+              winner.description,
+              winner.members,
+            ],
+          ],
         },
       });
       console.log(`  ✓ Added: ${winner.team_name} (${winner.year})`);
@@ -264,4 +275,4 @@ async function seedData() {
   }
 }
 
-seedData();
+void seedData();

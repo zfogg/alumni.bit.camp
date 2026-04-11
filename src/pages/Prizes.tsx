@@ -35,7 +35,7 @@ export const Prizes: React.FC = () => {
       }
     }
 
-    loadPrizes();
+    void loadPrizes();
   }, []);
 
   return (

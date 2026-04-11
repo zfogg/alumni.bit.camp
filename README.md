@@ -7,6 +7,7 @@ A web platform connecting Bitcamp alumni—hackers, organizers, sponsors, and st
 ## Overview
 
 Bitcamp Alumni is a community hub that:
+
 - **Showcases members** across all Bitcamp years with role-based filtering
 - **Celebrates prize winners** across multiple hackathon years
 - **Captures alumni profiles** with contact info, GitHub, LinkedIn, and project history
@@ -28,30 +29,31 @@ All data is stored in a shared Google Sheet, making it easy to update without co
 
 ### Pages
 
-| Page | Purpose |
-|------|---------|
-| `/` | Hero landing with call-to-action to join |
-| `/about` | History and mission of Bitcamp |
-| `/team` | Directory of approved alumni, filterable by role |
-| `/join` | Form to submit alumni profile for approval |
-| `/prizes` | Gallery of sponsored prizes and past winners |
-| `/give` | Sponsorship and donation form |
-| `/contact` | Contact form for inquiries |
+| Page       | Purpose                                          |
+| ---------- | ------------------------------------------------ |
+| `/`        | Hero landing with call-to-action to join         |
+| `/about`   | History and mission of Bitcamp                   |
+| `/team`    | Directory of approved alumni, filterable by role |
+| `/join`    | Form to submit alumni profile for approval       |
+| `/prizes`  | Gallery of sponsored prizes and past winners     |
+| `/give`    | Sponsorship and donation form                    |
+| `/contact` | Contact form for inquiries                       |
 
 ### API Endpoints
 
-| Endpoint | Method | Purpose |
-|----------|--------|---------|
-| `/api/join` | POST | Submit alumni profile |
-| `/api/contact` | POST | Submit contact inquiry |
-| `/api/support` | POST | Submit sponsorship/donation interest |
-| `/api/members` | GET | List approved alumni |
-| `/api/prizes` | GET | List active prizes |
-| `/api/winners` | GET | List all prize winners |
+| Endpoint       | Method | Purpose                              |
+| -------------- | ------ | ------------------------------------ |
+| `/api/join`    | POST   | Submit alumni profile                |
+| `/api/contact` | POST   | Submit contact inquiry               |
+| `/api/support` | POST   | Submit sponsorship/donation interest |
+| `/api/members` | GET    | List approved alumni                 |
+| `/api/prizes`  | GET    | List active prizes                   |
+| `/api/winners` | GET    | List all prize winners               |
 
 ### Data
 
 All data lives in a shared Google Sheet with tabs for:
+
 - **Members** — Alumni profiles (name, email, role, year, GitHub, LinkedIn, etc.)
 - **Contacts** — Inquiry submissions
 - **Supporters** — Sponsorship and donation records
@@ -139,6 +141,7 @@ This adds 6 prizes and 18 example winners. Edit `scripts/seed-prizes-and-winners
 ## Form Validation & Honeypot Detection
 
 All forms validate input and reject bot submissions:
+
 - **Name:** Required, non-empty
 - **Email:** Required, valid email format
 - **Year:** At least one year selected
