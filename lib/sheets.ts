@@ -169,7 +169,7 @@ export async function initializeSheet(): Promise<void> {
           },
         };
       })
-      .filter(Boolean);
+      .filter((req): req is Exclude<typeof req, null> => req !== null);
 
     if (freezeRequests.length > 0) {
       await sheets.spreadsheets.batchUpdate({
@@ -180,6 +180,9 @@ export async function initializeSheet(): Promise<void> {
         },
       });
     }
+  } catch (err) {
+    throw err;
+  }
 }
 
 // ── appendRow ─────────────────────────────────────────────────────────────────
