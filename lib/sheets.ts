@@ -82,7 +82,7 @@ export async function initializeSheet(): Promise<void> {
         .filter((s): s is sheets_v4.Schema$Sheet & { properties: { title: string } } =>
           !!s.properties?.title
         )
-        .map((s) => [s.properties.title, s]),
+        .map((s: sheets_v4.Schema$Sheet & { properties: { title: string } }) => [s.properties.title, s]),
     );
 
     const tabsToCreate = Object.keys(TABS).filter((t) => !existingSheets.has(t));
