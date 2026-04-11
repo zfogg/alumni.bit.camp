@@ -91,6 +91,7 @@ export const Prizes: React.FC = () => {
                       <h2 className="text-2xl font-display font-bold m-0 mb-2">
                         {prize.prize_name}
                       </h2>
+                      <p className="text-xs opacity-80 m-0 mb-2">by {prize.sponsor_name}</p>
                       <p className="text-sm opacity-95 m-0">{prize.description}</p>
                     </div>
                     <span className="text-3xl flex-shrink-0">{prize.icon}</span>
