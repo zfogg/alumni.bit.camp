@@ -21,6 +21,8 @@ export interface Prize {
   prize_id: string;
   prize_name: string;
   sponsor_name: string;
+  sponsor_website?: string;
+  sponsor_email?: string;
   description: string;
   color: string;
   icon: string;

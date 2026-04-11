@@ -15,6 +15,8 @@ export async function getPrizes(): Promise<Prize[]> {
     prize_id: r.prize_id,
     prize_name: r.prize_name,
     sponsor_name: r.sponsor_name,
+    sponsor_website: r.sponsor_website,
+    sponsor_email: r.sponsor_email,
     description: r.description,
     color: r.color,
     icon: r.icon,

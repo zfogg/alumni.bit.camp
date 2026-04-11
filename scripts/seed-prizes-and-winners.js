@@ -34,6 +34,8 @@ const PRIZES_DATA = [
     sponsor_name: "Zach",
     description: "Best use of open source tools",
     active: "TRUE",
+    color: "#8B5CF6",
+    icon: "🔓",
   },
   {
     prize_id: "gurpreet-social-good",
@@ -41,6 +43,8 @@ const PRIZES_DATA = [
     sponsor_name: "Gurpreet",
     description: "Most impactful social good hack",
     active: "TRUE",
+    color: "#10B981",
+    icon: "🌍",
   },
   {
     prize_id: "best-ai-innovation",
@@ -48,6 +52,8 @@ const PRIZES_DATA = [
     sponsor_name: "Alumni",
     description: "Creative use of artificial intelligence",
     active: "TRUE",
+    color: "#F59E0B",
+    icon: "🤖",
   },
   {
     prize_id: "peoples-choice",
@@ -55,6 +61,8 @@ const PRIZES_DATA = [
     sponsor_name: "Community",
     description: "The project everyone loved",
     active: "TRUE",
+    color: "#EC4899",
+    icon: "❤️",
   },
   {
     prize_id: "rookie-of-year",
@@ -62,6 +70,8 @@ const PRIZES_DATA = [
     sponsor_name: "Alumni",
     description: "Best first-time hacker project",
     active: "TRUE",
+    color: "#06B6D4",
+    icon: "🚀",
   },
   {
     prize_id: "community-spirit",
@@ -69,6 +79,8 @@ const PRIZES_DATA = [
     sponsor_name: "Alumni",
     description: "Best contribution to Bitcamp",
     active: "TRUE",
+    color: "#EF4444",
+    icon: "✨",
   },
 ];
 
