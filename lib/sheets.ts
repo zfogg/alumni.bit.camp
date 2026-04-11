@@ -148,6 +148,38 @@ export async function initializeSheet(): Promise<void> {
         });
       }
     }
+
+    // Freeze the first row on all tabs
+    const allTabs = Object.keys(TABS);
+    const freezeRequests = allTabs
+      .map((tabName) => {
+        const sheet = existingSheets.get(tabName);
+        if (!sheet?.properties?.sheetId && sheet?.properties?.sheetId !== 0) {
+          return null; // Skip if we can't find the sheet ID
+        }
+        return {
+          updateSheetProperties: {
+            properties: {
+              sheetId: sheet.properties.sheetId,
+              gridProperties: {
+                frozenRowCount: 1,
+              },
+            },
+            fields: "gridProperties.frozenRowCount",
+          },
+        };
+      })
+      .filter(Boolean);
+
+    if (freezeRequests.length > 0) {
+      await sheets.spreadsheets.batchUpdate({
+        spreadsheetId: id,
+        auth,
+        requestBody: {
+          requests: freezeRequests,
+        },
+      });
+    }
   } catch (err) {
     throw err;
   }
