@@ -77,8 +77,12 @@ export async function initializeSheet(): Promise<void> {
     // Fetch the spreadsheet to see which sheets (tabs) already exist
     const { data } = await sheets.spreadsheets.get({ spreadsheetId: id, auth });
 
-    const existingSheets = new Map(
-      (data.sheets ?? []).map((s: sheets_v4.Schema$Sheet) => [s.properties?.title, s]),
+    const existingSheets = new Map<string, sheets_v4.Schema$Sheet>(
+      (data.sheets ?? [])
+        .filter((s): s is sheets_v4.Schema$Sheet & { properties: { title: string } } =>
+          !!s.properties?.title
+        )
+        .map((s) => [s.properties.title, s]),
     );
 
     const tabsToCreate = Object.keys(TABS).filter((t) => !existingSheets.has(t));
