@@ -6,15 +6,17 @@ import supportHandler from "./api/support.ts";
 import contactHandler from "./api/contact.ts";
 import membersHandler from "./api/members.ts";
 import prizesHandler from "./api/prizes.ts";
+import winnersHandler from "./api/winners.ts";
 
 const PORT = 3000;
 
-const handlers: Record<string, Record<string, any>> = {
+const handlers: Record<string, any> = {
   "/api/join": joinHandler,
   "/api/support": supportHandler,
   "/api/contact": contactHandler,
   "/api/members": membersHandler,
   "/api/prizes": prizesHandler,
+  "/api/winners": winnersHandler,
 };
 
 const server = http.createServer(async (req, res) => {
@@ -34,7 +36,7 @@ const server = http.createServer(async (req, res) => {
   }
 
   const handler = handlers[pathname];
-  if (!handler || !handler.default) {
+  if (!handler) {
     res.writeHead(404, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ error: "Not found" }));
     return;
@@ -81,7 +83,7 @@ const server = http.createServer(async (req, res) => {
       },
     };
 
-    await handler.default(mockReq as any, mockRes as any);
+    await handler(mockReq as any, mockRes as any);
   } catch (err) {
     console.error("Handler error:", err);
     res.writeHead(500, { "Content-Type": "application/json" });
